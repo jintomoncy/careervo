@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { BrainCircuit, Check, ChevronRight, Loader2 } from 'lucide-react';
 import { useLanguage } from '../context/LanguageContext';
 import { useUser } from '../context/UserContext';
-import { model } from '../lib/gemini';
+import { selectQuestionsForStudent } from '../lib/careerDatabase';
 import './QuestionFlow.css';
 
 const industries = [
@@ -22,9 +22,9 @@ const QuestionFlow = () => {
   const [phase, setPhase] = useState('interests'); // 'interests' | 'questions' | 'analyzing'
   const [selectedInterests, setSelectedInterests] = useState(userProfile.interests || []);
   
+  const [questions, setQuestions] = useState([]);
+  const [currentIndex, setCurrentIndex] = useState(0);
   const [conversationHistory, setConversationHistory] = useState([]);
-  const [currentQuestionData, setCurrentQuestionData] = useState(null);
-  const [isGenerating, setIsGenerating] = useState(false);
 
   const toggleInterest = (interest) => {
     if (selectedInterests.includes(interest)) {
@@ -36,99 +36,37 @@ const QuestionFlow = () => {
     }
   };
 
-  const generateNextQuestion = async (history = conversationHistory) => {
-    setIsGenerating(true);
-    try {
-      const prompt = `
-      You are Careervo AI, an expert career counselor.
-
-      Student Stream:
-      ${userProfile.stream || "Not specified"}
-
-      Student Interests:
-      ${selectedInterests.join(", ")}
-
-      Previous Conversation History (MANDATORY TO READ):
-      ${JSON.stringify(history, null, 2)}
-
-      Your task is to ask the NEXT consecutive career guidance question.
-
-      CRITICAL ANTI-REPETITION RULES:
-      - NEVER ask a question that is already in the Previous Conversation History.
-      - DO NOT repeat previous questions or use similar wording.
-      - Ask a completely NEW and UNIQUE question every time.
-      - Analyze the previous answers before generating the next question. Each new question MUST depend on previous answers.
-      - Progressively explore different topics: personality, goals, strengths, work style, leadership, creativity, communication, analytical thinking, entrepreneurship, risk tolerance.
-
-      General Rules:
-      - Ask exactly ONE question.
-      - Give exactly 4 multiple-choice options.
-      - Keep language simple and conversational.
-      - You MUST ask at least 10 questions. You have currently asked ${history.length} questions.
-      - If you have asked AT LEAST 10 questions AND have enough information to make a solid career recommendation, return EXACTLY the string "FINAL_RESULT" and nothing else.
-      
-      If asking a question, your response MUST be a valid JSON object in this exact format without markdown code blocks:
-      {
-        "question": "Question here",
-        "options": [
-          "Option 1",
-          "Option 2",
-          "Option 3",
-          "Option 4"
-        ]
-      }
-      `;
-
-      const result = await model.generateContent(prompt);
-      const responseText = result.response.text().trim();
-
-      if (responseText.includes("FINAL_RESULT")) {
-        updateProfile({ conversationHistory: history });
-        setPhase('analyzing');
-        return;
-      }
-
-      const cleanJson = responseText.replace(/```json/g, '').replace(/```/g, '').trim();
-      const nextQuestion = JSON.parse(cleanJson);
-      
-      setCurrentQuestionData(nextQuestion);
-    } catch (error) {
-      console.error("AI Generation Error:", error);
-      setCurrentQuestionData({
-        question: "What type of work environment do you prefer?",
-        options: [
-          "Fast-paced & dynamic",
-          "Structured & predictable",
-          "Creative & flexible",
-          "Independent & quiet"
-        ]
-      });
-    } finally {
-      setIsGenerating(false);
-    }
-  };
-
   const startQuestions = () => {
     if (selectedInterests.length > 0) {
       updateProfile({ interests: selectedInterests });
+      const selectedQs = selectQuestionsForStudent(userProfile.stream || 'Science', selectedInterests, 9);
+      setQuestions(selectedQs);
+      setConversationHistory([]);
+      setCurrentIndex(0);
       setPhase('questions');
-      generateNextQuestion([]);
     }
   };
 
   const handleAnswer = (selectedOptionText) => {
-    if (!currentQuestionData || isGenerating) return;
-
+    const currentQ = questions[currentIndex];
     const updatedHistory = [
       ...conversationHistory,
       {
-        question: currentQuestionData.question,
+        questionId: currentQ.id,
+        category: currentQ.category,
+        question: currentQ.question,
         answer: selectedOptionText
       }
     ];
 
     setConversationHistory(updatedHistory);
-    generateNextQuestion(updatedHistory);
+
+    if (currentIndex + 1 < questions.length) {
+      setCurrentIndex(currentIndex + 1);
+    } else {
+      updateProfile({ conversationHistory: updatedHistory });
+      setPhase('analyzing');
+    }
   };
 
   useEffect(() => {
@@ -139,6 +77,8 @@ const QuestionFlow = () => {
       return () => clearTimeout(timer);
     }
   }, [phase, navigate]);
+
+  const currentQuestionData = questions[currentIndex];
 
   return (
     <div className="flow-container container">
@@ -184,18 +124,18 @@ const QuestionFlow = () => {
             <div className="progress-bar">
               <div 
                 className="fill" 
-                style={{ width: `${Math.min((conversationHistory.length / 10) * 100, 100)}%`, transition: 'width 0.4s ease' }}
+                style={{ width: `${((currentIndex) / questions.length) * 100}%`, transition: 'width 0.4s ease' }}
               ></div>
             </div>
             <div className="progress-text">
-              Question {conversationHistory.length + 1}
+              Question {currentIndex + 1} of {questions.length}
             </div>
           </div>
 
-          {!currentQuestionData || isGenerating ? (
+          {!currentQuestionData ? (
             <div className="question-card glass-panel flex-center flex-column" style={{ minHeight: '300px' }}>
               <Loader2 size={40} className="text-accent spinner-anim" style={{ animation: 'spin 1s linear infinite' }} />
-              <p className="mt-4 text-secondary">Careervo AI is generating your next question...</p>
+              <p className="mt-4 text-secondary">Careervo AI is loading your questions...</p>
             </div>
           ) : (
             <div className="question-card glass-panel animate-fade-in">
@@ -206,7 +146,6 @@ const QuestionFlow = () => {
                     key={idx} 
                     className="option-btn"
                     onClick={() => handleAnswer(opt)}
-                    disabled={isGenerating}
                   >
                     <span className="option-letter">{String.fromCharCode(65 + idx)}</span>
                     {opt}

@@ -8,13 +8,16 @@ import { useUser } from '../context/UserContext';
 import html2canvas from 'html2canvas';
 import jsPDF from 'jspdf';
 import { model } from '../lib/gemini';
+import { careerDatabase, getCollegesForCareers } from '../lib/careerDatabase';
 import './Results.css';
 
 const Results = () => {
   const { t } = useLanguage();
   const { userProfile, updateProfile } = useUser();
   const [parentMode, setParentMode] = useState(false);
-  const [showAllColleges, setShowAllColleges] = useState(false);
+  
+  const [showAllKerala, setShowAllKerala] = useState(false);
+  const [showAllIndia, setShowAllIndia] = useState(false);
   const [isExporting, setIsExporting] = useState(false);
   
   const [aiData, setAiData] = useState(userProfile.aiResult || null);
@@ -24,19 +27,29 @@ const Results = () => {
 
   useEffect(() => {
     const generateAnalysis = async () => {
-      if (aiData || !userProfile.conversationHistory) {
+      if (aiData || !userProfile.conversationHistory || userProfile.conversationHistory.length === 0) {
         setIsGenerating(false);
         return;
       }
       
       try {
+        const compactCareers = careerDatabase.map(c => ({
+          id: c.id,
+          title: c.title,
+          tags: c.tags,
+          streams: c.streams
+        }));
+
         const prompt = `
-        You are Careervo AI. Analyze the following student profile and conversation history to provide comprehensive career and college recommendations.
+        You are Careervo AI. Analyze the following student profile and conversation history to select the top 3 recommended careers from our database.
 
         Student Stream: ${userProfile.stream || 'Unknown'}
         Interests: ${userProfile.interests?.join(", ") || 'Unknown'}
         Conversation History:
         ${JSON.stringify(userProfile.conversationHistory)}
+
+        Select exactly 3 careers from this list:
+        ${JSON.stringify(compactCareers)}
 
         Provide the response strictly as a JSON object with this exact structure (no markdown wrappers):
         {
@@ -55,38 +68,23 @@ const Results = () => {
           ],
           "careers": [
             {
-              "title": "Career Title 1",
+              "id": "matched-career-id-from-list",
               "match": 95,
-              "salary": "₹8L - ₹20L / year",
-              "aiRisk": "Low",
-              "demand": "Very High",
-              "remote": "High",
-              "stability": "High",
               "why": "Detailed reason why it fits the student's personality.",
               "parentWhy": "Reason tailored for parents (focus on stability, respect, high salary)."
             }
-          ],
-          "colleges": [
-            {
-              "name": "College Name",
-              "location": "City, State",
-              "type": "Government / Private",
-              "fees": "Estimated Fees",
-              "placement": "Placement %",
-              "maxPackage": "Highest Package",
-              "link": "https://website.com"
-            }
           ]
         }
-        
-        Ensure you give exactly 4 traits, exactly 3 careers, and exactly 6 relevant real-world Indian colleges based on the recommended careers. Include a mix of top national institutes and regional options.
         `;
 
         const result = await model.generateContent(prompt);
-        const responseText = result.response.text();
-        const cleanJson = responseText.replace(/```json/g, '').replace(/```/g, '').trim();
+        let responseText = result.response.text();
         
-        const parsedData = JSON.parse(cleanJson);
+        // Clean up markdown block if present
+        responseText = responseText.replace(/```json/gi, '').replace(/```/g, '').trim();
+        
+        const parsedData = JSON.parse(responseText);
+        
         setAiData(parsedData);
         updateProfile({ aiResult: parsedData });
       } catch (error) {
@@ -134,6 +132,19 @@ const Results = () => {
       </div>
     );
   }
+
+  // Enrich matched careers with full database info
+  const enrichedCareers = aiData.careers?.map(rc => {
+    const dbCareer = careerDatabase.find(c => c.id === rc.id) || {};
+    return {
+      ...dbCareer,
+      ...rc
+    };
+  }) || [];
+
+  // Query matched colleges based on top recommended career IDs
+  const recommendedCareerIds = enrichedCareers.map(c => c.id);
+  const matchedColleges = getCollegesForCareers(recommendedCareerIds);
 
   return (
     <div className="results-dashboard container">
@@ -201,14 +212,14 @@ const Results = () => {
         <div className="grid-right">
           <h2 className="section-title">{t('results.topMatches')}</h2>
           <div className="careers-list animate-fade-in delay-200">
-            {aiData.careers?.map(career => (
-              <div key={career.title} className="career-match-card glass-panel">
+            {enrichedCareers.map(career => (
+              <div key={career.title || career.id} className="career-match-card glass-panel animate-fade-in">
                 <div className="career-header flex-between">
                   <div className="career-title-group">
                     <TrendingUp className="text-accent" />
                     <h3>{career.title}</h3>
                   </div>
-                  <div className="match-badge">{t('results.matchBadge', { score: career.match })}</div>
+                  <div className="match-badge">{t('results.matchBadge', { score: career.match || 90 })}</div>
                 </div>
 
                 <p className="career-why">
@@ -221,51 +232,89 @@ const Results = () => {
                     <span className="stat-val">{career.salary}</span>
                   </div>
                   <div className="stat-box">
-                    <span className="stat-label">{t('results.demand')}</span>
-                    <span className="stat-val text-success">{career.demand}</span>
+                    <span className="stat-label">Future Scope</span>
+                    <span className="stat-val text-success">{career.futureScope}</span>
                   </div>
                   <div className="stat-box">
                     <span className="stat-label">{t('results.aiRisk')}</span>
                     <span className="stat-val text-success">{career.aiRisk}</span>
                   </div>
                   <div className="stat-box">
-                    <span className="stat-label">Remote Work</span>
-                    <span className="stat-val">{career.remote}</span>
+                    <span className="stat-label">Global Demand</span>
+                    <span className="stat-val">{career.globalDemand}</span>
                   </div>
                   <div className="stat-box">
-                    <span className="stat-label">Industry Stability</span>
-                    <span className="stat-val text-success">{career.stability}</span>
+                    <span className="stat-label">Work-Life Balance</span>
+                    <span className="stat-val">{career.workLifeBalance}</span>
+                  </div>
+                  <div className="stat-box">
+                    <span className="stat-label">Remote Work</span>
+                    <span className="stat-val">{career.remoteWork}</span>
+                  </div>
+                  <div className="stat-box">
+                    <span className="stat-label">Startup Potential</span>
+                    <span className="stat-val">{career.startupOpportunities}</span>
                   </div>
                 </div>
               </div>
             ))}
           </div>
 
-          <h2 className="section-title mt-8">Recommended Colleges</h2>
+          {/* Colleges Sections */}
+          <h2 className="section-title mt-8">Recommended Kerala Colleges</h2>
           <div className="colleges-grid animate-fade-in delay-300">
-            {(showAllColleges ? aiData.colleges : aiData.colleges?.slice(0, 4))?.map((college, idx) => (
+            {(showAllKerala ? matchedColleges.kerala : matchedColleges.kerala.slice(0, 3))?.map((college, idx) => (
               <div key={idx} className="college-card glass-panel">
                 <div className="college-info">
                   <h4>{college.name}</h4>
                   <div className="college-meta">
                     <span><MapPin size={14} /> {college.location}</span>
-                    <span><Building size={14} /> {college.type} | {t('results.fees')}: {college.fees}</span>
+                    <span><Building size={14} /> {college.category} | {t('results.fees')}: {college.fees}</span>
                   </div>
                 </div>
                 <div className="college-stats">
-                  <div className="stat"><span>{t('results.placements')}</span><strong>{college.placement}</strong></div>
-                  <div className="stat"><span>{t('results.highest')}</span><strong>{college.maxPackage}</strong></div>
+                  <div className="stat"><span>Average Package</span><strong>{college.avgPackage}</strong></div>
+                  <div className="stat"><span>Highest Package</span><strong>{college.highestPackage}</strong></div>
                 </div>
-                <a href={college.link} target="_blank" rel="noreferrer" className="btn-secondary w-full mt-4 flex-center" style={{ padding: '8px', fontSize: '0.85rem' }}>
+                <a href={college.website} target="_blank" rel="noreferrer" className="btn-secondary w-full mt-4 flex-center" style={{ padding: '8px', fontSize: '0.85rem' }}>
                   Visit Website <ExternalLink size={14} style={{ marginLeft: '6px' }} />
                 </a>
               </div>
             ))}
           </div>
-          {aiData.colleges?.length > 4 && (
+          {matchedColleges.kerala.length > 3 && (
+            <div className="text-center mt-4 mb-4">
+              <button className="see-more-btn" onClick={() => setShowAllKerala(!showAllKerala)}>
+                {showAllKerala ? 'See Less' : 'See More Kerala Colleges'} <ChevronDown size={16} style={{ transform: showAllKerala ? 'rotate(180deg)' : 'none', transition: '0.3s' }} />
+              </button>
+            </div>
+          )}
+
+          <h2 className="section-title mt-8">Recommended National Colleges (India)</h2>
+          <div className="colleges-grid animate-fade-in delay-300">
+            {(showAllIndia ? matchedColleges.india : matchedColleges.india.slice(0, 3))?.map((college, idx) => (
+              <div key={idx} className="college-card glass-panel">
+                <div className="college-info">
+                  <h4>{college.name}</h4>
+                  <div className="college-meta">
+                    <span><MapPin size={14} /> {college.location}</span>
+                    <span><Building size={14} /> {college.category} | {t('results.fees')}: {college.fees}</span>
+                  </div>
+                </div>
+                <div className="college-stats">
+                  <div className="stat"><span>Average Package</span><strong>{college.avgPackage}</strong></div>
+                  <div className="stat"><span>Highest Package</span><strong>{college.highestPackage}</strong></div>
+                </div>
+                <a href={college.website} target="_blank" rel="noreferrer" className="btn-secondary w-full mt-4 flex-center" style={{ padding: '8px', fontSize: '0.85rem' }}>
+                  Visit Website <ExternalLink size={14} style={{ marginLeft: '6px' }} />
+                </a>
+              </div>
+            ))}
+          </div>
+          {matchedColleges.india.length > 3 && (
             <div className="text-center mt-4 mb-8">
-              <button className="see-more-btn" onClick={() => setShowAllColleges(!showAllColleges)}>
-                {showAllColleges ? 'See Less' : 'See More Colleges'} <ChevronDown size={16} style={{ transform: showAllColleges ? 'rotate(180deg)' : 'none', transition: '0.3s' }} />
+              <button className="see-more-btn" onClick={() => setShowAllIndia(!showAllIndia)}>
+                {showAllIndia ? 'See Less' : 'See More India Colleges'} <ChevronDown size={16} style={{ transform: showAllIndia ? 'rotate(180deg)' : 'none', transition: '0.3s' }} />
               </button>
             </div>
           )}
