@@ -120,14 +120,30 @@ const Results = () => {
     setIsExporting(true);
     setExportType('pdf');
     try {
-      const element = pdfRef.current;
-      const canvas = await html2canvas(element, { scale: 2, useCORS: true });
-      const imgData = canvas.toDataURL('image/png');
       const pdf = new jsPDF('p', 'mm', 'a4');
       const pdfWidth = pdf.internal.pageSize.getWidth();
-      const pdfHeight = (canvas.height * pdfWidth) / canvas.width;
-      pdf.addImage(imgData, 'PNG', 0, 0, pdfWidth, pdfHeight);
-      pdf.save(`Careervo_Report_${userProfile.name || 'Student'}.pdf`);
+      const pdfHeight = pdf.internal.pageSize.getHeight();
+
+      for (let i = 1; i <= 3; i++) {
+        const element = document.getElementById(`pdf-page-${i}`);
+        if (!element) continue;
+
+        const canvas = await html2canvas(element, { 
+          scale: 2.5, 
+          useCORS: true,
+          logging: false,
+          width: 800,
+          height: 1130
+        });
+        const imgData = canvas.toDataURL('image/png');
+        
+        if (i > 1) {
+          pdf.addPage();
+        }
+        pdf.addImage(imgData, 'PNG', 0, 0, pdfWidth, pdfHeight);
+      }
+
+      pdf.save(`Careervo_AI_Report_${userProfile.name || 'Student'}.pdf`);
     } catch (err) {
       console.error("PDF generation failed:", err);
     }
@@ -139,13 +155,21 @@ const Results = () => {
     setIsExporting(true);
     setExportType('png');
     try {
-      const element = pdfRef.current;
-      const canvas = await html2canvas(element, { scale: 2, useCORS: true });
-      const imgData = canvas.toDataURL('image/png');
-      const link = document.createElement('a');
-      link.download = `Careervo_Report_${userProfile.name || 'Student'}.png`;
-      link.href = imgData;
-      link.click();
+      const element = document.getElementById('pdf-page-1');
+      if (element) {
+        const canvas = await html2canvas(element, { 
+          scale: 2.5, 
+          useCORS: true,
+          logging: false,
+          width: 800,
+          height: 1130
+        });
+        const imgData = canvas.toDataURL('image/png');
+        const link = document.createElement('a');
+        link.download = `Careervo_Report_Overview_${userProfile.name || 'Student'}.png`;
+        link.href = imgData;
+        link.click();
+      }
     } catch (err) {
       console.error("PNG generation failed:", err);
     }
@@ -409,6 +433,185 @@ const Results = () => {
               </button>
             </div>
           )}
+      </div>
+    </div>
+      
+      {/* Hidden high-fidelity A4 layout for PDF/PNG exports */}
+      <div style={{ position: 'absolute', left: '-9999px', top: '0', width: '800px', pointerEvents: 'none' }}>
+        <div id="pdf-report-root">
+          {/* Page 1 */}
+          <div className="pdf-page" id="pdf-page-1">
+            <div className="pdf-header">
+              <div className="pdf-logo">
+                <BrainCircuit size={24} className="text-accent" />
+                <span>Careervo AI Guidance</span>
+              </div>
+              <div className="pdf-date">{new Date().toLocaleDateString('en-IN')}</div>
+            </div>
+            
+            <div className="pdf-body">
+              <div className="pdf-hero">
+                <h1 className="pdf-main-title">CAREER PATHWAY ANALYSIS</h1>
+                <p className="pdf-sub-title">Personalized Assessment Report for Students</p>
+              </div>
+              
+              <div className="pdf-section pdf-meta-grid">
+                <div className="pdf-meta-item">
+                  <span className="pdf-meta-label">STUDENT NAME</span>
+                  <span className="pdf-meta-val">{userProfile.name || 'Student'}</span>
+                </div>
+                <div className="pdf-meta-item">
+                  <span className="pdf-meta-label">ACADEMIC STREAM</span>
+                  <span className="pdf-meta-val">{userProfile.stream || 'Science'}</span>
+                </div>
+                <div className="pdf-meta-item">
+                  <span className="pdf-meta-label">INTEREST FOCUS</span>
+                  <span className="pdf-meta-val">{userProfile.interests?.join(", ") || 'General'}</span>
+                </div>
+              </div>
+
+              <div className="pdf-section" style={{ marginTop: '24px' }}>
+                <h2 className="pdf-section-title">Cognitive & Personality Profile</h2>
+                <div className="pdf-traits-grid">
+                  {aiData.traits?.map(t => (
+                    <div key={t.name} className="pdf-trait-card">
+                      <div className="pdf-trait-header">
+                        <span className="pdf-trait-name">{t.name}</span>
+                        <span className="pdf-trait-score">{t.val}%</span>
+                      </div>
+                      <div className="pdf-trait-bar">
+                        <div className="pdf-trait-bar-fill" style={{ width: `${t.val}%` }}></div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              <div className="pdf-section" style={{ marginTop: '24px' }}>
+                <h2 className="pdf-section-title">Behavioral Evaluation</h2>
+                <div className="pdf-behavior-box">
+                  <p><strong>Work Style: </strong>{aiData.workStyle}</p>
+                  <p style={{ marginTop: '12px' }}><strong>Ambition & Alignment: </strong>{aiData.ambition}</p>
+                </div>
+              </div>
+            </div>
+            
+            <div className="pdf-footer">
+              <span>© {new Date().getFullYear()} Careervo. All rights reserved.</span>
+              <span>Page 1 of 3</span>
+            </div>
+          </div>
+
+          {/* Page 2 */}
+          <div className="pdf-page" id="pdf-page-2">
+            <div className="pdf-header">
+              <div className="pdf-logo">
+                <BrainCircuit size={24} className="text-accent" />
+                <span>Careervo AI Guidance</span>
+              </div>
+              <div className="pdf-date">{new Date().toLocaleDateString('en-IN')}</div>
+            </div>
+            
+            <div className="pdf-body">
+              <h2 className="pdf-page-title">Top Recommended Career Paths</h2>
+              <div className="pdf-careers-container">
+                {enrichedCareers.slice(0, 3).map((career, index) => (
+                  <div key={career.id || index} className="pdf-career-card">
+                    <div className="pdf-career-header">
+                      <div className="pdf-career-title-group">
+                        <span className="pdf-career-rank">#{index + 1}</span>
+                        <h3 className="pdf-career-title">{career.title}</h3>
+                      </div>
+                      <span className="pdf-career-badge">{career.match || 90}% Match</span>
+                    </div>
+                    <p className="pdf-career-desc">
+                      {parentMode ? career.parentWhy : career.why}
+                    </p>
+                    <div className="pdf-career-metrics">
+                      <div className="pdf-metric-box">
+                        <span className="pdf-metric-label">Salary Range</span>
+                        <span className="pdf-metric-val" style={{ fontSize: '0.75rem' }}>{career.salary}</span>
+                      </div>
+                      <div className="pdf-metric-box">
+                        <span className="pdf-metric-label">Future Scope</span>
+                        <span className="pdf-metric-val" style={{ color: '#059669', fontSize: '0.75rem' }}>{career.futureScope}</span>
+                      </div>
+                      <div className="pdf-metric-box">
+                        <span className="pdf-metric-label">AI Risk</span>
+                        <span className="pdf-metric-val" style={{ color: '#ef4444', fontSize: '0.75rem' }}>{career.aiRisk}</span>
+                      </div>
+                      <div className="pdf-metric-box">
+                        <span className="pdf-metric-label">Global Demand</span>
+                        <span className="pdf-metric-val" style={{ fontSize: '0.75rem' }}>{career.globalDemand}</span>
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+            
+            <div className="pdf-footer">
+              <span>© {new Date().getFullYear()} Careervo. All rights reserved.</span>
+              <span>Page 2 of 3</span>
+            </div>
+          </div>
+
+          {/* Page 3 */}
+          <div className="pdf-page" id="pdf-page-3">
+            <div className="pdf-header">
+              <div className="pdf-logo">
+                <BrainCircuit size={24} className="text-accent" />
+                <span>Careervo AI Guidance</span>
+              </div>
+              <div className="pdf-date">{new Date().toLocaleDateString('en-IN')}</div>
+            </div>
+            
+            <div className="pdf-body pdf-split-body">
+              <div className="pdf-body-left">
+                <h2 className="pdf-section-title">Execution Roadmap</h2>
+                <div className="pdf-roadmap-timeline">
+                  {aiData.roadmap?.map((step, idx) => (
+                    <div key={idx} className="pdf-roadmap-item">
+                      <div className="pdf-roadmap-bullet">{idx + 1}</div>
+                      <div className="pdf-roadmap-content">
+                        <h4>{step.period}</h4>
+                        <p>{step.description}</p>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+              
+              <div className="pdf-body-right">
+                <h2 className="pdf-section-title">Recommended Institutions</h2>
+                
+                <h3 className="pdf-sub-section-title">Kerala Colleges</h3>
+                <div className="pdf-colleges-list">
+                  {matchedColleges.kerala.slice(0, 3).map((college, idx) => (
+                    <div key={idx} className="pdf-college-row">
+                      <span className="pdf-college-name">{college.name}</span>
+                      <span className="pdf-college-details">{college.location} | Avg Pkg: {college.avgPackage}</span>
+                    </div>
+                  ))}
+                </div>
+                
+                <h3 className="pdf-sub-section-title" style={{ marginTop: '16px' }}>National Colleges</h3>
+                <div className="pdf-colleges-list">
+                  {matchedColleges.india.slice(0, 3).map((college, idx) => (
+                    <div key={idx} className="pdf-college-row">
+                      <span className="pdf-college-name">{college.name}</span>
+                      <span className="pdf-college-details">{college.location} | Avg Pkg: {college.avgPackage}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+            
+            <div className="pdf-footer">
+              <span>© {new Date().getFullYear()} Careervo. All rights reserved.</span>
+              <span>Page 3 of 3</span>
+            </div>
+          </div>
         </div>
       </div>
     </div>
