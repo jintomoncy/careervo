@@ -1,15 +1,22 @@
 import { useState, useRef, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { User, MapPin, Globe, ArrowRight, Mail, Phone, CheckCircle, AlertTriangle, ShieldCheck } from 'lucide-react';
+import { User, MapPin, Globe, ArrowRight, Mail, Phone } from 'lucide-react';
 import { useLanguage } from '../context/LanguageContext';
 import { useUser } from '../context/UserContext';
 import './Auth.css';
 
 const CITIES_DATASET = [
-  "Kochi", "Kollam", "Kottayam", "Kannur", "Kasaragod", "Kozhikode", "Trivandrum", 
+  "Kochi", "Kollam", "Kozhikode", "Kottayam", "Kannur", "Kasaragod", "Trivandrum", 
   "Thrissur", "Alappuzha", "Pathanamthitta", "Idukki", "Wayanad", "Palakkad", "Malappuram",
-  "Kolkata", "Kanpur", "Mumbai", "Delhi", "Bangalore", "Chennai", "Hyderabad", "Pune", 
-  "Ahmedabad", "Jaipur", "Lucknow", "Surat", "Patna", "Indore", "Bhopal", "Coimbatore"
+  "Mumbai", "Delhi", "Bangalore", "Hyderabad", "Ahmedabad", "Chennai", "Kolkata", "Surat", 
+  "Pune", "Jaipur", "Lucknow", "Kanpur", "Nagpur", "Indore", "Thane", "Bhopal", 
+  "Visakhapatnam", "Pimpri-Chinchwad", "Patna", "Vadodara", "Ghaziabad", "Ludhiana", 
+  "Agra", "Nashik", "Faridabad", "Meerut", "Rajkot", "Kalyan-Dombivli", "Vasai-Virar", 
+  "Varanasi", "Srinagar", "Aurangabad", "Dhanbad", "Amritsar", "Navi Mumbai", "Allahabad", 
+  "Ranchi", "Howrah", "Jabalpur", "Gwalior", "Vijayawada", "Jodhpur", "Madurai", "Raipur", 
+  "Kota", "Guwahati", "Chandigarh", "Solapur", "Hubli-Dharwad", "Bareilly", "Moradabad", 
+  "Mysore", "Gurgaon", "Aligarh", "Jalandhar", "Tiruchirappalli", "Bhubaneswar", "Salem", 
+  "Warangal", "Guntur", "Noida", "Nellore", "Jamnagar", "Jhansi", "Udaipur", "Mangalore"
 ];
 
 const Onboarding = () => {
@@ -37,8 +44,7 @@ const Onboarding = () => {
     language: lang
   });
   
-  const [phoneState, setPhoneState] = useState(userProfile.phone ? 'verified' : 'idle'); // 'idle', 'verifying', 'verified', 'invalid'
-  const [phoneOtp, setPhoneOtp] = useState('');
+  const [phoneError, setPhoneError] = useState('');
   const [error, setError] = useState('');
 
   // Autocomplete state
@@ -65,26 +71,15 @@ const Onboarding = () => {
     return () => document.removeEventListener('mousedown', handleOutsideClick);
   }, []);
 
-  const validatePhone = (num) => {
-    const cleaned = num.replace(/\D/g, '');
-    return cleaned.length === 10 && /^[6-9]/.test(cleaned);
-  };
-
-  const handleStartPhoneVerify = () => {
-    setError('');
-    if (!validatePhone(formData.phone)) {
-      setPhoneState('invalid');
-      return;
-    }
-    setPhoneState('verifying');
-  };
-
-  const handleVerifyOtp = () => {
-    if (phoneOtp === '123456' || phoneOtp.length === 6) {
-      setPhoneState('verified');
-      setPhoneOtp('');
+  const handlePhoneChange = (e) => {
+    const rawVal = e.target.value.replace(/\D/g, ''); // allow only numbers
+    const val = rawVal.slice(0, 10); // max 10 digits
+    setFormData(prev => ({ ...prev, phone: val }));
+    
+    if (val && val.length < 10) {
+      setPhoneError(lang === 'ml' ? 'ദയവായി ശരിയായ ഫോൺ നമ്പർ നൽകുക' : 'Please enter a valid phone number');
     } else {
-      setError(lang === 'ml' ? 'തെറ്റായ ഒ.ടി.പി കോഡ്.' : 'Invalid verification code. Use 123456');
+      setPhoneError('');
     }
   };
 
@@ -94,9 +89,14 @@ const Onboarding = () => {
     setFormData(prev => ({ ...prev, city: val }));
 
     if (val.trim().length > 0) {
-      const filtered = CITIES_DATASET.filter(c => 
+      const startsWithMatches = CITIES_DATASET.filter(c => 
         c.toLowerCase().startsWith(val.toLowerCase())
       );
+      const containsMatches = CITIES_DATASET.filter(c => 
+        !c.toLowerCase().startsWith(val.toLowerCase()) && 
+        c.toLowerCase().includes(val.toLowerCase())
+      );
+      const filtered = [...startsWithMatches, ...containsMatches].slice(0, 8);
       setCitySuggestions(filtered);
       setShowSuggestions(true);
       setActiveSuggestionIdx(0);
@@ -147,8 +147,9 @@ const Onboarding = () => {
         setError(lang === 'ml' ? 'ദയവായി ശരിയായ ഇമെയിൽ നൽകുക.' : "Please enter a valid email address.");
         return;
       }
-      if (phoneState !== 'verified') {
-        setError(lang === 'ml' ? 'ദയവായി ഫോൺ നമ്പർ വെരിഫൈ ചെയ്യുക.' : "Please verify your phone number to continue.");
+      if (formData.phone && formData.phone.length !== 10) {
+        setPhoneError(lang === 'ml' ? 'ദയവായി ശരിയായ ഫോൺ നമ്പർ നൽകുക' : 'Please enter a valid phone number');
+        setError(lang === 'ml' ? 'ദയവായി ശരിയായ ഫോൺ നമ്പർ നൽകുക.' : "Please enter a valid phone number.");
         return;
       }
       if (!formData.city.trim()) {
@@ -239,78 +240,21 @@ const Onboarding = () => {
                 </div>
               </div>
 
-              {/* Phone & Verification */}
+              {/* Phone (Optional) */}
               <div className="input-group">
-                <div className="flex-between">
-                  <label>{lang === 'ml' ? 'ഫോൺ നമ്പർ' : 'Phone Number'}</label>
-                  {phoneState === 'verified' && (
-                    <span className="phone-badge success flex-center gap-1">
-                      <CheckCircle size={14} />
-                      {lang === 'ml' ? 'വെരിഫൈഡ്' : 'Verified'}
-                    </span>
-                  )}
-                  {phoneState === 'invalid' && (
-                    <span className="phone-badge danger flex-center gap-1">
-                      <AlertTriangle size={14} />
-                      {lang === 'ml' ? 'തെറ്റായ നമ്പർ' : 'Invalid Number'}
-                    </span>
-                  )}
+                <label>{lang === 'ml' ? 'ഫോൺ നമ്പർ (ഓപ്ഷണൽ)' : 'Phone Number (Optional)'}</label>
+                <div className="input-with-icon">
+                  <Phone size={18} />
+                  <input 
+                    type="tel" 
+                    placeholder="+91 9876543210" 
+                    value={formData.phone}
+                    onChange={handlePhoneChange}
+                    maxLength={10}
+                  />
                 </div>
-                <div className="phone-input-row flex gap-2">
-                  <div className="input-with-icon w-full">
-                    <Phone size={18} />
-                    <input 
-                      type="tel" 
-                      placeholder="9876543210" 
-                      value={formData.phone}
-                      onChange={e => {
-                        setFormData({...formData, phone: e.target.value.replace(/\D/g, '')});
-                        if (phoneState !== 'verified') setPhoneState('idle');
-                      }}
-                      disabled={phoneState === 'verified'}
-                      required 
-                    />
-                  </div>
-                  {phoneState !== 'verified' && (
-                    <button 
-                      type="button" 
-                      className="btn-secondary verify-trigger-btn"
-                      onClick={handleStartPhoneVerify}
-                      disabled={formData.phone.length < 10}
-                    >
-                      {phoneState === 'verifying' ? '...' : (lang === 'ml' ? 'വെരിഫൈ' : 'Verify')}
-                    </button>
-                  )}
-                </div>
+                {phoneError && <span className="inline-input-error animate-fade-in">{phoneError}</span>}
               </div>
-
-              {/* Simulated OTP verification input */}
-              {phoneState === 'verifying' && (
-                <div className="phone-otp-box glass-panel animate-fade-in p-3 rounded-lg flex flex-column gap-2 mb-3">
-                  <div className="flex items-center gap-2 text-sm text-secondary">
-                    <ShieldCheck size={16} className="text-accent" />
-                    <span>{lang === 'ml' ? 'നിങ്ങളുടെ കോഡ് നൽകുക (ഡിഫോൾട്ട്: 123456)' : 'Enter OTP (Default code: 123456)'}</span>
-                  </div>
-                  <div className="flex gap-2">
-                    <input 
-                      type="text" 
-                      maxLength={6}
-                      placeholder="123456" 
-                      className="otp-verify-inline-input"
-                      value={phoneOtp}
-                      onChange={e => setPhoneOtp(e.target.value.replace(/\D/g, ''))}
-                    />
-                    <button 
-                      type="button" 
-                      className="btn-primary inline-verify-btn"
-                      onClick={handleVerifyOtp}
-                      disabled={phoneOtp.length !== 6}
-                    >
-                      OK
-                    </button>
-                  </div>
-                </div>
-              )}
 
               {/* City Autocomplete */}
               <div className="input-group relative" ref={suggestionsRef}>
@@ -385,7 +329,6 @@ const Onboarding = () => {
             type="submit" 
             className="btn-primary w-full flex-center"
             style={{ marginTop: '32px' }}
-            disabled={step === 1 && phoneState !== 'verified'}
           >
             {step === 1 ? t('auth.continueBtn') : t('onboarding.startAnalysis')}
             <ArrowRight size={18} style={{ marginLeft: '8px' }} />

@@ -232,69 +232,25 @@
 }
 
 .name-fields-row {
-  display: flex;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
   gap: 16px;
   width: 100%;
 }
 
 @media (max-width: 600px) {
   .name-fields-row {
-    flex-direction: column;
-    gap: 0;
+    grid-template-columns: 1fr;
+    gap: 12px;
   }
 }
 
-.phone-badge {
-  font-size: 0.75rem;
-  font-weight: 700;
-  padding: 2px 8px;
-  border-radius: 99px;
-}
-
-.phone-badge.success {
-  background: rgba(16, 185, 129, 0.1);
-  color: #10b981;
-}
-
-.phone-badge.danger {
-  background: rgba(220, 38, 38, 0.1);
-  color: #dc2626;
-}
-
-.phone-input-row {
-  display: flex;
-  gap: 8px;
-  width: 100%;
-}
-
-.verify-trigger-btn {
-  white-space: nowrap;
-  padding: 0 16px;
-  height: 46px;
-  border-radius: 8px;
-  font-size: 0.85rem;
-  font-weight: 600;
-}
-
-.phone-otp-box {
-  background: var(--bg-tertiary);
-  border: 1px dashed var(--border-light);
-}
-
-.otp-verify-inline-input {
-  width: 100%;
-  padding: 10px;
-  border: 1px solid var(--border-light);
-  border-radius: 6px;
-  font-size: 1rem;
-  text-align: center;
-  letter-spacing: 4px;
-}
-
-.inline-verify-btn {
-  padding: 0 16px !important;
-  font-size: 0.85rem;
-  border-radius: 6px !important;
+.inline-input-error {
+  display: block;
+  color: #DC2626;
+  font-size: 0.8rem;
+  margin-top: 4px;
+  font-weight: 500;
 }
 
 /* City Autocomplete Dropdown styling */
