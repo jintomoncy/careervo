@@ -148,14 +148,14 @@ const Home = () => {
           
           <div className="careers-grid">
             {[
-              { label: 'AI & Data Science', key: 'ai_data_scientist' },
-              { label: 'Digital Marketing', key: 'digital_marketer' },
-              { label: 'UI/UX Design', key: 'uiux_designer' },
-              { label: 'Business Analytics', key: 'business_analyst' },
-              { label: 'Cybersecurity', key: 'cybersecurity_analyst' },
-              { label: 'Finance', key: 'financial_analyst' },
-              { label: 'Healthcare', key: 'healthcare_administrator' },
-              { label: 'Entrepreneurship', key: 'entrepreneur' }
+              { label: 'AI & Data Science', key: 'data-science' },
+              { label: 'Digital Marketing', key: 'digital-marketing' },
+              { label: 'UI/UX Design', key: 'ui-ux' },
+              { label: 'Business Analytics', key: 'biz-analytics' },
+              { label: 'Cybersecurity', key: 'cybersecurity' },
+              { label: 'Finance', key: 'finance-path' },
+              { label: 'Healthcare', key: 'hospital-admin' },
+              { label: 'Entrepreneurship', key: 'entrepreneurship' }
             ].map((career, i) => (
               <div key={i} className="career-pill glass-panel">
                 <span>{t(`careers.${career.key}`) || career.label}</span>

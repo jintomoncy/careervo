@@ -11,11 +11,13 @@ import jsPDF from 'jspdf';
 import { model } from '../lib/gemini';
 import { careerDatabase, collegeDatabase, getCollegesForCareers, getFallbackAnalysis } from '../lib/careerDatabase';
 import { collegesMl } from '../lib/careerDatabase/collegesMl';
+import { useNavigate } from 'react-router-dom';
 import './Results.css';
 
 const Results = () => {
   const { t, lang } = useLanguage();
   const { userProfile, updateProfile } = useUser();
+  const navigate = useNavigate();
   const [parentMode, setParentMode] = useState(false);
   
   const [showAllKerala, setShowAllKerala] = useState(false);
@@ -240,18 +242,18 @@ const Results = () => {
     setIsExporting(true);
     setExportType('png');
     try {
-      const element = document.getElementById('pdf-page-1');
+      const element = document.getElementById('png-infographic-root');
       if (element) {
         const canvas = await html2canvas(element, { 
-          scale: 2.5, 
+          scale: 2.0, 
           useCORS: true,
           logging: false,
-          width: 800,
-          height: 1130
+          width: 1000,
+          height: 1600
         });
         const imgData = canvas.toDataURL('image/png');
         const link = document.createElement('a');
-        link.download = `Careervo_Report_Overview_${userProfile.name || 'Student'}.png`;
+        link.download = `Careervo_AI_Poster_${userProfile.name || 'Student'}.png`;
         link.href = imgData;
         link.click();
       }
@@ -436,7 +438,28 @@ const Results = () => {
                 </button>
               </div>
             )}
-          </div>
+      </div>
+    </div>
+  </div>
+
+      <div className="edit-flow-actions-bar glass-panel animate-fade-in">
+        <span className="actions-bar-label">
+          <BrainCircuit size={16} className="text-accent" />
+          {lang === 'ml' ? 'റിപ്പോർട്ട് ഓപ്ഷനുകൾ:' : 'Report Options:'}
+        </span>
+        <div className="actions-bar-buttons">
+          <button className="btn-action-pill" onClick={() => navigate('/onboarding')}>
+            {lang === 'ml' ? 'പ്രൊഫൈൽ തിരുത്തുക' : 'Edit Profile'}
+          </button>
+          <button className="btn-action-pill" onClick={() => navigate('/analysis')}>
+            {lang === 'ml' ? 'താല്പര്യങ്ങൾ തിരുത്തുക' : 'Edit Interests'}
+          </button>
+          <button className="btn-action-pill" onClick={() => {
+            updateProfile({ answers: {} });
+            navigate('/analysis');
+          }}>
+            {lang === 'ml' ? 'വീണ്ടും അനാലിസിസ് ചെയ്യുക' : 'Re-analyze'}
+          </button>
         </div>
       </div>
 
@@ -600,8 +623,165 @@ const Results = () => {
         </div>
       </div>
       
-      {/* ─── HIDDEN HIGH-FIDELITY A4 LAYOUT FOR 6-PAGE PDF EXPORT ─── */}
-      <div style={{ position: 'absolute', left: '-9999px', top: '0', width: '800px', pointerEvents: 'none' }}>
+      {/* ─── HIDDEN HIGH-FIDELITY LAYOUTS FOR PDF/PNG EXPORT ─── */}
+      <div style={{ position: 'absolute', left: '-9999px', top: '0', pointerEvents: 'none' }}>
+        
+        {/* PNG Infographic Root */}
+        <div id="png-infographic-root" style={{ width: '1000px', height: '1600px', fontFamily: "'Inter', sans-serif" }}>
+          <div className="png-header">
+            <div className="png-logo">
+              <BrainCircuit size={32} style={{ color: '#38bdf8' }} />
+              <span>Careervo AI Intelligence Infographic</span>
+            </div>
+            <div className="png-meta-info">
+              <span>{lang === 'ml' ? 'വിദ്യാർത്ഥി' : 'Student'}: <strong>{userProfile.name || 'Student'}</strong></span>
+              <span>{lang === 'ml' ? 'ഗ്രൂപ്പ്' : 'Stream'}: <strong>{userProfile.stream || 'Science'}</strong></span>
+              <span>{lang === 'ml' ? 'തീയതി' : 'Date'}: <strong>{new Date().toLocaleDateString('en-IN')}</strong></span>
+            </div>
+          </div>
+
+          <div className="png-body-grid">
+            {/* Left Column */}
+            <div className="png-column-left">
+              {/* Personality Card */}
+              <div className="png-card">
+                <h3>{t('results.personality') || "Personality Profile"}</h3>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '14px' }}>
+                  {aiData.traits?.slice(0, 5).map(tTrait => (
+                    <div key={tTrait.name} className="png-trait-row">
+                      <div className="png-trait-meta">
+                        <span>{getTraitLabel(tTrait.name)}</span>
+                        <span>{tTrait.val}%</span>
+                      </div>
+                      <div className="png-trait-bar">
+                        <div className="png-trait-bar-fill" style={{ width: `${tTrait.val}%` }}></div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              {/* Behavior Profile Card */}
+              <div className="png-card">
+                <h3>{lang === 'ml' ? 'സ്വഭാവ വിശകലനം' : 'Behavior Profile'}</h3>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
+                  <div className="png-behavior-desc">
+                    <strong>{t('results.workStyle') || 'Work Style'}: </strong>
+                    <span>{aiData.workStyle}</span>
+                  </div>
+                  <div className="png-behavior-desc" style={{ borderTop: '1px solid rgba(255,255,255,0.05)', paddingTop: '12px' }}>
+                    <strong>{t('results.ambition') || 'Ambition Type'}: </strong>
+                    <span>{aiData.ambition}</span>
+                  </div>
+                </div>
+              </div>
+
+              {/* Skills Summary Card */}
+              <div className="png-card" style={{ flexGrow: 1 }}>
+                <h3>{lang === 'ml' ? 'ആവശ്യമായ നൈപുണ്യങ്ങൾ' : 'Skills & Courses Summary'}</h3>
+                <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px', marginBottom: '20px' }}>
+                  {Array.from(new Set(
+                    enrichedCareers.slice(0, 3).flatMap(c => c.skills || [])
+                  )).slice(0, 8).map((skill, idx) => (
+                    <span 
+                      key={idx} 
+                      style={{ 
+                        background: 'rgba(56, 189, 248, 0.08)', 
+                        color: '#38bdf8', 
+                        border: '1px solid rgba(56, 189, 248, 0.2)',
+                        padding: '6px 12px',
+                        borderRadius: '8px',
+                        fontSize: '0.8rem',
+                        fontWeight: '600'
+                      }}
+                    >
+                      {skill}
+                    </span>
+                  ))}
+                </div>
+                <h4 style={{ fontSize: '0.9rem', color: '#38bdf8', marginBottom: '10px', fontWeight: '700' }}>
+                  {lang === 'ml' ? 'പ്രധാന പഠനവിഷയങ്ങൾ' : 'Top Recommended Courses'}
+                </h4>
+                <ul style={{ paddingLeft: '16px', fontSize: '0.85rem', color: '#cbd5e1', lineHeight: '1.6' }}>
+                  {enrichedCareers.slice(0, 5).map((c, idx) => (
+                    <li key={idx} style={{ marginBottom: '4px' }}>
+                      {lang === 'ml' ? (t(`careers.${c.id}`) || c.title) : c.title}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </div>
+
+            {/* Right Column */}
+            <div className="png-column-right">
+              {/* Career Matches Card */}
+              <div className="png-card">
+                <h3>{t('results.topMatches') || "Top Career Matches"}</h3>
+                {enrichedCareers.slice(0, 5).map((career, idx) => (
+                  <div key={idx} className="png-career-item">
+                    <div className="png-career-header">
+                      <span className="png-career-title">{lang === 'ml' ? (t(`careers.${career.id}`) || career.title) : career.title}</span>
+                      <span className="png-career-badge">{t('results.matchBadge', { score: career.match || 90 })}</span>
+                    </div>
+                    <div className="png-career-stats">
+                      <div className="png-stat-box">
+                        <span className="png-stat-label">{t('results.salary')}</span>
+                        <span className="png-stat-val">{career.salary ? career.salary.split('/')[0].trim() : ''}</span>
+                      </div>
+                      <div className="png-stat-box">
+                        <span className="png-stat-label">{t('results.futureScope')}</span>
+                        <span className="png-stat-val" style={{ color: '#10b981' }}>{t(`terms.${career.futureScope}`) || career.futureScope}</span>
+                      </div>
+                      <div className="png-stat-box">
+                        <span className="png-stat-label">{t('results.aiRisk')}</span>
+                        <span className="png-stat-val" style={{ color: '#ef4444' }}>{t(`terms.${career.aiRisk}`) || career.aiRisk}</span>
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+
+              {/* Colleges Card */}
+              <div className="png-card" style={{ flexGrow: 1 }}>
+                <h3>{lang === 'ml' ? 'മികച്ച കോളേജുകൾ (കേരളം & ഇന്ത്യ)' : 'Top Colleges (Kerala & National)'}</h3>
+                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '20px' }}>
+                  <div>
+                    <h4 style={{ fontSize: '0.85rem', color: '#cbd5e1', marginBottom: '8px', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
+                      {lang === 'ml' ? 'കേരളം' : 'Kerala'}
+                    </h4>
+                    <div className="png-colleges-list">
+                      {top10Kerala.slice(0, 5).map((c, idx) => (
+                        <div key={idx} className="png-college-row">
+                          <span className="png-college-name">{getLocalizedCollege(c).name}</span>
+                          <span className="png-college-pkg">{c.avgPackage}</span>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                  <div>
+                    <h4 style={{ fontSize: '0.85rem', color: '#cbd5e1', marginBottom: '8px', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
+                      {lang === 'ml' ? 'ഇന്ത്യൻ' : 'National'}
+                    </h4>
+                    <div className="png-colleges-list">
+                      {top10India.slice(0, 5).map((c, idx) => (
+                        <div key={idx} className="png-college-row">
+                          <span className="png-college-name">{getLocalizedCollege(c).name}</span>
+                          <span className="png-college-pkg">{c.avgPackage}</span>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div className="png-footer">
+            <span>{lang === 'ml' ? 'കരിയർവോ എ.ഐ വഴി തയ്യാറാക്കിയത്' : 'Generated via Careervo AI Intelligence Platform'}</span>
+            <span className="png-footer-badge">Careervo Poster Report</span>
+          </div>
+        </div>
+
         <div id="pdf-report-root">
           
           {/* Page 1: COVER PAGE */}

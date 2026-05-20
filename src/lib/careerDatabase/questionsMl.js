@@ -1,5 +1,5 @@
 // Dynamic Malayalam Translation mapping for all 360 questions
-export const questionsMl = {
+const legacyQuestionsMl = {
   "b1": {
     "question": "ഒരു ചെറിയ പ്രോജക്റ്റ് ആരംഭിക്കാൻ നിങ്ങൾക്ക് ബജറ്റ് ഉണ്ടെങ്കിൽ, നിങ്ങൾ എങ്ങനെ ഫണ്ട് അനുവദിക്കും?",
     "options": [
@@ -3240,4 +3240,22 @@ export const questionsMl = {
       "ബഹിരാകാശ ഏജൻസി വിക്ഷേപണ നിയന്ത്രണങ്ങളിൽ പ്രവർത്തിക്കാൻ (ISRO പോലെ)"
     ]
   }
+};
+
+
+// --- DYNAMIC MALAYALAM TRANSLATION INTEGRATION ---
+import { questionBank } from './questions';
+
+const dynamicMl = {};
+Object.keys(questionBank).forEach(cat => {
+  questionBank[cat].forEach(q => {
+    if (q.malayalamVersion) {
+      dynamicMl[q.id] = q.malayalamVersion;
+    }
+  });
+});
+
+export const questionsMl = {
+  ...legacyQuestionsMl,
+  ...dynamicMl
 };

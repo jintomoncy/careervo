@@ -35,24 +35,36 @@
 }
 
 .interest-card {
-  padding: 20px;
+  padding: 24px 16px;
   text-align: center;
   cursor: pointer;
-  font-weight: 500;
-  border: 2px solid transparent;
+  font-weight: 600;
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-light);
+  border-radius: 16px;
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   position: relative;
+  box-shadow: var(--shadow-sm);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 120px;
 }
 
 .interest-card:hover {
   transform: translateY(-4px);
-  border-color: var(--border-light);
+  border-color: var(--accent-blue-light);
+  box-shadow: var(--shadow-md);
+  background: var(--bg-tertiary);
 }
 
 .interest-card.selected {
   border-color: var(--accent-blue);
   background: var(--accent-blue-faded);
   color: var(--accent-blue);
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15), var(--shadow-md);
+  transform: scale(1.02);
 }
 
 .check-icon {
@@ -285,22 +297,23 @@
   }
   
   .interests-grid {
-    grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
-    gap: 10px;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
     margin-bottom: 24px;
   }
   
   .interest-card {
-    padding: 14px 8px;
+    padding: 16px 12px;
     font-size: 0.85rem;
     border-radius: 12px;
+    min-height: 90px;
   }
   
   .check-icon {
     top: 8px;
     right: 8px;
-    width: 12px;
-    height: 12px;
+    width: 14px;
+    height: 14px;
   }
 
   .question-flow {

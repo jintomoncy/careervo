@@ -1012,4 +1012,228 @@
   }
 }
 
+/* ─── PNG INFOGRAPHIC STYLES ─────────────────────────────────────────────── */
+#png-infographic-root {
+  width: 1000px;
+  height: 1600px;
+  background: linear-gradient(135deg, #07162c 0%, #112d53 50%, #1c457d 100%);
+  color: #ffffff;
+  padding: 40px;
+  box-sizing: border-box;
+  font-family: 'Inter', sans-serif;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.png-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 2px solid rgba(255, 255, 255, 0.1);
+  padding-bottom: 20px;
+}
+
+.png-logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-family: 'Outfit', sans-serif;
+  font-weight: 800;
+  font-size: 1.6rem;
+  color: #38bdf8;
+}
+
+.png-meta-info {
+  display: flex;
+  gap: 24px;
+  font-size: 0.9rem;
+  color: #cbd5e1;
+}
+
+.png-meta-info strong {
+  color: #ffffff;
+}
+
+.png-body-grid {
+  display: grid;
+  grid-template-columns: 1.15fr 1.85fr;
+  gap: 32px;
+  flex-grow: 1;
+  margin: 32px 0;
+  overflow: hidden;
+}
+
+.png-column-left {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.png-column-right {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.png-card {
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 16px;
+  padding: 24px;
+  backdrop-filter: blur(10px);
+}
+
+.png-card h3 {
+  font-size: 1.15rem;
+  font-weight: 700;
+  margin-bottom: 18px;
+  color: #38bdf8;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  padding-bottom: 8px;
+}
+
+.png-trait-row {
+  margin-bottom: 14px;
+}
+
+.png-trait-meta {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.85rem;
+  font-weight: 600;
+  margin-bottom: 4px;
+}
+
+.png-trait-bar {
+  height: 8px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 99px;
+  overflow: hidden;
+}
+
+.png-trait-bar-fill {
+  height: 100%;
+  border-radius: 99px;
+  background: linear-gradient(90deg, #38bdf8 0%, #2563eb 100%);
+}
+
+.png-behavior-desc {
+  font-size: 0.85rem;
+  line-height: 1.5;
+  color: #cbd5e1;
+}
+
+.png-behavior-desc strong {
+  color: #ffffff;
+}
+
+.png-career-item {
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  border-radius: 12px;
+  padding: 16px;
+  margin-bottom: 14px;
+}
+
+.png-career-item:last-child {
+  margin-bottom: 0;
+}
+
+.png-career-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.png-career-title {
+  font-size: 1rem;
+  font-weight: 700;
+  color: #ffffff;
+}
+
+.png-career-badge {
+  background: linear-gradient(135deg, #2563eb 0%, #38bdf8 100%);
+  color: #ffffff;
+  padding: 4px 10px;
+  border-radius: 99px;
+  font-size: 0.75rem;
+  font-weight: 700;
+}
+
+.png-career-stats {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+  padding-top: 10px;
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
+  font-size: 0.75rem;
+}
+
+.png-stat-box {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.png-stat-label {
+  color: #94a3b8;
+}
+
+.png-stat-val {
+  font-weight: 600;
+  color: #f1f5f9;
+}
+
+.png-colleges-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.png-college-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 12px;
+  background: rgba(255, 255, 255, 0.02);
+  border-radius: 8px;
+  font-size: 0.8rem;
+}
+
+.png-college-name {
+  font-weight: 600;
+  color: #f1f5f9;
+  max-width: 70%;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.png-college-pkg {
+  font-weight: 700;
+  color: #10b981;
+}
+
+.png-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-top: 2px solid rgba(255, 255, 255, 0.1);
+  padding-top: 18px;
+  font-size: 0.85rem;
+  color: #94a3b8;
+}
+
+.png-footer-badge {
+  background: rgba(56, 189, 248, 0.1);
+  color: #38bdf8;
+  padding: 4px 12px;
+  border-radius: 99px;
+  font-weight: 700;
+  font-size: 0.8rem;
+}
+
+
 

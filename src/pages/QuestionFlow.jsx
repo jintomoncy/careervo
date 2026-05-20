@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { BrainCircuit, Check, ChevronRight, Loader2 } from 'lucide-react';
 import { useLanguage } from '../context/LanguageContext';
 import { useUser } from '../context/UserContext';
-import { selectQuestionsForStudent } from '../lib/careerDatabase';
+import { selectQuestionsForStudent, selectNextQuestion } from '../lib/careerDatabase';
 import { questionsMl } from '../lib/careerDatabase/questionsMl';
 import './QuestionFlow.css';
 
@@ -40,8 +40,8 @@ const QuestionFlow = () => {
   const startQuestions = () => {
     if (selectedInterests.length === 3) {
       updateProfile({ interests: selectedInterests });
-      const selectedQs = selectQuestionsForStudent(userProfile.stream || 'Science', selectedInterests, 10);
-      setQuestions(selectedQs);
+      const firstQ = selectNextQuestion(userProfile.stream || 'Science', selectedInterests, [], new Set());
+      setQuestions([firstQ]);
       setConversationHistory([]);
       setCurrentIndex(0);
       setPhase('questions');
@@ -55,7 +55,9 @@ const QuestionFlow = () => {
       category: currentQ.category,
       question: currentQ.question, // Store English for AI reference consistency
       answer: originalOptionText,  // Store English for consistency
-      answerMl: lang === 'ml' ? selectedOptionText : undefined
+      answerMl: lang === 'ml' ? selectedOptionText : undefined,
+      scoringLogic: currentQ.scoringLogic,
+      tags: currentQ.tags
     };
 
     const updatedHistory = [...conversationHistory];
@@ -64,7 +66,16 @@ const QuestionFlow = () => {
 
     setConversationHistory(updatedHistory);
 
-    if (currentIndex + 1 < questions.length) {
+    if (currentIndex + 1 < 10) {
+      const alreadySelectedIds = new Set(questions.slice(0, currentIndex + 1).map(q => q.id));
+      const nextQ = selectNextQuestion(
+        userProfile.stream || 'Science',
+        selectedInterests,
+        updatedHistory,
+        alreadySelectedIds
+      );
+      const updatedQuestions = [...questions.slice(0, currentIndex + 1), nextQ];
+      setQuestions(updatedQuestions);
       setCurrentIndex(currentIndex + 1);
     } else {
       updateProfile({ conversationHistory: updatedHistory });
@@ -173,11 +184,11 @@ const QuestionFlow = () => {
             <div className="progress-bar">
               <div 
                 className="fill" 
-                style={{ width: `${((currentIndex) / questions.length) * 100}%`, transition: 'width 0.4s ease' }}
+                style={{ width: `${((currentIndex) / 10) * 100}%`, transition: 'width 0.4s ease' }}
               ></div>
             </div>
             <div className="progress-text">
-              {t('questions.questionOf', { curr: currentIndex + 1, total: questions.length })}
+              {t('questions.questionOf', { curr: currentIndex + 1, total: 10 })}
             </div>
           </div>
 

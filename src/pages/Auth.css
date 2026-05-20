@@ -225,3 +225,107 @@
     padding: 16px 12px;
   }
 }
+
+/* ─── PROFILE COMPLETE ADDITIONAL STYLES ───────────────────────────────── */
+.onboarding-card {
+  max-width: 540px !important;
+}
+
+.name-fields-row {
+  display: flex;
+  gap: 16px;
+  width: 100%;
+}
+
+@media (max-width: 600px) {
+  .name-fields-row {
+    flex-direction: column;
+    gap: 0;
+  }
+}
+
+.phone-badge {
+  font-size: 0.75rem;
+  font-weight: 700;
+  padding: 2px 8px;
+  border-radius: 99px;
+}
+
+.phone-badge.success {
+  background: rgba(16, 185, 129, 0.1);
+  color: #10b981;
+}
+
+.phone-badge.danger {
+  background: rgba(220, 38, 38, 0.1);
+  color: #dc2626;
+}
+
+.phone-input-row {
+  display: flex;
+  gap: 8px;
+  width: 100%;
+}
+
+.verify-trigger-btn {
+  white-space: nowrap;
+  padding: 0 16px;
+  height: 46px;
+  border-radius: 8px;
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+.phone-otp-box {
+  background: var(--bg-tertiary);
+  border: 1px dashed var(--border-light);
+}
+
+.otp-verify-inline-input {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid var(--border-light);
+  border-radius: 6px;
+  font-size: 1rem;
+  text-align: center;
+  letter-spacing: 4px;
+}
+
+.inline-verify-btn {
+  padding: 0 16px !important;
+  font-size: 0.85rem;
+  border-radius: 6px !important;
+}
+
+/* City Autocomplete Dropdown styling */
+.autocomplete-suggestions {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+  margin-top: 4px;
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-light);
+  border-radius: 8px;
+  box-shadow: var(--shadow-md);
+  list-style: none;
+  padding: 4px 0;
+  max-height: 180px;
+  overflow-y: auto;
+}
+
+.autocomplete-suggestions li {
+  padding: 10px 14px;
+  font-size: 0.9rem;
+  color: var(--text-primary);
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.autocomplete-suggestions li:hover,
+.autocomplete-suggestions li.active {
+  background: var(--accent-blue-faded);
+  color: var(--accent-blue);
+  font-weight: 600;
+}

@@ -204,6 +204,16 @@ export const translations = {
       privacy: "Privacy Policy",
       terms: "Terms of Service",
       copyright: "All rights reserved."
+    },
+    careers: {
+      "data-science": "AI & Data Science",
+      "digital-marketing": "Digital Marketing",
+      "ui-ux": "UI/UX Design",
+      "biz-analytics": "Business Analytics",
+      "cybersecurity": "Cybersecurity",
+      "finance-path": "Finance",
+      "hospital-admin": "Healthcare Administration",
+      "entrepreneurship": "Entrepreneurship"
     }
   },
   ml: {

@@ -5,64 +5,190 @@ import { collegeDatabase } from './careerDatabase/colleges';
 export { questionBank, careerDatabase, collegeDatabase };
 
 // ─── DYNAMIC SHUFFLE AND SELECTION OF QUESTIONS ─────────────────────────────
-export function selectQuestionsForStudent(stream, interests, count = 10) {
-  // Normalize interests to lowercase keys that match questionBank keys
+// ─── DYNAMIC SHUFFLE AND SELECTION OF QUESTIONS ─────────────────────────────
+const streamCategoryMap = {
+  Science: ['technology', 'ai', 'healthcare', 'aviation', 'agriculture', 'sports'],
+  Commerce: ['business', 'finance', 'entrepreneurship', 'marketing', 'hospitality', 'government_jobs'],
+  Humanities: ['design', 'psychology', 'media', 'law', 'education', 'fashion', 'government_jobs']
+};
+
+function getAnswerMultiplier(answer) {
+  if (!answer) return 0.5;
+  const lower = answer.toLowerCase();
+  if (lower.includes('strongly agree') || lower === 'yes, absolutely' || lower === 'yes') return 1.0;
+  if (lower.includes('agree') || lower === 'sometimes' || lower === 'sometimes, if needed' || lower.includes('occasionally')) return 0.6;
+  if (lower.includes('neutral')) return 0.3;
+  if (lower.includes('disagree') || lower === 'no' || lower === 'no, i prefer other roles' || lower.includes('rarely')) return 0.0;
+  if (lower.includes('strongly disagree')) return -0.3;
+  return 0.5;
+}
+
+export function calculateTraits(previousAnswers) {
+  const traits = {
+    analytical: 0,
+    creativity: 0,
+    leadership: 0,
+    communication: 0,
+    empathy: 0,
+    discipline: 0
+  };
+
+  previousAnswers.forEach(ans => {
+    const mult = getAnswerMultiplier(ans.answer);
+    const scoring = ans.scoringLogic || {};
+    if (scoring.traits) {
+      Object.keys(scoring.traits).forEach(trait => {
+        if (traits[trait] !== undefined) {
+          traits[trait] += scoring.traits[trait] * mult;
+        }
+      });
+    }
+  });
+
+  return traits;
+}
+
+export function selectNextQuestion(stream, interests, previousAnswers = [], alreadySelectedIds = new Set()) {
+  // Normalize interests to lowercase keys
   const normalizedInterests = (interests || []).map(i => {
     if (i === "Government Jobs") return "government_jobs";
     return i.toLowerCase().replace(/\s+/g, '_');
   }).filter(cat => !!questionBank[cat]);
 
-  let selectedPool = [];
-  const selectedIds = new Set();
+  // If interests are empty, fall back to stream categories
+  const activeInterests = normalizedInterests.length > 0 ? normalizedInterests : (streamCategoryMap[stream] || streamCategoryMap.Science);
 
-  if (normalizedInterests.length > 0) {
-    // Determine base questions count per selected interest
-    const basePerInterest = Math.floor(count / normalizedInterests.length);
-    let remainder = count % normalizedInterests.length;
+  // 1. Determine target category for the next question
+  let targetCategory = '';
+  let targetDifficulty = 'easy';
+  let targetTrait = '';
 
-    normalizedInterests.forEach((cat, idx) => {
-      const targetCount = basePerInterest + (idx < remainder ? 1 : 0);
-      if (targetCount > 0 && questionBank[cat]) {
-        const shuffledCat = shuffleArray([...questionBank[cat]]);
-        let added = 0;
-        for (let i = 0; i < shuffledCat.length; i++) {
-          if (added >= targetCount) break;
-          const q = shuffledCat[i];
-          if (!selectedIds.has(q.id)) {
-            selectedPool.push(q);
-            selectedIds.add(q.id);
-            added++;
-          }
-        }
+  const totalAnswered = previousAnswers.length;
+
+  if (totalAnswered < activeInterests.length) {
+    // Stage 1: Make sure we cover each selected interest at least once in the beginning
+    targetCategory = activeInterests[totalAnswered];
+    targetDifficulty = 'easy'; // start easy
+  } else {
+    // Stage 2: Adaptive selection based on previous answers and personality traits
+    const traits = calculateTraits(previousAnswers);
+    // Find the highest scoring trait
+    let maxTrait = 'analytical';
+    let maxVal = -999;
+    Object.keys(traits).forEach(t => {
+      if (traits[t] > maxVal) {
+        maxVal = traits[t];
+        maxTrait = t;
       }
     });
+    targetTrait = maxTrait;
+
+    const lastAns = previousAnswers[previousAnswers.length - 1];
+    const lastMult = lastAns ? getAnswerMultiplier(lastAns.answer) : 0.5;
+
+    if (lastMult >= 0.6) {
+      // User liked the last topic -> drill deeper or cross-interest
+      const rand = Math.random();
+      if (rand < 0.4) {
+        // Drill deeper in the same category with higher difficulty
+        targetCategory = lastAns.category;
+        targetDifficulty = Math.random() < 0.5 ? 'medium' : 'hard';
+      } else if (rand < 0.7) {
+        // Cross-interest: find a category from active interests that has overlapping tags
+        targetCategory = activeInterests.find(c => c !== lastAns.category) || lastAns.category;
+        targetDifficulty = 'medium';
+      } else {
+        // Select based on top trait
+        targetCategory = activeInterests[Math.floor(Math.random() * activeInterests.length)];
+        targetDifficulty = 'medium';
+      }
+    } else {
+      // User disliked/neutral on the last topic -> switch category, keep difficulty manageable
+      targetCategory = activeInterests.find(c => c !== (lastAns ? lastAns.category : '')) || activeInterests[0];
+      targetDifficulty = 'easy';
+    }
   }
 
-  // If pool size is less than requested count, fill dynamically from other categories
-  if (selectedPool.length < count) {
-    const allCats = Object.keys(questionBank);
-    const remainingCats = allCats.filter(c => !normalizedInterests.includes(c));
-    const shuffledRemainingCats = shuffleArray(remainingCats);
+  // 2. Fetch candidates from target category
+  let candidates = (questionBank[targetCategory] || []).filter(q => !alreadySelectedIds.has(q.id));
 
-    for (let cIdx = 0; cIdx < shuffledRemainingCats.length; cIdx++) {
-      if (selectedPool.length >= count) break;
-      const cat = shuffledRemainingCats[cIdx];
-      const shuffledCat = shuffleArray([...questionBank[cat]]);
-      
-      for (let qIdx = 0; qIdx < shuffledCat.length; qIdx++) {
-        if (selectedPool.length >= count) break;
-        const q = shuffledCat[qIdx];
-        if (!selectedIds.has(q.id)) {
-          selectedPool.push(q);
-          selectedIds.add(q.id);
-        }
+  // If no candidates in target category, try other selected interests
+  if (candidates.length === 0) {
+    for (let c of activeInterests) {
+      candidates = (questionBank[c] || []).filter(q => !alreadySelectedIds.has(q.id));
+      if (candidates.length > 0) {
+        targetCategory = c;
+        break;
       }
     }
   }
 
-  // Final shuffle of the combined pool to interleave questions from different categories
-  return shuffleArray(selectedPool).slice(0, count);
+  // If still no candidates, scan the entire questionBank
+  if (candidates.length === 0) {
+    const allCats = Object.keys(questionBank);
+    for (let c of allCats) {
+      candidates = (questionBank[c] || []).filter(q => !alreadySelectedIds.has(q.id));
+      if (candidates.length > 0) {
+        targetCategory = c;
+        break;
+      }
+    }
+  }
+
+  // If absolutely no questions left, reset selection check
+  if (candidates.length === 0) {
+    candidates = questionBank[activeInterests[0]] || [];
+  }
+
+  // 3. Score and rank candidates based on matching target difficulty and traits/tags
+  const scoredCandidates = candidates.map(q => {
+    let score = 0;
+    
+    // Difficulty match
+    if (q.difficulty === targetDifficulty) {
+      score += 3;
+    }
+    
+    // Trait match in scoringLogic
+    if (targetTrait && q.scoringLogic && q.scoringLogic.traits && q.scoringLogic.traits[targetTrait]) {
+      score += 2;
+    }
+
+    // Stream relevance match
+    const streamCats = streamCategoryMap[stream] || [];
+    if (streamCats.includes(q.category)) {
+      score += 1;
+    }
+
+    return { question: q, score };
+  });
+
+  // Sort candidates by score descending
+  scoredCandidates.sort((a, b) => b.score - a.score);
+
+  // Pick from the top scoring candidates (with minor randomization among top matches to keep it fresh)
+  const topScore = scoredCandidates[0] ? scoredCandidates[0].score : 0;
+  const bestCandidates = scoredCandidates.filter(c => c.score >= topScore - 1).map(c => c.question);
+
+  const selectedQuestion = bestCandidates[Math.floor(Math.random() * bestCandidates.length)] || candidates[0];
+  return selectedQuestion;
 }
+
+export function selectQuestionsForStudent(stream, interests, count = 10) {
+  const selectedPool = [];
+  const selectedIds = new Set();
+
+  for (let i = 0; i < count; i++) {
+    const nextQ = selectNextQuestion(stream, interests, selectedPool, selectedIds);
+    if (nextQ) {
+      selectedPool.push(nextQ);
+      selectedIds.add(nextQ.id);
+    }
+  }
+
+  return selectedPool;
+}
+
 
 // ─── COLLEGE MATCHING SYSTEM BY CAREERS ──────────────────────────────────────
 export function getCollegesForCareers(careerIds) {
@@ -179,13 +305,21 @@ export function getFallbackAnalysis(userProfile, lang = 'en') {
       };
     });
 
-  // 2. Generate plausible traits
-  const defaultTraits = [
-    { name: "Creativity", val: 75 + Math.floor(Math.random() * 20) },
-    { name: "Leadership", val: 70 + Math.floor(Math.random() * 20) },
-    { name: "Analytical", val: 75 + Math.floor(Math.random() * 20) },
-    { name: "Communication", val: 70 + Math.floor(Math.random() * 20) }
-  ];
+  // 2. Generate plausible traits dynamically based on actual assessment answers
+  const actualTraits = calculateTraits(userProfile.conversationHistory || []);
+  const baseTraits = {
+    Creativity: actualTraits.creativity,
+    Leadership: actualTraits.leadership,
+    Analytical: actualTraits.analytical,
+    Communication: actualTraits.communication
+  };
+
+  const defaultTraits = Object.keys(baseTraits).map(name => {
+    const rawVal = baseTraits[name.toLowerCase()] || 0;
+    // Map raw score (typically 0 to 15) to 60-98 range with minor randomization for flavor
+    const mappedVal = Math.min(98, Math.max(60, Math.floor(65 + (rawVal * 3.5) + Math.random() * 8)));
+    return { name, val: mappedVal };
+  });
 
   // 3. Generate roadmap based on first career
   const careerId = top3[0].id;
