@@ -37,9 +37,9 @@ const QuestionFlow = () => {
   };
 
   const startQuestions = () => {
-    if (selectedInterests.length > 0) {
+    if (selectedInterests.length === 3) {
       updateProfile({ interests: selectedInterests });
-      const selectedQs = selectQuestionsForStudent(userProfile.stream || 'Science', selectedInterests, 9);
+      const selectedQs = selectQuestionsForStudent(userProfile.stream || 'Science', selectedInterests, 10);
       setQuestions(selectedQs);
       setConversationHistory([]);
       setCurrentIndex(0);
@@ -109,7 +109,7 @@ const QuestionFlow = () => {
             <button 
               className="btn-primary btn-large" 
               onClick={startQuestions}
-              disabled={selectedInterests.length === 0}
+              disabled={selectedInterests.length !== 3}
             >
               {t('questions.nextStep')}
               <ChevronRight />

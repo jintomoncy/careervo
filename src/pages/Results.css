@@ -284,3 +284,57 @@
   background: var(--accent-blue-faded);
   border-color: var(--accent-blue);
 }
+
+/* Share Menu Dropdown Styling */
+.share-menu-container {
+  position: relative;
+  display: inline-block;
+}
+
+.share-dropdown {
+  position: absolute;
+  top: calc(100% + 8px);
+  right: 0;
+  z-index: 100;
+  min-width: 180px;
+  padding: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  animation: shareDropdownFadeIn 0.2s ease-out forwards;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+}
+
+.share-dropdown button {
+  width: 100%;
+  padding: 10px 16px;
+  text-align: left;
+  background: transparent;
+  color: var(--text-primary);
+  border: none;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.share-dropdown button:hover {
+  background: var(--accent-blue-faded);
+  color: var(--accent-blue);
+}
+
+@keyframes shareDropdownFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
