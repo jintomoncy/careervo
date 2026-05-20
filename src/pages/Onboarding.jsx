@@ -25,11 +25,11 @@ const Onboarding = () => {
 
     if (step === 1) {
       if (!formData.name.trim() || formData.name.trim().length < 2) {
-        setError("Please enter a valid full name.");
+        setError(lang === 'ml' ? 'ദയവായി ശരിയായ മുഴുവൻ പേര് നൽകുക.' : "Please enter a valid full name.");
         return;
       }
       if (!formData.city.trim()) {
-        setError("Please enter your city.");
+        setError(lang === 'ml' ? 'ദയവായി നിങ്ങളുടെ നഗരം നൽകുക.' : "Please enter your city.");
         return;
       }
       updateProfile({ name: formData.name, city: formData.city });
@@ -37,7 +37,7 @@ const Onboarding = () => {
       setStep(2);
     } else {
       if (!formData.stream) {
-        setError("Please select a stream to continue.");
+        setError(lang === 'ml' ? 'തുടരുന്നതിനായി ദയവായി ഒരു പഠന ശാഖ തിരഞ്ഞെടുക്കുക.' : "Please select a stream to continue.");
         return;
       }
       updateProfile({ stream: formData.stream });
@@ -46,11 +46,11 @@ const Onboarding = () => {
   };
 
   const streams = [
-    { id: 'Science', name: 'Science', desc: 'Physics, Chem, Math, Bio' },
-    { id: 'Commerce', name: 'Commerce', desc: 'Business, Accounts, Econ' },
-    { id: 'Humanities', name: 'Humanities', desc: 'History, Geo, Pol Science' },
-    { id: 'Computer Science', name: 'Computer Science', desc: 'With Math/Physics' },
-    { id: 'Arts', name: 'Arts & Design', desc: 'Fine Arts, Media' }
+    { id: 'Science', name: lang === 'ml' ? 'സയൻസ്' : 'Science', desc: lang === 'ml' ? 'ഫിസിക്സ്, കെമിസ്ട്രി, മാത്സ്, ബയോളജി' : 'Physics, Chem, Math, Bio' },
+    { id: 'Commerce', name: lang === 'ml' ? 'കോമേഴ്‌സ്' : 'Commerce', desc: lang === 'ml' ? 'ബിസിനസ്സ്, അക്കൗണ്ട്സ്, ഇക്കണോമിക്സ്' : 'Business, Accounts, Econ' },
+    { id: 'Humanities', name: lang === 'ml' ? 'ഹ്യുമാനിറ്റീസ്' : 'Humanities', desc: lang === 'ml' ? 'ചരിത്രം, ഭൂമിശാസ്ത്രം, പൊളിറ്റിക്കൽ സയൻസ്' : 'History, Geo, Pol Science' },
+    { id: 'Computer Science', name: lang === 'ml' ? 'കമ്പ്യൂട്ടർ സയൻസ്' : 'Computer Science', desc: lang === 'ml' ? 'കമ്പ്യൂട്ടർ സയൻസ്, മാത്സ്, ഫിസിക്സ്' : 'With Math/Physics' },
+    { id: 'Arts', name: lang === 'ml' ? 'ആർട്സ് & ഡിസൈൻ' : 'Arts & Design', desc: lang === 'ml' ? 'ഫൈൻ ആർട്സ്, മീഡിയ' : 'Fine Arts, Media' }
   ];
 
   return (
@@ -70,7 +70,7 @@ const Onboarding = () => {
                   <User size={18} />
                   <input 
                     type="text" 
-                    placeholder="John Doe" 
+                    placeholder={lang === 'ml' ? 'മുഴുവൻ പേര് ഇവിടെ നൽകുക' : 'John Doe'} 
                     value={formData.name}
                     onChange={e => setFormData({...formData, name: e.target.value})}
                     required 
@@ -83,7 +83,7 @@ const Onboarding = () => {
                   <MapPin size={18} />
                   <input 
                     type="text" 
-                    placeholder="Kochi" 
+                    placeholder={lang === 'ml' ? 'നഗരത്തിന്റെ പേര് നൽകുക' : 'Kochi'} 
                     value={formData.city}
                     onChange={e => setFormData({...formData, city: e.target.value})}
                     required 

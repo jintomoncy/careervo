@@ -66,9 +66,40 @@ function shuffleArray(arr) {
 }
 
 // ─── FALLBACK ANALYSIS GENERATION ───────────────────────────────────────────
-export function getFallbackAnalysis(userProfile) {
+import { careersMl } from './careerDatabase/careersMl';
+
+const categoryMapMl = {
+  "business": "ബിസിനസ്സ്",
+  "technology": "സാങ്കേതികവിദ്യ",
+  "ai": "കൃത്രിമ ബുദ്ധി (AI)",
+  "design": "ഡിസൈൻ",
+  "finance": "ധനകാര്യം",
+  "marketing": "മാർക്കറ്റിംഗ്",
+  "agriculture": "കൃഷി",
+  "sports": "കായികം",
+  "healthcare": "ആരോഗ്യ സംരക്ഷണം",
+  "psychology": "സൈക്കോളജി",
+  "media": "മാധ്യമം",
+  "law": "നിയമം",
+  "fashion": "ഫാഷൻ",
+  "entrepreneurship": "സംരംഭകത്വം",
+  "government jobs": "സർക്കാർ ജോലി",
+  "education": "വിദ്യാഭ്യാസം",
+  "hospitality": "ഹോസ്പിറ്റാലിറ്റി",
+  "aviation": "വ്യോമയാനം"
+};
+
+const traitMapMl = {
+  "creativity": "സർഗ്ഗാത്മകത",
+  "leadership": "നേതൃത്വപാടവം",
+  "analytical": "വിശകലന ശേഷി",
+  "communication": "ആശയവിനിമയ ശേഷി"
+};
+
+export function getFallbackAnalysis(userProfile, lang = 'en') {
   const selectedInterests = userProfile.interests || [];
   const stream = userProfile.stream || "";
+  const isMl = lang === 'ml';
 
   // 1. Calculate matching scores for all careers
   const scoredCareers = careerDatabase.map(career => {
@@ -97,11 +128,27 @@ export function getFallbackAnalysis(userProfile) {
     .map((item, idx) => {
       const c = item.career;
       const matchScore = 90 - idx * 4 + Math.floor(Math.random() * 5); // 88% - 94% range
+      
+      const mlCat = categoryMapMl[c.category.toLowerCase()] || c.category;
+      const mlStream = stream === "Science" ? "സയൻസ്" : stream === "Commerce" ? "കോമേഴ്‌സ്" : stream === "Humanities" ? "ഹ്യുമാനിറ്റീസ്" : stream;
+      
+      const trait1 = c.personalityMatch[0] ? (isMl ? (traitMapMl[c.personalityMatch[0].toLowerCase()] || c.personalityMatch[0]) : c.personalityMatch[0]) : "";
+      const trait2 = c.personalityMatch[1] ? (isMl ? (traitMapMl[c.personalityMatch[1].toLowerCase()] || c.personalityMatch[1]) : c.personalityMatch[1]) : "";
+      const traitsJoined = trait1 && trait2 ? `${trait1} & ${trait2}` : trait1;
+
+      const whyText = isMl
+        ? `${mlCat} മേഖലയിലുള്ള നിങ്ങളുടെ താല്പര്യവും ${mlStream || 'നിങ്ങളുടെ പഠന ശാഖ'} പശ്ചാത്തലവും അടിസ്ഥാനമാക്കി, ഈ കരിയർ നിങ്ങളുടെ വ്യക്തിത്വത്തിന് ഏറ്റവും അനുയോജ്യമാണ്. നിങ്ങളുടെ ${traitsJoined} എന്നിവ മികച്ച രീതിയിൽ ഉപയോഗിക്കാൻ ഈ കരിയർ സഹായിക്കും.`
+        : `Based on your interest in ${c.category} and your academic background in ${stream || 'your stream'}, this path offers a strong match for your personality. You demonstrated excellent ${c.personalityMatch.slice(0, 2).join(' and ')} during our evaluation.`;
+        
+      const parentWhyText = isMl
+        ? `${mlCat} മേഖലയിൽ മികച്ച തൊഴിൽ സ്ഥിരതയുള്ള ഒരു കരിയർ ആണിത്. ഇതിന്റെ ശരാശരി തുടക്ക ശമ്പളം ${c.salary} ആണ്. ആഗോളതലത്തിലുള്ള വലിയ ആവശ്യകതയും ആരോഗ്യകരമായ വർക്ക്-ലൈഫ് ബാലൻസും ഇതിനെ സുരക്ഷിതമായ തിരഞ്ഞെടുപ്പാക്കുന്നു.`
+        : `This career offers excellent long-term career stability in the ${c.category} sector with a starting average salary of ${c.salary}. High global demand and a healthy work-life balance make it a highly secure choice.`;
+
       return {
         id: c.id,
         match: matchScore,
-        why: `Based on your interest in ${c.category} and your academic background in ${stream || 'your stream'}, this path offers a strong match for your personality. You demonstrated excellent ${c.personalityMatch.slice(0, 2).join(' and ')} during our evaluation.`,
-        parentWhy: `This career offers excellent long-term career stability in the ${c.category} sector with a starting average salary of ${c.salary}. High global demand and a healthy work-life balance make it a highly secure choice.`
+        why: whyText,
+        parentWhy: parentWhyText
       };
     });
 
@@ -114,17 +161,36 @@ export function getFallbackAnalysis(userProfile) {
   ];
 
   // 3. Generate roadmap based on first career
-  const firstCareerTitle = careerDatabase.find(c => c.id === top3[0].id)?.title || "your chosen field";
-  const defaultRoadmap = [
+  const careerId = top3[0].id;
+  const firstCareerTitle = isMl 
+    ? (careersMl[careerId] || careerDatabase.find(c => c.id === careerId)?.title || "നിങ്ങളുടെ മേഖല")
+    : (careerDatabase.find(c => c.id === careerId)?.title || "your chosen field");
+
+  const defaultRoadmap = isMl ? [
+    { period: "ഘട്ടം 1: അടിസ്ഥാന വിദ്യാഭ്യാസം (Undergrad)", description: `${firstCareerTitle} അല്ലെങ്കിൽ അനുബന്ധ മേഖലയിൽ ഒരു ബിരുദം അല്ലെങ്കിൽ മികച്ച കോഴ്സ് തിരഞ്ഞെടുക്കുക. അടിസ്ഥാന തത്വങ്ങൾ പഠിക്കുന്നതിലും അക്കാദമിക് പ്രോജക്റ്റുകളിലും ശ്രദ്ധ കേന്ദ്രീകരിക്കുക.` },
+    { period: "ഘട്ടം 2: പ്രായോഗിക പരിശീലനം (Upskilling & Internships)", description: "ഈ മേഖലയിലെ പ്രധാന ടൂളുകൾ പഠിക്കുക, സ്വന്തമായി ഒരു പോർട്ട്‌ഫോളിയോ നിർമ്മിക്കുക, പ്രായോഗിക പരിചയം നേടുന്നതിനായി 2-3 മാസത്തെ ഇന്റേൺഷിപ്പ് ചെയ്യുക." },
+    { period: "ഘട്ടം 3: കരിയർ ലോഞ്ച് & സ്പെഷ്യലൈസേഷൻ", description: "പ്രൊഫഷണൽ സർട്ടിഫിക്കേഷനുകൾ നേടുക, ഇൻഡസ്ട്രി വിദഗ്ദ്ധരുമായി ബന്ധപ്പെടുക, മികച്ച തുടക്ക ജോലികൾക്കായി അപേക്ഷിക്കുക അല്ലെങ്കിൽ സ്വന്തം സ്റ്റാർട്ടപ്പ് സാധ്യതകൾ പരിശോധിക്കുക." }
+  ] : [
     { period: "Phase 1: Foundation (Undergrad)", description: `Pursue a degree or formal certification in ${firstCareerTitle} or related discipline. Focus on mastering key fundamentals and academic projects.` },
     { period: "Phase 2: Upskilling & Internships", description: "Learn industry-standard tools, build a personal portfolio website, and secure a 2-3 month internship to gain practical hands-on experience." },
     { period: "Phase 3: Launch & Specialization", description: "Obtain professional certifications, network with industry specialists, and apply for entry-level roles or explore startup opportunities." }
   ];
 
+  const firstInterest = selectedInterests[0] || 'chosen';
+  const mlInterest = isMl ? (categoryMapMl[firstInterest.toLowerCase()] || firstInterest) : firstInterest;
+
+  const workStyleText = isMl
+    ? "കൂട്ടായ പ്രവർത്തനങ്ങളിലും കൃത്യതയിലും താല്പര്യമുള്ള സ്വഭാവം. മാറിക്കൊണ്ടിരിക്കുന്ന സാങ്കേതിക-ബിസിനസ് സാഹചര്യങ്ങളുമായി വേഗത്തിൽ പൊരുത്തപ്പെടാൻ സാധിക്കുന്നു."
+    : "Collaborative, detail-oriented, and highly adaptive to changing technical and business landscapes.";
+
+  const ambitionText = isMl
+    ? `${mlInterest} മേഖലയിൽ മികച്ച സൊല്യൂഷനുകൾ കണ്ടെത്താനും, പുതിയ പ്രോജക്റ്റുകൾക്ക് നേതൃത്വം നൽകാനും, കരിയറിൽ മികച്ച വളർച്ചയും സ്ഥിരതയും കൈവരിക്കാനും ആഗ്രഹിക്കുന്നു.`
+    : `Aspires to lead innovative projects, drive creative solutions in the ${selectedInterests[0] || 'chosen'} domain, and achieve long-term professional stability.`;
+
   return {
     traits: defaultTraits,
-    workStyle: "Collaborative, detail-oriented, and highly adaptive to changing technical and business landscapes.",
-    ambition: `Aspires to lead innovative projects, drive creative solutions in the ${selectedInterests[0] || 'chosen'} domain, and achieve long-term professional stability.`,
+    workStyle: workStyleText,
+    ambition: ambitionText,
     roadmap: defaultRoadmap,
     careers: top3
   };

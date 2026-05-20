@@ -1,8 +1,11 @@
 import { Link } from 'react-router-dom';
 import { Sparkles, Globe, MessageCircle, Mail } from 'lucide-react';
+import { useLanguage } from '../context/LanguageContext';
 import './Footer.css';
 
 const Footer = () => {
+  const { t } = useLanguage();
+
   return (
     <footer className="footer">
       <div className="container footer-container">
@@ -11,9 +14,9 @@ const Footer = () => {
             <Sparkles className="logo-icon" size={24} />
             <span>Careervo</span>
           </Link>
-          <p className="footer-tagline">“Your Future. Clearly.”</p>
+          <p className="footer-tagline">{t('footer.tagline')}</p>
           <p className="footer-desc">
-            AI Career Intelligence Platform for Students. Discover the best career path based on your personality, interests, and future goals.
+            {t('footer.desc')}
           </p>
           <div className="social-links">
             <a href="#" className="social-icon"><Globe size={20} /></a>
@@ -23,28 +26,28 @@ const Footer = () => {
         </div>
 
         <div className="footer-links-group">
-          <h4>Platform</h4>
-          <Link to="/#how-it-works">How it Works</Link>
-          <Link to="/#trending">Trending Careers</Link>
-          <Link to="/#colleges">College Recommendations</Link>
-          <Link to="/login">Start Analysis</Link>
+          <h4>{t('footer.platform')}</h4>
+          <Link to="/#how-it-works">{t('footer.howItWorks')}</Link>
+          <Link to="/#trending">{t('footer.trending')}</Link>
+          <Link to="/#colleges">{t('footer.colleges')}</Link>
+          <Link to="/login">{t('footer.start')}</Link>
         </div>
 
         <div className="footer-links-group">
-          <h4>Company</h4>
-          <Link to="/about">About Us</Link>
-          <Link to="/careers">Careers</Link>
-          <Link to="/contact">Contact</Link>
+          <h4>{t('footer.company')}</h4>
+          <Link to="/about">{t('footer.about')}</Link>
+          <Link to="/careers">{t('footer.careers')}</Link>
+          <Link to="/contact">{t('footer.contact')}</Link>
         </div>
 
         <div className="footer-links-group">
-          <h4>Legal</h4>
-          <Link to="/privacy">Privacy Policy</Link>
-          <Link to="/terms">Terms of Service</Link>
+          <h4>{t('footer.legal')}</h4>
+          <Link to="/privacy">{t('footer.privacy')}</Link>
+          <Link to="/terms">{t('footer.terms')}</Link>
         </div>
       </div>
       <div className="footer-bottom">
-        <p>&copy; {new Date().getFullYear()} Careervo. All rights reserved.</p>
+        <p>&copy; {new Date().getFullYear()} Careervo. {t('footer.copyright')}</p>
       </div>
     </footer>
   );

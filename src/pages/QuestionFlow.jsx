@@ -4,6 +4,7 @@ import { BrainCircuit, Check, ChevronRight, Loader2 } from 'lucide-react';
 import { useLanguage } from '../context/LanguageContext';
 import { useUser } from '../context/UserContext';
 import { selectQuestionsForStudent } from '../lib/careerDatabase';
+import { questionsMl } from '../lib/careerDatabase/questionsMl';
 import './QuestionFlow.css';
 
 const industries = [
@@ -15,7 +16,7 @@ const industries = [
 ];
 
 const QuestionFlow = () => {
-  const { t } = useLanguage();
+  const { t, lang } = useLanguage();
   const { userProfile, updateProfile } = useUser();
   const navigate = useNavigate();
   
@@ -47,15 +48,16 @@ const QuestionFlow = () => {
     }
   };
 
-  const handleAnswer = (selectedOptionText) => {
+  const handleAnswer = (selectedOptionText, originalOptionText) => {
     const currentQ = questions[currentIndex];
     const updatedHistory = [
       ...conversationHistory,
       {
         questionId: currentQ.id,
         category: currentQ.category,
-        question: currentQ.question,
-        answer: selectedOptionText
+        question: currentQ.question, // Store English for AI reference consistency
+        answer: originalOptionText,  // Store English for consistency
+        answerMl: lang === 'ml' ? selectedOptionText : undefined
       }
     ];
 
@@ -80,6 +82,21 @@ const QuestionFlow = () => {
 
   const currentQuestionData = questions[currentIndex];
 
+  const getIndustryName = (ind) => {
+    const key = ind.toLowerCase().replace(/\s+/g, '_');
+    return t(`industries.${key}`) || ind;
+  };
+
+  const getQuestionText = (qData) => {
+    if (!qData) return '';
+    return lang === 'ml' && questionsMl[qData.id] ? questionsMl[qData.id].question : qData.question;
+  };
+
+  const getQuestionOptions = (qData) => {
+    if (!qData) return [];
+    return lang === 'ml' && questionsMl[qData.id] ? questionsMl[qData.id].options : qData.options;
+  };
+
   return (
     <div className="flow-container container">
       {phase === 'interests' && (
@@ -99,7 +116,7 @@ const QuestionFlow = () => {
                 className={`interest-card glass-panel ${selectedInterests.includes(industry) ? 'selected' : ''}`}
                 onClick={() => toggleInterest(industry)}
               >
-                {industry}
+                {getIndustryName(industry)}
                 {selectedInterests.includes(industry) && <Check size={16} className="check-icon" />}
               </div>
             ))}
@@ -128,24 +145,24 @@ const QuestionFlow = () => {
               ></div>
             </div>
             <div className="progress-text">
-              Question {currentIndex + 1} of {questions.length}
+              {t('questions.questionOf', { curr: currentIndex + 1, total: questions.length })}
             </div>
           </div>
 
           {!currentQuestionData ? (
             <div className="question-card glass-panel flex-center flex-column" style={{ minHeight: '300px' }}>
               <Loader2 size={40} className="text-accent spinner-anim" style={{ animation: 'spin 1s linear infinite' }} />
-              <p className="mt-4 text-secondary">Careervo AI is loading your questions...</p>
+              <p className="mt-4 text-secondary">{lang === 'ml' ? 'കരിയർവോ എ.ഐ ചോദ്യങ്ങൾ ലോഡ് ചെയ്യുന്നു...' : 'Careervo AI is loading your questions...'}</p>
             </div>
           ) : (
             <div className="question-card glass-panel animate-fade-in">
-              <h2 className="question-text">{currentQuestionData.question}</h2>
+              <h2 className="question-text">{getQuestionText(currentQuestionData)}</h2>
               <div className="options-list">
-                {currentQuestionData.options.map((opt, idx) => (
+                {getQuestionOptions(currentQuestionData).map((opt, idx) => (
                   <button 
                     key={idx} 
                     className="option-btn"
-                    onClick={() => handleAnswer(opt)}
+                    onClick={() => handleAnswer(opt, currentQuestionData.options[idx])}
                   >
                     <span className="option-letter">{String.fromCharCode(65 + idx)}</span>
                     {opt}

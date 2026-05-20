@@ -83,19 +83,19 @@ const Home = () => {
           <div className="stats-grid glass-panel">
             <div className="stat-item">
               <h3 className="stat-number">10,000+</h3>
-              <p className="stat-label">Students Guided</p>
+              <p className="stat-label">{t('home.studentsGuided')}</p>
             </div>
             <div className="stat-item">
               <h3 className="stat-number">500+</h3>
-              <p className="stat-label">Career Paths</p>
+              <p className="stat-label">{t('home.careerPaths')}</p>
             </div>
             <div className="stat-item">
               <h3 className="stat-number">200+</h3>
-              <p className="stat-label">Colleges Analyzed</p>
+              <p className="stat-label">{t('home.collegesAnalyzed')}</p>
             </div>
             <div className="stat-item">
               <h3 className="stat-number">98%</h3>
-              <p className="stat-label">Personalized AI Reports</p>
+              <p className="stat-label">{t('home.personalizedAiReports')}</p>
             </div>
           </div>
         </div>
@@ -105,34 +105,34 @@ const Home = () => {
       <section id="how-it-works" className="how-it-works section-padding">
         <div className="container">
           <div className="section-header text-center">
-            <h2>How Careervo Works</h2>
-            <p>Your journey to a clear future in 4 simple steps.</p>
+            <h2>{t('home.howItWorksTitle')}</h2>
+            <p>{t('home.howItWorksSub')}</p>
           </div>
           
           <div className="steps-grid">
             <div className="step-card glass-panel">
               <div className="step-number">1</div>
               <Compass className="step-icon" size={40} />
-              <h3>Choose Your Interests</h3>
-              <p>Select fields you are passionate about, from tech to arts.</p>
+              <h3>{t('home.step1Title')}</h3>
+              <p>{t('home.step1Desc')}</p>
             </div>
             <div className="step-card glass-panel">
               <div className="step-number">2</div>
               <BrainCircuit className="step-icon" size={40} />
-              <h3>Answer AI Questions</h3>
-              <p>Dynamic, conversational questions tailored just for you.</p>
+              <h3>{t('home.step2Title')}</h3>
+              <p>{t('home.step2Desc')}</p>
             </div>
             <div className="step-card glass-panel">
               <div className="step-number">3</div>
               <Target className="step-icon" size={40} />
-              <h3>Get Intelligence Report</h3>
-              <p>Receive a personalized career report with deep insights.</p>
+              <h3>{t('home.step3Title')}</h3>
+              <p>{t('home.step3Desc')}</p>
             </div>
             <div className="step-card glass-panel">
               <div className="step-number">4</div>
               <Lightbulb className="step-icon" size={40} />
-              <h3>Explore Opportunities</h3>
-              <p>Discover top colleges, real salaries, and future demand.</p>
+              <h3>{t('home.step4Title')}</h3>
+              <p>{t('home.step4Desc')}</p>
             </div>
           </div>
         </div>
@@ -142,14 +142,23 @@ const Home = () => {
       <section id="trending" className="trending section-padding bg-tertiary">
         <div className="container">
           <div className="section-header">
-            <h2>Trending Future Careers</h2>
-            <p>Discover high-growth careers that are shaping the next decade.</p>
+            <h2>{t('home.trendingTitle')}</h2>
+            <p>{t('home.trendingSub')}</p>
           </div>
           
           <div className="careers-grid">
-            {['AI & Data Science', 'Digital Marketing', 'UI/UX Design', 'Business Analytics', 'Cybersecurity', 'Finance', 'Healthcare', 'Entrepreneurship'].map((career, i) => (
+            {[
+              { label: 'AI & Data Science', key: 'ai_data_scientist' },
+              { label: 'Digital Marketing', key: 'digital_marketer' },
+              { label: 'UI/UX Design', key: 'uiux_designer' },
+              { label: 'Business Analytics', key: 'business_analyst' },
+              { label: 'Cybersecurity', key: 'cybersecurity_analyst' },
+              { label: 'Finance', key: 'financial_analyst' },
+              { label: 'Healthcare', key: 'healthcare_administrator' },
+              { label: 'Entrepreneurship', key: 'entrepreneur' }
+            ].map((career, i) => (
               <div key={i} className="career-pill glass-panel">
-                <span>{career}</span>
+                <span>{t(`careers.${career.key}`) || career.label}</span>
                 <ArrowRight size={16} />
               </div>
             ))}
@@ -161,16 +170,16 @@ const Home = () => {
       <section className="why-trust section-padding">
         <div className="container flex-center flex-column">
           <div className="section-header text-center">
-            <h2>Why Students Trust Careervo</h2>
-            <p>We combine human psychology with advanced AI intelligence.</p>
+            <h2>{t('home.whyTrustTitle')}</h2>
+            <p>{t('home.whyTrustSub')}</p>
           </div>
           <div className="features-grid">
-            <div className="feature-item"><CheckCircle2 className="text-accent" /> Personalized AI analysis</div>
-            <div className="feature-item"><CheckCircle2 className="text-accent" /> Real-world career insights</div>
-            <div className="feature-item"><CheckCircle2 className="text-accent" /> Industry trends</div>
-            <div className="feature-item"><CheckCircle2 className="text-accent" /> Future demand analysis</div>
-            <div className="feature-item"><CheckCircle2 className="text-accent" /> Parent-friendly explanations</div>
-            <div className="feature-item"><CheckCircle2 className="text-accent" /> Career roadmap generation</div>
+            <div className="feature-item"><CheckCircle2 className="text-accent" /> {t('home.feature1')}</div>
+            <div className="feature-item"><CheckCircle2 className="text-accent" /> {t('home.feature2')}</div>
+            <div className="feature-item"><CheckCircle2 className="text-accent" /> {t('home.feature3')}</div>
+            <div className="feature-item"><CheckCircle2 className="text-accent" /> {t('home.feature4')}</div>
+            <div className="feature-item"><CheckCircle2 className="text-accent" /> {t('home.feature5')}</div>
+            <div className="feature-item"><CheckCircle2 className="text-accent" /> {t('home.feature6')}</div>
           </div>
         </div>
       </section>

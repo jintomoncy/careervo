@@ -4,12 +4,14 @@ import { translations } from '../translations';
 const LanguageContext = createContext();
 
 export const LanguageProvider = ({ children }) => {
-  const [lang, setLang] = useState('en');
+  const [lang, setLang] = useState(() => {
+    return localStorage.getItem('careervo_lang') || 'en';
+  });
 
-  // Helper to access nested keys like "home.heroTitle"
   const t = (key, params = {}) => {
     const keys = key.split('.');
     let value = translations[lang];
+    if (!value) return key;
     for (let k of keys) {
       if (value[k] === undefined) return key;
       value = value[k];
@@ -24,12 +26,19 @@ export const LanguageProvider = ({ children }) => {
     return res;
   };
 
+  const handleSetLang = (newLang) => {
+    setLang(newLang);
+    localStorage.setItem('careervo_lang', newLang);
+  };
+
   const toggleLanguage = () => {
-    setLang(prev => (prev === 'en' ? 'ml' : 'en'));
+    const newLang = lang === 'en' ? 'ml' : 'en';
+    setLang(newLang);
+    localStorage.setItem('careervo_lang', newLang);
   };
 
   return (
-    <LanguageContext.Provider value={{ lang, setLang, t, toggleLanguage }}>
+    <LanguageContext.Provider value={{ lang, setLang: handleSetLang, t, toggleLanguage }}>
       {children}
     </LanguageContext.Provider>
   );

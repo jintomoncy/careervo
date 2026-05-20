@@ -9,11 +9,12 @@ import { useUser } from '../context/UserContext';
 import html2canvas from 'html2canvas';
 import jsPDF from 'jspdf';
 import { model } from '../lib/gemini';
-import { careerDatabase, getCollegesForCareers, getFallbackAnalysis } from '../lib/careerDatabase';
+import { careerDatabase, collegeDatabase, getCollegesForCareers, getFallbackAnalysis } from '../lib/careerDatabase';
+import { collegesMl } from '../lib/careerDatabase/collegesMl';
 import './Results.css';
 
 const Results = () => {
-  const { t } = useLanguage();
+  const { t, lang } = useLanguage();
   const { userProfile, updateProfile } = useUser();
   const [parentMode, setParentMode] = useState(false);
   
@@ -28,6 +29,26 @@ const Results = () => {
   const [isGenerating, setIsGenerating] = useState(!userProfile.aiResult);
 
   const pdfRef = useRef(null);
+
+  const getLocalizedCollege = (college) => {
+    if (lang !== 'ml') return { name: college.name, location: college.location };
+    
+    // Find original index in kerala
+    const kIdx = collegeDatabase.kerala.findIndex(c => c.name === college.name);
+    if (kIdx !== -1) {
+      const mlData = collegesMl[`kerala_${kIdx}`];
+      return mlData ? { name: mlData.name, location: mlData.location } : { name: college.name, location: college.location };
+    }
+    
+    // Find original index in india
+    const iIdx = collegeDatabase.india.findIndex(c => c.name === college.name);
+    if (iIdx !== -1) {
+      const mlData = collegesMl[`india_${iIdx}`];
+      return mlData ? { name: mlData.name, location: mlData.location } : { name: college.name, location: college.location };
+    }
+    
+    return { name: college.name, location: college.location };
+  };
 
   useEffect(() => {
     const generateAnalysis = async () => {
@@ -45,6 +66,10 @@ const Results = () => {
           streams: c.streams
         }));
 
+        const languageInstruction = lang === 'ml'
+          ? `IMPORTANT: The user has selected Malayalam language. You MUST generate all explanatory and descriptive text values (specifically: "workStyle", "ambition", "roadmap[].description", "careers[].why", and "careers[].parentWhy") in fluent, warm, professional, natural Malayalam language. Do NOT use literal machine translations. Keep all JSON keys in English.`
+          : `IMPORTANT: Write all explanation fields ("workStyle", "ambition", "roadmap[].description", "careers[].why", and "careers[].parentWhy") in English.`;
+
         const prompt = `
         You are Careervo AI, an expert career counselor. Analyze the following student profile and question responses to select the top 3 recommended careers from our database.
 
@@ -57,6 +82,8 @@ const Results = () => {
 
         Choose exactly 3 recommended careers from this matching catalog (match using the ID):
         ${JSON.stringify(compactCareers)}
+
+        ${languageInstruction}
 
         Provide the response strictly as a JSON object with this exact structure (no markdown codeblock wrappers, no backticks):
         {
@@ -102,7 +129,7 @@ const Results = () => {
       } catch (error) {
         console.error("Failed to generate results, using local database fallback...", error);
         try {
-          const fallbackData = getFallbackAnalysis(userProfile);
+          const fallbackData = getFallbackAnalysis(userProfile, lang);
           setAiData(fallbackData);
           updateProfile({ aiResult: fallbackData });
         } catch (fallbackError) {
@@ -253,12 +280,12 @@ const Results = () => {
             onClick={() => setParentMode(!parentMode)}
           >
             <Users size={18} />
-            {parentMode ? (t('results.exitParents') || "Exit Parent Mode") : (t('results.explainParents') || "Explain for Parents")}
+        {parentMode ? (t('results.exitParents') || "Exit Parent Mode") : (t('results.explainParents') || "Explain for Parents")}
           </button>
           
           <button className="btn-secondary" onClick={exportPNG} disabled={isExporting}>
             <Image size={18} />
-            {isExporting && exportType === 'png' ? 'Exporting...' : 'Export PNG'}
+            {isExporting && exportType === 'png' ? 'Exporting...' : (t('results.exportPng') || 'Export PNG')}
           </button>
           
           <button className="btn-primary" onClick={exportPDF} disabled={isExporting}>
@@ -269,16 +296,16 @@ const Results = () => {
           <div className="share-menu-container">
             <button className="btn-secondary share-btn" onClick={() => setShowShareMenu(!showShareMenu)}>
               <Share2 size={18} />
-              Share
+              {t('results.share') || "Share"}
             </button>
             {showShareMenu && (
               <div className="share-dropdown glass-panel">
-                <button onClick={() => handleShare('whatsapp')}>WhatsApp</button>
-                <button onClick={() => handleShare('linkedin')}>LinkedIn</button>
-                <button onClick={() => handleShare('twitter')}>Twitter / X</button>
-                <button onClick={() => handleShare('facebook')}>Facebook</button>
+                <button onClick={() => handleShare('whatsapp')}>{lang === 'ml' ? 'വാട്സാപ്പ്' : 'WhatsApp'}</button>
+                <button onClick={() => handleShare('linkedin')}>{lang === 'ml' ? 'ലിങ്ക്ഡ്ഇൻ' : 'LinkedIn'}</button>
+                <button onClick={() => handleShare('twitter')}>{lang === 'ml' ? 'ട്വിറ്റർ / X' : 'Twitter / X'}</button>
+                <button onClick={() => handleShare('facebook')}>{lang === 'ml' ? 'ഫേസ്ബുക്ക്' : 'Facebook'}</button>
                 <button onClick={() => handleShare('copy')} className="flex-between">
-                  {copied ? 'Copied!' : 'Copy Link'}
+                  {copied ? (lang === 'ml' ? 'കോപ്പി ചെയ്തു!' : 'Copied!') : (lang === 'ml' ? 'ലിങ്ക് കോപ്പി ചെയ്യുക' : 'Copy Link')}
                   {copied ? <Check size={14} className="text-success" /> : <Link size={14} />}
                 </button>
               </div>
@@ -291,35 +318,40 @@ const Results = () => {
         {/* Left Column */}
         <div className="grid-left">
           <div className="glass-panel profile-card animate-fade-in delay-100">
-            <h3>{t('results.personality') || "Personality Insights"}</h3>
+            <h3>{t('results.personality') || "Personality Profile"}</h3>
             <div className="traits-list">
-              {aiData.traits?.map(t => (
-                <div key={t.name} className="trait-item">
+              {aiData.traits?.map(tTrait => (
+                <div key={tTrait.name} className="trait-item">
                   <div className="trait-header">
-                    <span>{t.name}</span>
-                    <span>{t.val}%</span>
+                    <span>{t(`results.traits.${tTrait.name.toLowerCase()}`) || tTrait.name}</span>
+                    <span>{tTrait.val}%</span>
                   </div>
-                  <div className="progress-bar"><div className="fill" style={{ width: `${t.val}%` }}></div></div>
+                  <div className="progress-bar"><div className="fill" style={{ width: `${tTrait.val}%` }}></div></div>
                 </div>
               ))}
             </div>
-            <div className="profile-summary mt-4">
-              <p className="mb-2"><strong>{t('results.workStyle') || "Work Style"}:</strong> {aiData.workStyle}</p>
-              <p><strong>{t('results.ambition') || "Ambition"}:</strong> {aiData.ambition}</p>
+          </div>
+
+          <div className="glass-panel behavior-card animate-fade-in delay-150 mt-6">
+            <div className="behavior-section">
+              <h4>{t('results.workStyle') || "Work Style"}</h4>
+              <p className="text-secondary">{aiData.workStyle}</p>
+            </div>
+            <div className="behavior-section mt-6">
+              <h4>{t('results.ambition') || "Ambition Type"}</h4>
+              <p className="text-secondary">{aiData.ambition}</p>
             </div>
           </div>
 
-          <div className="glass-panel roadmap-card animate-fade-in delay-300">
-            <h3>{t('results.roadmap') || "Actionable Career Roadmap"}</h3>
-            <div className="timeline">
+          <div className="glass-panel roadmap-card animate-fade-in delay-200 mt-6">
+            <h3>{t('results.roadmap') || "Your Action Roadmap"}</h3>
+            <div className="roadmap-timeline">
               {aiData.roadmap?.map((step, idx) => (
-                <div key={idx} className="timeline-item">
-                  <div className="timeline-icon">
-                    {idx === 0 ? <CheckCircle2 size={16} /> : idx === 1 ? <Award size={16} /> : <Briefcase size={16} />}
-                  </div>
-                  <div className="timeline-content">
+                <div key={idx} className="roadmap-step">
+                  <div className="step-num">{idx + 1}</div>
+                  <div className="step-content">
                     <h4>{step.period}</h4>
-                    <p>{step.description}</p>
+                    <p className="text-secondary">{step.description}</p>
                   </div>
                 </div>
               ))}
@@ -336,9 +368,9 @@ const Results = () => {
                 <div className="career-header flex-between">
                   <div className="career-title-group">
                     <TrendingUp className="text-accent" />
-                    <h3>{career.title}</h3>
+                    <h3>{lang === 'ml' ? (t(`careers.${career.id}`) || career.title) : career.title}</h3>
                   </div>
-                  <div className="match-badge">{t('results.matchBadge', { score: career.match || 90 }) || `${career.match || 90}% Match`}</div>
+                  <div className="match-badge">{t('results.matchBadge', { score: career.match || 90 })}</div>
                 </div>
 
                 <p className="career-why">
@@ -348,27 +380,27 @@ const Results = () => {
                 <div className="career-stats-grid">
                   <div className="stat-box">
                     <span className="stat-label">{t('results.salary') || "Salary Range"}</span>
-                    <span className="stat-val">{career.salary}</span>
+                    <span className="stat-val">{career.salary ? career.salary.replace(' / year', ' ' + t('terms.perYear')).replace('total', t('terms.total')) : ''}</span>
                   </div>
                   <div className="stat-box">
-                    <span className="stat-label">Future Scope</span>
-                    <span className="stat-val text-success">{career.futureScope}</span>
+                    <span className="stat-label">{t('results.futureScope') || "Future Scope"}</span>
+                    <span className="stat-val text-success">{t(`terms.${career.futureScope}`) || career.futureScope}</span>
                   </div>
                   <div className="stat-box">
                     <span className="stat-label">{t('results.aiRisk') || "AI Replacement Risk"}</span>
-                    <span className="stat-val text-accent">{career.aiRisk}</span>
+                    <span className="stat-val text-accent">{t(`terms.${career.aiRisk}`) || career.aiRisk}</span>
                   </div>
                   <div className="stat-box">
-                    <span className="stat-label">Global Demand</span>
-                    <span className="stat-val">{career.globalDemand}</span>
+                    <span className="stat-label">{t('results.globalDemand') || "Global Demand"}</span>
+                    <span className="stat-val">{t(`terms.${career.globalDemand}`) || career.globalDemand}</span>
                   </div>
                   <div className="stat-box">
-                    <span className="stat-label">Work-Life Balance</span>
-                    <span className="stat-val">{career.workLifeBalance}</span>
+                    <span className="stat-label">{t('results.workLifeBalance') || "Work-Life Balance"}</span>
+                    <span className="stat-val">{t(`terms.${career.workLifeBalance}`) || career.workLifeBalance}</span>
                   </div>
                   <div className="stat-box">
-                    <span className="stat-label">Startup Potential</span>
-                    <span className="stat-val text-success">{career.startupPotential}</span>
+                    <span className="stat-label">{t('results.startupPotential') || "Startup Potential"}</span>
+                    <span className="stat-val text-success">{t(`terms.${career.startupPotential}`) || career.startupPotential}</span>
                   </div>
                 </div>
               </div>
@@ -376,60 +408,66 @@ const Results = () => {
           </div>
 
           {/* Colleges Sections */}
-          <h2 className="section-title mt-8">Recommended Kerala Colleges</h2>
+          <h2 className="section-title mt-8">{t('results.collegesKerala') || "Recommended Kerala Colleges"}</h2>
           <div className="colleges-grid animate-fade-in delay-300">
-            {(showAllKerala ? matchedColleges.kerala : matchedColleges.kerala.slice(0, 3))?.map((college, idx) => (
-              <div key={idx} className="college-card glass-panel">
-                <div className="college-info">
-                  <h4>{college.name}</h4>
-                  <div className="college-meta">
-                    <span><MapPin size={14} /> {college.location}</span>
-                    <span><Building size={14} /> {college.category} | {t('results.fees') || "Fees"}: {college.fees}</span>
+            {(showAllKerala ? matchedColleges.kerala : matchedColleges.kerala.slice(0, 3))?.map((college, idx) => {
+              const localizedCol = getLocalizedCollege(college);
+              return (
+                <div key={idx} className="college-card glass-panel">
+                  <div className="college-info">
+                    <h4>{localizedCol.name}</h4>
+                    <div className="college-meta">
+                      <span><MapPin size={14} /> {localizedCol.location}</span>
+                      <span><Building size={14} /> {(college.category === "Government" ? (lang === 'ml' ? 'ഗവൺമെന്റ്' : 'Government') : (lang === 'ml' ? 'പ്രൈവറ്റ്' : 'Private'))} | {t('results.fees') || "Fees"}: {college.fees ? college.fees.replace(' / year', ' ' + t('terms.perYear')).replace('total', t('terms.total')) : ''}</span>
+                    </div>
                   </div>
+                  <div className="college-stats">
+                    <div className="stat"><span>{lang === 'ml' ? 'ശരാശരി പാക്കേജ്' : 'Average Package'}</span><strong>{college.avgPackage}</strong></div>
+                    <div className="stat"><span>{lang === 'ml' ? 'ഉയർന്ന പാക്കേജ്' : 'Highest Package'}</span><strong>{college.highestPackage}</strong></div>
+                  </div>
+                  <a href={college.website} target="_blank" rel="noreferrer" className="btn-secondary w-full mt-4 flex-center" style={{ padding: '8px', fontSize: '0.85rem' }}>
+                    {lang === 'ml' ? 'വെബ്സൈറ്റ് സന്ദർശിക്കുക' : 'Visit Website'} <ExternalLink size={14} style={{ marginLeft: '6px' }} />
+                  </a>
                 </div>
-                <div className="college-stats">
-                  <div className="stat"><span>Average Package</span><strong>{college.avgPackage}</strong></div>
-                  <div className="stat"><span>Highest Package</span><strong>{college.highestPackage}</strong></div>
-                </div>
-                <a href={college.website} target="_blank" rel="noreferrer" className="btn-secondary w-full mt-4 flex-center" style={{ padding: '8px', fontSize: '0.85rem' }}>
-                  Visit Website <ExternalLink size={14} style={{ marginLeft: '6px' }} />
-                </a>
-              </div>
-            ))}
+              );
+            })}
           </div>
           {matchedColleges.kerala.length > 3 && (
             <div className="text-center mt-4 mb-4">
               <button className="see-more-btn" onClick={() => setShowAllKerala(!showAllKerala)}>
-                {showAllKerala ? 'See Less' : 'See More Kerala Colleges'} <ChevronDown size={16} style={{ transform: showAllKerala ? 'rotate(180deg)' : 'none', transition: '0.3s' }} />
+                {showAllKerala ? (lang === 'ml' ? 'കുറച്ചു കാണിക്കുക' : 'See Less') : (lang === 'ml' ? 'കൂടുതൽ കേരളത്തിലെ കോളേജുകൾ കാണുക' : 'See More Kerala Colleges')} <ChevronDown size={16} style={{ transform: showAllKerala ? 'rotate(180deg)' : 'none', transition: '0.3s' }} />
               </button>
             </div>
           )}
 
-          <h2 className="section-title mt-8">Recommended National Colleges (India)</h2>
+          <h2 className="section-title mt-8">{t('results.collegesIndia') || "Recommended National Colleges (India)"}</h2>
           <div className="colleges-grid animate-fade-in delay-300">
-            {(showAllIndia ? matchedColleges.india : matchedColleges.india.slice(0, 3))?.map((college, idx) => (
-              <div key={idx} className="college-card glass-panel">
-                <div className="college-info">
-                  <h4>{college.name}</h4>
-                  <div className="college-meta">
-                    <span><MapPin size={14} /> {college.location}</span>
-                    <span><Building size={14} /> {college.category} | {t('results.fees') || "Fees"}: {college.fees}</span>
+            {(showAllIndia ? matchedColleges.india : matchedColleges.india.slice(0, 3))?.map((college, idx) => {
+              const localizedCol = getLocalizedCollege(college);
+              return (
+                <div key={idx} className="college-card glass-panel">
+                  <div className="college-info">
+                    <h4>{localizedCol.name}</h4>
+                    <div className="college-meta">
+                      <span><MapPin size={14} /> {localizedCol.location}</span>
+                      <span><Building size={14} /> {(college.category === "Government" ? (lang === 'ml' ? 'ഗവൺമെന്റ്' : 'Government') : (lang === 'ml' ? 'പ്രൈവറ്റ്' : 'Private'))} | {t('results.fees') || "Fees"}: {college.fees ? college.fees.replace(' / year', ' ' + t('terms.perYear')).replace('total', t('terms.total')) : ''}</span>
+                    </div>
                   </div>
+                  <div className="college-stats">
+                    <div className="stat"><span>{lang === 'ml' ? 'ശരാശരി പാക്കേജ്' : 'Average Package'}</span><strong>{college.avgPackage}</strong></div>
+                    <div className="stat"><span>{lang === 'ml' ? 'ഉയർന്ന പാക്കേജ്' : 'Highest Package'}</span><strong>{college.highestPackage}</strong></div>
+                  </div>
+                  <a href={college.website} target="_blank" rel="noreferrer" className="btn-secondary w-full mt-4 flex-center" style={{ padding: '8px', fontSize: '0.85rem' }}>
+                    {lang === 'ml' ? 'വെബ്സൈറ്റ് സന്ദർശിക്കുക' : 'Visit Website'} <ExternalLink size={14} style={{ marginLeft: '6px' }} />
+                  </a>
                 </div>
-                <div className="college-stats">
-                  <div className="stat"><span>Average Package</span><strong>{college.avgPackage}</strong></div>
-                  <div className="stat"><span>Highest Package</span><strong>{college.highestPackage}</strong></div>
-                </div>
-                <a href={college.website} target="_blank" rel="noreferrer" className="btn-secondary w-full mt-4 flex-center" style={{ padding: '8px', fontSize: '0.85rem' }}>
-                  Visit Website <ExternalLink size={14} style={{ marginLeft: '6px' }} />
-                </a>
-              </div>
-            ))}
+              );
+            })}
           </div>
           {matchedColleges.india.length > 3 && (
             <div className="text-center mt-4 mb-8">
               <button className="see-more-btn" onClick={() => setShowAllIndia(!showAllIndia)}>
-                {showAllIndia ? 'See Less' : 'See More India Colleges'} <ChevronDown size={16} style={{ transform: showAllIndia ? 'rotate(180deg)' : 'none', transition: '0.3s' }} />
+                {showAllIndia ? (lang === 'ml' ? 'കുറച്ചു കാണിക്കുക' : 'See Less') : (lang === 'ml' ? 'കൂടുതൽ ഇന്ത്യയിലെ കോളേജുകൾ കാണുക' : 'See More India Colleges')} <ChevronDown size={16} style={{ transform: showAllIndia ? 'rotate(180deg)' : 'none', transition: '0.3s' }} />
               </button>
             </div>
           )}
@@ -444,43 +482,43 @@ const Results = () => {
             <div className="pdf-header">
               <div className="pdf-logo">
                 <BrainCircuit size={24} className="text-accent" />
-                <span>Careervo AI Guidance</span>
+                <span>{t('pdf.brandName') || "Careervo AI Guidance"}</span>
               </div>
               <div className="pdf-date">{new Date().toLocaleDateString('en-IN')}</div>
             </div>
             
             <div className="pdf-body">
               <div className="pdf-hero">
-                <h1 className="pdf-main-title">CAREER PATHWAY ANALYSIS</h1>
-                <p className="pdf-sub-title">Personalized Assessment Report for Students</p>
+                <h1 className="pdf-main-title">{t('pdf.reportTitle') || "CAREER PATHWAY ANALYSIS"}</h1>
+                <p className="pdf-sub-title">{t('pdf.reportSub') || "Personalized Assessment Report for Students"}</p>
               </div>
               
               <div className="pdf-section pdf-meta-grid">
                 <div className="pdf-meta-item">
-                  <span className="pdf-meta-label">STUDENT NAME</span>
+                  <span className="pdf-meta-label">{t('pdf.studentName') || "STUDENT NAME"}</span>
                   <span className="pdf-meta-val">{userProfile.name || 'Student'}</span>
                 </div>
                 <div className="pdf-meta-item">
-                  <span className="pdf-meta-label">ACADEMIC STREAM</span>
-                  <span className="pdf-meta-val">{userProfile.stream || 'Science'}</span>
+                  <span className="pdf-meta-label">{t('pdf.academicStream') || "ACADEMIC STREAM"}</span>
+                  <span className="pdf-meta-val">{userProfile.stream === 'Science' ? (lang === 'ml' ? 'സയൻസ്' : 'Science') : userProfile.stream === 'Commerce' ? (lang === 'ml' ? 'കോമേഴ്‌സ്' : 'Commerce') : (lang === 'ml' ? 'ഹ്യുമാനിറ്റീസ്' : 'Humanities')}</span>
                 </div>
                 <div className="pdf-meta-item">
-                  <span className="pdf-meta-label">INTEREST FOCUS</span>
-                  <span className="pdf-meta-val">{userProfile.interests?.join(", ") || 'General'}</span>
+                  <span className="pdf-meta-label">{t('pdf.interestFocus') || "EVALUATION FOCUS"}</span>
+                  <span className="pdf-meta-val">{userProfile.interests?.map(i => t('industries.' + i.toLowerCase().replace(/\s+/g, '_')) || i).join(", ") || 'General'}</span>
                 </div>
               </div>
 
               <div className="pdf-section" style={{ marginTop: '24px' }}>
-                <h2 className="pdf-section-title">Cognitive & Personality Profile</h2>
+                <h2 className="pdf-section-title">{t('pdf.cognitiveProfile') || "Cognitive & Personality Profile"}</h2>
                 <div className="pdf-traits-grid">
-                  {aiData.traits?.map(t => (
-                    <div key={t.name} className="pdf-trait-card">
+                  {aiData.traits?.map(tTrait => (
+                    <div key={tTrait.name} className="pdf-trait-card">
                       <div className="pdf-trait-header">
-                        <span className="pdf-trait-name">{t.name}</span>
-                        <span className="pdf-trait-score">{t.val}%</span>
+                        <span className="pdf-trait-name">{t(`results.traits.${tTrait.name.toLowerCase()}`) || tTrait.name}</span>
+                        <span className="pdf-trait-score">{tTrait.val}%</span>
                       </div>
                       <div className="pdf-trait-bar">
-                        <div className="pdf-trait-bar-fill" style={{ width: `${t.val}%` }}></div>
+                        <div className="pdf-trait-bar-fill" style={{ width: `${tTrait.val}%` }}></div>
                       </div>
                     </div>
                   ))}
@@ -488,17 +526,17 @@ const Results = () => {
               </div>
 
               <div className="pdf-section" style={{ marginTop: '24px' }}>
-                <h2 className="pdf-section-title">Behavioral Evaluation</h2>
+                <h2 className="pdf-section-title">{t('pdf.behavioralEvaluation') || "Behavioral Evaluation"}</h2>
                 <div className="pdf-behavior-box">
-                  <p><strong>Work Style: </strong>{aiData.workStyle}</p>
-                  <p style={{ marginTop: '12px' }}><strong>Ambition & Alignment: </strong>{aiData.ambition}</p>
+                  <p><strong>{lang === 'ml' ? 'ജോലി രീതി' : 'Work Style'}: </strong>{aiData.workStyle}</p>
+                  <p style={{ marginTop: '12px' }}><strong>{lang === 'ml' ? 'ലക്ഷ്യം & യോജിപ്പ്' : 'Ambition & Alignment'}: </strong>{aiData.ambition}</p>
                 </div>
               </div>
             </div>
             
             <div className="pdf-footer">
               <span>© {new Date().getFullYear()} Careervo. All rights reserved.</span>
-              <span>Page 1 of 3</span>
+              <span>{t('pdf.pageOf', { curr: 1, total: 3 })}</span>
             </div>
           </div>
 
@@ -507,42 +545,42 @@ const Results = () => {
             <div className="pdf-header">
               <div className="pdf-logo">
                 <BrainCircuit size={24} className="text-accent" />
-                <span>Careervo AI Guidance</span>
+                <span>{t('pdf.brandName') || "Careervo AI Guidance"}</span>
               </div>
               <div className="pdf-date">{new Date().toLocaleDateString('en-IN')}</div>
             </div>
             
             <div className="pdf-body">
-              <h2 className="pdf-page-title">Top Recommended Career Paths</h2>
+              <h2 className="pdf-page-title">{t('pdf.topRecommended') || "Top Recommended Career Paths"}</h2>
               <div className="pdf-careers-container">
                 {enrichedCareers.slice(0, 3).map((career, index) => (
                   <div key={career.id || index} className="pdf-career-card">
                     <div className="pdf-career-header">
                       <div className="pdf-career-title-group">
                         <span className="pdf-career-rank">#{index + 1}</span>
-                        <h3 className="pdf-career-title">{career.title}</h3>
+                        <h3 className="pdf-career-title">{lang === 'ml' ? (t(`careers.${career.id}`) || career.title) : career.title}</h3>
                       </div>
-                      <span className="pdf-career-badge">{career.match || 90}% Match</span>
+                      <span className="pdf-career-badge">{t('results.matchBadge', { score: career.match || 90 })}</span>
                     </div>
                     <p className="pdf-career-desc">
                       {parentMode ? career.parentWhy : career.why}
                     </p>
                     <div className="pdf-career-metrics">
                       <div className="pdf-metric-box">
-                        <span className="pdf-metric-label">Salary Range</span>
-                        <span className="pdf-metric-val" style={{ fontSize: '0.75rem' }}>{career.salary}</span>
+                        <span className="pdf-metric-label">{t('results.salary') || "Salary Range"}</span>
+                        <span className="pdf-metric-val" style={{ fontSize: '0.75rem' }}>{career.salary ? career.salary.replace(' / year', ' ' + t('terms.perYear')).replace('total', t('terms.total')) : ''}</span>
                       </div>
                       <div className="pdf-metric-box">
-                        <span className="pdf-metric-label">Future Scope</span>
-                        <span className="pdf-metric-val" style={{ color: '#059669', fontSize: '0.75rem' }}>{career.futureScope}</span>
+                        <span className="pdf-metric-label">{t('results.futureScope') || "Future Scope"}</span>
+                        <span className="pdf-metric-val" style={{ color: '#059669', fontSize: '0.75rem' }}>{t(`terms.${career.futureScope}`) || career.futureScope}</span>
                       </div>
                       <div className="pdf-metric-box">
-                        <span className="pdf-metric-label">AI Risk</span>
-                        <span className="pdf-metric-val" style={{ color: '#ef4444', fontSize: '0.75rem' }}>{career.aiRisk}</span>
+                        <span className="pdf-metric-label">{t('results.aiRisk') || "AI Risk"}</span>
+                        <span className="pdf-metric-val" style={{ color: '#ef4444', fontSize: '0.75rem' }}>{t(`terms.${career.aiRisk}`) || career.aiRisk}</span>
                       </div>
                       <div className="pdf-metric-box">
-                        <span className="pdf-metric-label">Global Demand</span>
-                        <span className="pdf-metric-val" style={{ fontSize: '0.75rem' }}>{career.globalDemand}</span>
+                        <span className="pdf-metric-label">{t('results.globalDemand') || "Global Demand"}</span>
+                        <span className="pdf-metric-val" style={{ fontSize: '0.75rem' }}>{t(`terms.${career.globalDemand}`) || career.globalDemand}</span>
                       </div>
                     </div>
                   </div>
@@ -552,7 +590,7 @@ const Results = () => {
             
             <div className="pdf-footer">
               <span>© {new Date().getFullYear()} Careervo. All rights reserved.</span>
-              <span>Page 2 of 3</span>
+              <span>{t('pdf.pageOf', { curr: 2, total: 3 })}</span>
             </div>
           </div>
 
@@ -561,14 +599,14 @@ const Results = () => {
             <div className="pdf-header">
               <div className="pdf-logo">
                 <BrainCircuit size={24} className="text-accent" />
-                <span>Careervo AI Guidance</span>
+                <span>{t('pdf.brandName') || "Careervo AI Guidance"}</span>
               </div>
               <div className="pdf-date">{new Date().toLocaleDateString('en-IN')}</div>
             </div>
             
             <div className="pdf-body pdf-split-body">
               <div className="pdf-body-left">
-                <h2 className="pdf-section-title">Execution Roadmap</h2>
+                <h2 className="pdf-section-title">{t('pdf.executionRoadmap') || "Execution Roadmap"}</h2>
                 <div className="pdf-roadmap-timeline">
                   {aiData.roadmap?.map((step, idx) => (
                     <div key={idx} className="pdf-roadmap-item">
@@ -583,33 +621,39 @@ const Results = () => {
               </div>
               
               <div className="pdf-body-right">
-                <h2 className="pdf-section-title">Recommended Institutions</h2>
+                <h2 className="pdf-section-title">{t('pdf.recommendedColleges') || "Recommended Institutions"}</h2>
                 
-                <h3 className="pdf-sub-section-title">Kerala Colleges</h3>
+                <h3 className="pdf-sub-section-title">{t('pdf.keralaColleges') || "Kerala Colleges"}</h3>
                 <div className="pdf-colleges-list">
-                  {matchedColleges.kerala.slice(0, 3).map((college, idx) => (
-                    <div key={idx} className="pdf-college-row">
-                      <span className="pdf-college-name">{college.name}</span>
-                      <span className="pdf-college-details">{college.location} | Avg Pkg: {college.avgPackage}</span>
-                    </div>
-                  ))}
+                  {matchedColleges.kerala.slice(0, 3).map((college, idx) => {
+                    const localizedCol = getLocalizedCollege(college);
+                    return (
+                      <div key={idx} className="pdf-college-row">
+                        <span className="pdf-college-name">{localizedCol.name}</span>
+                        <span className="pdf-college-details">{localizedCol.location} | {lang === 'ml' ? 'ശരാശരി പാക്കേജ്' : 'Avg Pkg'}: {college.avgPackage}</span>
+                      </div>
+                    );
+                  })}
                 </div>
                 
-                <h3 className="pdf-sub-section-title" style={{ marginTop: '16px' }}>National Colleges</h3>
+                <h3 className="pdf-sub-section-title" style={{ marginTop: '16px' }}>{t('pdf.nationalColleges') || "National Colleges"}</h3>
                 <div className="pdf-colleges-list">
-                  {matchedColleges.india.slice(0, 3).map((college, idx) => (
-                    <div key={idx} className="pdf-college-row">
-                      <span className="pdf-college-name">{college.name}</span>
-                      <span className="pdf-college-details">{college.location} | Avg Pkg: {college.avgPackage}</span>
-                    </div>
-                  ))}
+                  {matchedColleges.india.slice(0, 3).map((college, idx) => {
+                    const localizedCol = getLocalizedCollege(college);
+                    return (
+                      <div key={idx} className="pdf-college-row">
+                        <span className="pdf-college-name">{localizedCol.name}</span>
+                        <span className="pdf-college-details">{localizedCol.location} | {lang === 'ml' ? 'ശരാശരി പാക്കേജ്' : 'Avg Pkg'}: {college.avgPackage}</span>
+                      </div>
+                    );
+                  })}
                 </div>
               </div>
             </div>
             
             <div className="pdf-footer">
               <span>© {new Date().getFullYear()} Careervo. All rights reserved.</span>
-              <span>Page 3 of 3</span>
+              <span>{t('pdf.pageOf', { curr: 3, total: 3 })}</span>
             </div>
           </div>
         </div>

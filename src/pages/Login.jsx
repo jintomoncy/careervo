@@ -157,7 +157,7 @@ const Login = () => {
               {error && <div className="auth-error animate-fade-in">{error}</div>}
               
               <button type="submit" className="btn-primary w-full mt-4" disabled={loading || formData.otp.length !== 6}>
-                {loading ? t('auth.verifying') || 'Verifying...' : 'Verify & Login'}
+                {loading ? t('auth.verifying') || 'Verifying...' : (t('auth.verifyLogin') || 'Verify & Login')}
                 {!loading && <ArrowRight size={18} />}
               </button>
             </form>
@@ -169,7 +169,7 @@ const Login = () => {
                 onClick={() => setStep('input')}
               >
                 <RefreshCw size={14} />
-                Change Method or Resend
+                {t('auth.changeOrResend') || 'Change Method or Resend'}
               </button>
             </div>
           </div>
