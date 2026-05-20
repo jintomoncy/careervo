@@ -63,3 +63,49 @@
     top: 12px;
   }
 }
+
+@media (max-width: 600px) {
+  .navbar {
+    margin: 6px 12px;
+    top: 6px;
+    padding: 6px 0;
+  }
+  
+  .navbar-container {
+    padding: 0 12px;
+    gap: 8px;
+  }
+
+  .navbar-logo {
+    font-size: 1.2rem;
+    gap: 4px;
+  }
+
+  .logo-icon {
+    width: 18px;
+    height: 18px;
+  }
+
+  .navbar-actions {
+    gap: 6px;
+  }
+
+  .navbar-actions .lang-toggle {
+    padding: 6px 10px;
+    font-size: 0.8rem;
+    gap: 4px;
+    border-radius: 8px;
+  }
+  
+  .navbar-actions .lang-toggle svg {
+    width: 14px;
+    height: 14px;
+  }
+
+  .navbar-actions .btn-primary {
+    padding: 6px 12px;
+    font-size: 0.8rem;
+    border-radius: 8px;
+    white-space: nowrap;
+  }
+}

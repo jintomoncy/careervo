@@ -209,3 +209,19 @@
 .resend-btn:hover {
   color: var(--accent-blue);
 }
+
+@media (max-width: 480px) {
+  .auth-page {
+    padding: 20px 12px;
+  }
+  .auth-card {
+    padding: 24px 16px;
+    border-radius: 16px;
+  }
+  .auth-header h2 {
+    font-size: 1.4rem;
+  }
+  .stream-card {
+    padding: 16px 12px;
+  }
+}

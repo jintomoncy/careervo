@@ -300,42 +300,32 @@ const Results = () => {
       t('questions.step3') || "Generating intelligence report"
     ];
     return (
-      <div className="results-dashboard container flex-center flex-column" style={{ minHeight: '60vh', padding: '40px 20px' }}>
+      <div className="ai-loading-container container flex-center flex-column animate-fade-in">
         <div className="ai-spinner mb-6">
           <BrainCircuit size={72} className="text-accent pulse-anim spin-slow" />
         </div>
-        <h2 className="text-center font-bold" style={{ fontSize: '1.8rem', color: 'var(--text-primary)' }}>{loaderTitle}</h2>
-        <p className="text-secondary text-center mt-2" style={{ maxWidth: '480px', fontSize: '1rem', lineHeight: '1.6' }}>{loaderSub}</p>
+        <h2 className="ai-loading-title">{loaderTitle}</h2>
+        <p className="ai-loading-sub">{loaderSub}</p>
         
-        <div className="loading-steps-indicator mt-8 flex flex-column gap-3 w-full" style={{ maxWidth: '380px' }}>
+        <div className="loading-steps-indicator">
           {steps.map((stepText, idx) => {
             const stepNum = idx + 1;
             const isActive = loadingStep === stepNum;
             const isCompleted = loadingStep > stepNum;
+            
+            let statusClass = "pending";
+            if (isActive) statusClass = "active";
+            else if (isCompleted) statusClass = "completed";
+
             return (
               <div 
                 key={idx} 
-                className="loading-step-row flex items-center gap-3 p-3 rounded-lg border transition-all"
-                style={{ 
-                  borderColor: isActive ? 'var(--accent-blue)' : 'var(--border-light)',
-                  backgroundColor: isActive ? 'var(--bg-tertiary)' : 'var(--bg-secondary)',
-                  opacity: isActive || isCompleted ? 1 : 0.5,
-                  boxShadow: isActive ? 'var(--shadow-sm)' : 'none'
-                }}
+                className={`loading-step-row ${statusClass}`}
               >
-                <div 
-                  className="step-dot flex-center rounded-full font-semibold" 
-                  style={{ 
-                    width: '28px', 
-                    height: '28px', 
-                    fontSize: '0.85rem',
-                    backgroundColor: isCompleted ? '#10b981' : isActive ? 'var(--accent-blue)' : 'var(--bg-tertiary)',
-                    color: isCompleted || isActive ? '#ffffff' : 'var(--text-secondary)'
-                  }}
-                >
+                <div className={`step-dot flex-center ${isCompleted ? 'completed' : isActive ? 'active' : ''}`}>
                   {stepNum}
                 </div>
-                <span className="step-text font-medium text-sm" style={{ color: 'var(--text-primary)' }}>{stepText}</span>
+                <span className="step-text">{stepText}</span>
               </div>
             );
           })}

@@ -50,16 +50,17 @@ const QuestionFlow = () => {
 
   const handleAnswer = (selectedOptionText, originalOptionText) => {
     const currentQ = questions[currentIndex];
-    const updatedHistory = [
-      ...conversationHistory,
-      {
-        questionId: currentQ.id,
-        category: currentQ.category,
-        question: currentQ.question, // Store English for AI reference consistency
-        answer: originalOptionText,  // Store English for consistency
-        answerMl: lang === 'ml' ? selectedOptionText : undefined
-      }
-    ];
+    const newAnswer = {
+      questionId: currentQ.id,
+      category: currentQ.category,
+      question: currentQ.question, // Store English for AI reference consistency
+      answer: originalOptionText,  // Store English for consistency
+      answerMl: lang === 'ml' ? selectedOptionText : undefined
+    };
+
+    const updatedHistory = [...conversationHistory];
+    updatedHistory[currentIndex] = newAnswer;
+    updatedHistory.splice(currentIndex + 1); // Discard later answers if they changed a previous choice
 
     setConversationHistory(updatedHistory);
 
@@ -68,6 +69,14 @@ const QuestionFlow = () => {
     } else {
       updateProfile({ conversationHistory: updatedHistory });
       setPhase('analyzing');
+    }
+  };
+
+  const handleBack = () => {
+    if (currentIndex === 0) {
+      setPhase('interests');
+    } else {
+      setCurrentIndex(currentIndex - 1);
     }
   };
 
@@ -107,6 +116,13 @@ const QuestionFlow = () => {
             <div className="selection-count">
               {selectedInterests.length} / 3 {t('questions.selected')}
             </div>
+            {selectedInterests.length > 0 && (
+              <div>
+                <button className="reset-interests-btn" onClick={() => setSelectedInterests([])}>
+                  {lang === 'ml' ? 'റീസെറ്റ് ചെയ്യുക' : 'Reset Selection'}
+                </button>
+              </div>
+            )}
           </div>
           
           <div className="interests-grid">
@@ -137,6 +153,22 @@ const QuestionFlow = () => {
 
       {phase === 'questions' && (
         <div className="question-flow animate-fade-in">
+          <div className="interests-summary-bar glass-panel flex-between">
+            <div className="interests-summary-text">
+              <strong>{lang === 'ml' ? 'തിരഞ്ഞെടുത്തവ:' : 'Selected:'} </strong>
+              <span>{selectedInterests.map(i => getIndustryName(i)).join(" • ")}</span>
+            </div>
+            <button className="edit-interests-btn" onClick={() => setPhase('interests')}>
+              {lang === 'ml' ? 'മാറ്റുക' : 'Edit Interests'}
+            </button>
+          </div>
+
+          <div className="flow-navigation">
+            <button className="back-btn flex-center" onClick={handleBack}>
+              <span>← {lang === 'ml' ? 'മുൻപത്തെ ഘട്ടത്തിലേക്ക്' : 'Back to Previous Step'}</span>
+            </button>
+          </div>
+
           <div className="progress-container">
             <div className="progress-bar">
               <div 
@@ -158,16 +190,20 @@ const QuestionFlow = () => {
             <div className="question-card glass-panel animate-fade-in">
               <h2 className="question-text">{getQuestionText(currentQuestionData)}</h2>
               <div className="options-list">
-                {getQuestionOptions(currentQuestionData).map((opt, idx) => (
-                  <button 
-                    key={idx} 
-                    className="option-btn"
-                    onClick={() => handleAnswer(opt, currentQuestionData.options[idx])}
-                  >
-                    <span className="option-letter">{String.fromCharCode(65 + idx)}</span>
-                    {opt}
-                  </button>
-                ))}
+                {getQuestionOptions(currentQuestionData).map((opt, idx) => {
+                  const prevAns = conversationHistory[currentIndex];
+                  const isSelected = prevAns && prevAns.answer === currentQuestionData.options[idx];
+                  return (
+                    <button 
+                      key={idx} 
+                      className={`option-btn ${isSelected ? 'selected' : ''}`}
+                      onClick={() => handleAnswer(opt, currentQuestionData.options[idx])}
+                    >
+                      <span className="option-letter">{String.fromCharCode(65 + idx)}</span>
+                      {opt}
+                    </button>
+                  );
+                })}
               </div>
             </div>
           )}
