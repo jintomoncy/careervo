@@ -112,7 +112,27 @@ export const translations = {
       seeMore: "See More",
       placements: "Placements",
       highest: "Highest Package",
-      fees: "Fees"
+      fees: "Fees",
+      traits: {
+        creativity: "Creativity",
+        leadership: "Leadership",
+        analytical: "Analytical Thinking",
+        communication: "Communication Skills",
+        discipline: "Discipline & Focus",
+        innovation: "Innovation Mindset",
+        empathy: "Empathy & Social Care",
+        risk_tolerance: "Risk Tolerance",
+        ambition: "Ambition & Drive",
+        social_confidence: "Social Confidence",
+        teamwork: "Teamwork & Collaboration",
+        critical_thinking: "Critical Thinking",
+        problem_solving: "Problem Solving",
+        technical_interest: "Technical Interest",
+        logical_thinking: "Logical Thinking",
+        logical: "Logical Thinking",
+        analytical_thinking: "Analytical Thinking",
+        emotional_intelligence: "Emotional Intelligence"
+      }
     },
     industries: {
       business: "Business",
@@ -159,7 +179,14 @@ export const translations = {
       recommendedColleges: "Recommended Institutions",
       keralaColleges: "Kerala Colleges",
       nationalColleges: "National Colleges",
-      pageOf: "Page {curr} of {total}"
+      pageOf: "Page {curr} of {total}",
+      recommendedCourses: "Recommended Courses & Duration",
+      courseDuration: "Duration",
+      skillsRequired: "Skills Required",
+      futureDemand: "Future Demand",
+      keralaTop10: "Top 10 Institutions in Kerala",
+      nationalTop10: "Top 10 National Institutions",
+      finalSummary: "Executive AI Summary"
     },
     footer: {
       tagline: "“Your Future. Clearly.”",
@@ -290,7 +317,27 @@ export const translations = {
       seeMore: "കൂടുതൽ കാണുക",
       placements: "പ്ലേസ്മെന്റ്",
       highest: "ഉയർന്ന പാക്കേജ്",
-      fees: "ഫീസ്"
+      fees: "ഫീസ്",
+      traits: {
+        creativity: "സർഗ്ഗാത്മകത (Creativity)",
+        leadership: "നേതൃപാടവം (Leadership)",
+        analytical: "വിശകലന ശേഷി (Analytical Thinking)",
+        communication: "ആശയവിനിമയ നൈപുണ്യം (Communication)",
+        discipline: "അച്ചടക്കവും ശ്രദ്ധയും (Discipline)",
+        innovation: "നവീകരണ മനോഭാവം (Innovation)",
+        empathy: "സഹാനുഭൂതിയും സാമൂഹിക പ്രതിബദ്ധതയും (Empathy)",
+        risk_tolerance: "റിസ്ക് എടുക്കാനുള്ള മനോഭാവം (Risk Tolerance)",
+        ambition: "ലക്ഷ്യബോധം (Ambition)",
+        social_confidence: "സാമൂഹിക ആത്മവിശ്വാസം (Social Confidence)",
+        teamwork: "കൂട്ടായ്മയും സഹകരണവും (Teamwork)",
+        critical_thinking: "വിമർശനാത്മക ചിന്ത (Critical Thinking)",
+        problem_solving: "പ്രശ്നപരിഹാര ശേഷി (Problem Solving)",
+        technical_interest: "സാങ്കേതിക താല്പര്യം (Technical Interest)",
+        logical_thinking: "യുക്തിസഹമായ ചിന്ത (Logical)",
+        logical: "യുക്തിസഹമായ ചിന്ത (Logical)",
+        analytical_thinking: "വിശകലന ശേഷി (Analytical Thinking)",
+        emotional_intelligence: "വൈകാരിക ബുദ്ധി (Emotional Intelligence)"
+      }
     },
     industries: {
       business: "ബിസിനസ്സ്",
@@ -337,7 +384,14 @@ export const translations = {
       recommendedColleges: "നിർദ്ദേശിക്കപ്പെട്ട വിദ്യാഭ്യാസ സ്ഥാപനങ്ങൾ",
       keralaColleges: "കേരളത്തിലെ കോളേജുകൾ",
       nationalColleges: "ദേശീയ കോളേജുകൾ",
-      pageOf: "പേജ് {curr} / {total}"
+      pageOf: "പേജ് {curr} / {total}",
+      recommendedCourses: "നിർദ്ദേശിക്കപ്പെട്ട കോഴ്സുകൾ",
+      courseDuration: "കാലയളവ്",
+      skillsRequired: "ആവശ്യമായ നൈപുണ്യങ്ങൾ",
+      futureDemand: "ഭാവി സാധ്യത",
+      keralaTop10: "കേരളത്തിലെ മികച്ച 10 സ്ഥാപനങ്ങൾ",
+      nationalTop10: "ദേശീയതലത്തിലെ മികച്ച 10 സ്ഥാപനങ്ങൾ",
+      finalSummary: "എ.ഐ എക്സിക്യൂട്ടീവ് സംഗ്രഹം"
     },
     footer: {
       tagline: "“നിങ്ങളുടെ ശോഭനമായ ഭാവി, വ്യക്തതയോടെ.”",

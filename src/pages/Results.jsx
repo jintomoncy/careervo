@@ -50,13 +50,62 @@ const Results = () => {
     return { name: college.name, location: college.location };
   };
 
+  const [loadingStep, setLoadingStep] = useState(1);
+
+  const getTraitLabel = (traitName) => {
+    if (!traitName) return "";
+    const key = traitName.toLowerCase().replace(/[\s-]+/g, '_');
+    const localized = t(`results.traits.${key}`);
+    if (localized === `results.traits.${key}`) {
+      return traitName.split(/[\s-_]+/).map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(" ");
+    }
+    return localized;
+  };
+
+  const getCourseDetails = (career) => {
+    let duration = lang === 'ml' ? '3 വർഷം' : '3 Years';
+    const tTitle = career.title || "";
+    if (tTitle.startsWith("BTech") || tTitle.startsWith("B.Arch") || tTitle.startsWith("BDes") || tTitle.startsWith("Integrated") || tTitle.includes("Engineering") || tTitle.includes("Architecture")) {
+      if (tTitle.startsWith("B.Arch") || tTitle.startsWith("Integrated")) {
+        duration = lang === 'ml' ? '5 വർഷം' : '5 Years';
+      } else {
+        duration = lang === 'ml' ? '4 വർഷം' : '4 Years';
+      }
+    } else if (tTitle.startsWith("MBBS")) {
+      duration = lang === 'ml' ? '5.5 വർഷം' : '5.5 Years';
+    } else if (tTitle.startsWith("MTech") || tTitle.startsWith("MBA") || tTitle.startsWith("MSc") || tTitle.startsWith("MA")) {
+      duration = lang === 'ml' ? '2 വർഷം' : '2 Years';
+    }
+    
+    const skills = (career.personalityMatch || []).map(s => {
+      const key = s.toLowerCase().replace(/[\s-]+/g, '_');
+      const val = t(`results.traits.${key}`);
+      return val === `results.traits.${key}` ? s : val;
+    }).slice(0, 3).join(", ");
+
+    return {
+      duration: duration,
+      skills: skills || (lang === 'ml' ? 'വിശകലന ശേഷി, ശ്രദ്ധ' : 'Analytical thinking, focus'),
+      demand: career.futureScope || 'High'
+    };
+  };
+
+  useEffect(() => {
+    if (!isGenerating) return;
+    const interval = setInterval(() => {
+      setLoadingStep(prev => (prev < 3 ? prev + 1 : 1));
+    }, 1500);
+    return () => clearInterval(interval);
+  }, [isGenerating]);
+
   useEffect(() => {
     const generateAnalysis = async () => {
-      if (aiData || !userProfile.conversationHistory || userProfile.conversationHistory.length === 0) {
+      if (aiData && aiData.generatedLang === lang) {
         setIsGenerating(false);
         return;
       }
       
+      setIsGenerating(true);
       try {
         const compactCareers = careerDatabase.map(c => ({
           id: c.id,
@@ -124,14 +173,23 @@ const Results = () => {
           throw new Error("Invalid output format: Missing careers");
         }
         
-        setAiData(parsedData);
-        updateProfile({ aiResult: parsedData });
+        const finalData = {
+          ...parsedData,
+          generatedLang: lang
+        };
+        
+        setAiData(finalData);
+        updateProfile({ aiResult: finalData });
       } catch (error) {
         console.error("Failed to generate results, using local database fallback...", error);
         try {
           const fallbackData = getFallbackAnalysis(userProfile, lang);
-          setAiData(fallbackData);
-          updateProfile({ aiResult: fallbackData });
+          const finalData = {
+            ...fallbackData,
+            generatedLang: lang
+          };
+          setAiData(finalData);
+          updateProfile({ aiResult: finalData });
         } catch (fallbackError) {
           console.error("Critical: Fallback also failed", fallbackError);
         }
@@ -141,7 +199,7 @@ const Results = () => {
     };
 
     generateAnalysis();
-  }, [aiData, userProfile, updateProfile]);
+  }, [aiData, userProfile, updateProfile, lang]);
 
   const exportPDF = async () => {
     setIsExporting(true);
@@ -151,7 +209,7 @@ const Results = () => {
       const pdfWidth = pdf.internal.pageSize.getWidth();
       const pdfHeight = pdf.internal.pageSize.getHeight();
 
-      for (let i = 1; i <= 3; i++) {
+      for (let i = 1; i <= 6; i++) {
         const element = document.getElementById(`pdf-page-${i}`);
         if (!element) continue;
 
@@ -234,13 +292,54 @@ const Results = () => {
   };
 
   if (isGenerating) {
+    const loaderTitle = t('questions.analyzingTitle') || "Analyzing your profile...";
+    const loaderSub = t('questions.analyzingSub') || "Our AI is matching your personality and interests with optimal career paths.";
+    const steps = [
+      t('questions.step1') || "Evaluating psychological traits",
+      t('questions.step2') || "Cross-referencing industry demands",
+      t('questions.step3') || "Generating intelligence report"
+    ];
     return (
-      <div className="results-dashboard container flex-center flex-column" style={{ minHeight: '60vh' }}>
-        <div className="ai-spinner mb-4">
-          <BrainCircuit size={64} className="text-accent pulse-anim" />
+      <div className="results-dashboard container flex-center flex-column" style={{ minHeight: '60vh', padding: '40px 20px' }}>
+        <div className="ai-spinner mb-6">
+          <BrainCircuit size={72} className="text-accent pulse-anim spin-slow" />
         </div>
-        <h2>Generating Your Personalized Career Analysis...</h2>
-        <p className="text-secondary mt-2">Careervo AI is processing your profile and conversation.</p>
+        <h2 className="text-center font-bold" style={{ fontSize: '1.8rem', color: 'var(--text-primary)' }}>{loaderTitle}</h2>
+        <p className="text-secondary text-center mt-2" style={{ maxWidth: '480px', fontSize: '1rem', lineHeight: '1.6' }}>{loaderSub}</p>
+        
+        <div className="loading-steps-indicator mt-8 flex flex-column gap-3 w-full" style={{ maxWidth: '380px' }}>
+          {steps.map((stepText, idx) => {
+            const stepNum = idx + 1;
+            const isActive = loadingStep === stepNum;
+            const isCompleted = loadingStep > stepNum;
+            return (
+              <div 
+                key={idx} 
+                className="loading-step-row flex items-center gap-3 p-3 rounded-lg border transition-all"
+                style={{ 
+                  borderColor: isActive ? 'var(--accent-blue)' : 'var(--border-light)',
+                  backgroundColor: isActive ? 'var(--bg-tertiary)' : 'var(--bg-secondary)',
+                  opacity: isActive || isCompleted ? 1 : 0.5,
+                  boxShadow: isActive ? 'var(--shadow-sm)' : 'none'
+                }}
+              >
+                <div 
+                  className="step-dot flex-center rounded-full font-semibold" 
+                  style={{ 
+                    width: '28px', 
+                    height: '28px', 
+                    fontSize: '0.85rem',
+                    backgroundColor: isCompleted ? '#10b981' : isActive ? 'var(--accent-blue)' : 'var(--bg-tertiary)',
+                    color: isCompleted || isActive ? '#ffffff' : 'var(--text-secondary)'
+                  }}
+                >
+                  {stepNum}
+                </div>
+                <span className="step-text font-medium text-sm" style={{ color: 'var(--text-primary)' }}>{stepText}</span>
+              </div>
+            );
+          })}
+        </div>
       </div>
     );
   }
@@ -254,7 +353,6 @@ const Results = () => {
     );
   }
 
-  // Enrich matched careers with full database info
   const enrichedCareers = aiData.careers?.map(rc => {
     const dbCareer = careerDatabase.find(c => c.id === rc.id) || {};
     return {
@@ -263,9 +361,47 @@ const Results = () => {
     };
   }) || [];
 
-  // Query matched colleges based on top recommended career IDs
   const recommendedCareerIds = enrichedCareers.map(c => c.id);
-  const matchedColleges = getCollegesForCareers(recommendedCareerIds);
+
+  // Fallback Matching Algorithm for Exactly 10 Colleges
+  const getTop10Colleges = (collegesPool, careerIds) => {
+    const matching = collegesPool.filter(college =>
+      college.availableCourses.some(courseId => careerIds.includes(courseId))
+    );
+    matching.sort((a, b) => b.placementScore - a.placementScore);
+
+    const result = [...matching];
+
+    if (result.length < 10) {
+      const selectedCategories = (userProfile.interests || []).map(cat => cat.toLowerCase());
+      const interestMatching = collegesPool.filter(college => {
+        if (result.some(r => r.name === college.name)) return false;
+        return college.availableCourses.some(courseId => {
+          const dbCourse = careerDatabase.find(c => c.id === courseId);
+          return dbCourse && selectedCategories.includes(dbCourse.category.toLowerCase());
+        });
+      });
+      interestMatching.sort((a, b) => b.placementScore - a.placementScore);
+      result.push(...interestMatching);
+    }
+
+    if (result.length < 10) {
+      const remaining = collegesPool.filter(college => !result.some(r => r.name === college.name));
+      remaining.sort((a, b) => b.placementScore - a.placementScore);
+      result.push(...remaining);
+    }
+
+    return result.slice(0, 10);
+  };
+
+  const top10Kerala = getTop10Colleges(collegeDatabase.kerala, recommendedCareerIds);
+  const top10India = getTop10Colleges(collegeDatabase.india, recommendedCareerIds);
+
+  const displayedKerala = showAllKerala ? top10Kerala : top10Kerala.slice(0, 3);
+  const displayedIndia = showAllIndia ? top10India : top10India.slice(0, 3);
+
+  // Calculate highest match percentage for cover page
+  const maxMatchScore = enrichedCareers.reduce((max, c) => c.match > max ? c.match : max, 85);
 
   return (
     <div className="results-dashboard container">
@@ -280,7 +416,7 @@ const Results = () => {
             onClick={() => setParentMode(!parentMode)}
           >
             <Users size={18} />
-        {parentMode ? (t('results.exitParents') || "Exit Parent Mode") : (t('results.explainParents') || "Explain for Parents")}
+            {parentMode ? (t('results.exitParents') || "Exit Parent Mode") : (t('results.explainParents') || "Explain for Parents")}
           </button>
           
           <button className="btn-secondary" onClick={exportPNG} disabled={isExporting}>
@@ -314,7 +450,7 @@ const Results = () => {
         </div>
       </div>
 
-      <div className="dashboard-grid" ref={pdfRef} style={{ background: 'var(--bg-primary)', padding: isExporting ? '20px' : '0' }}>
+      <div className="dashboard-grid" style={{ background: 'var(--bg-primary)', padding: isExporting ? '20px' : '0' }}>
         {/* Left Column */}
         <div className="grid-left">
           <div className="glass-panel profile-card animate-fade-in delay-100">
@@ -323,7 +459,7 @@ const Results = () => {
               {aiData.traits?.map(tTrait => (
                 <div key={tTrait.name} className="trait-item">
                   <div className="trait-header">
-                    <span>{t(`results.traits.${tTrait.name.toLowerCase()}`) || tTrait.name}</span>
+                    <span>{getTraitLabel(tTrait.name)}</span>
                     <span>{tTrait.val}%</span>
                   </div>
                   <div className="progress-bar"><div className="fill" style={{ width: `${tTrait.val}%` }}></div></div>
@@ -410,7 +546,7 @@ const Results = () => {
           {/* Colleges Sections */}
           <h2 className="section-title mt-8">{t('results.collegesKerala') || "Recommended Kerala Colleges"}</h2>
           <div className="colleges-grid animate-fade-in delay-300">
-            {(showAllKerala ? matchedColleges.kerala : matchedColleges.kerala.slice(0, 3))?.map((college, idx) => {
+            {displayedKerala.map((college, idx) => {
               const localizedCol = getLocalizedCollege(college);
               return (
                 <div key={idx} className="college-card glass-panel">
@@ -432,7 +568,7 @@ const Results = () => {
               );
             })}
           </div>
-          {matchedColleges.kerala.length > 3 && (
+          {top10Kerala.length > 3 && (
             <div className="text-center mt-4 mb-4">
               <button className="see-more-btn" onClick={() => setShowAllKerala(!showAllKerala)}>
                 {showAllKerala ? (lang === 'ml' ? 'കുറച്ചു കാണിക്കുക' : 'See Less') : (lang === 'ml' ? 'കൂടുതൽ കേരളത്തിലെ കോളേജുകൾ കാണുക' : 'See More Kerala Colleges')} <ChevronDown size={16} style={{ transform: showAllKerala ? 'rotate(180deg)' : 'none', transition: '0.3s' }} />
@@ -442,7 +578,7 @@ const Results = () => {
 
           <h2 className="section-title mt-8">{t('results.collegesIndia') || "Recommended National Colleges (India)"}</h2>
           <div className="colleges-grid animate-fade-in delay-300">
-            {(showAllIndia ? matchedColleges.india : matchedColleges.india.slice(0, 3))?.map((college, idx) => {
+            {displayedIndia.map((college, idx) => {
               const localizedCol = getLocalizedCollege(college);
               return (
                 <div key={idx} className="college-card glass-panel">
@@ -464,60 +600,97 @@ const Results = () => {
               );
             })}
           </div>
-          {matchedColleges.india.length > 3 && (
+          {top10India.length > 3 && (
             <div className="text-center mt-4 mb-8">
               <button className="see-more-btn" onClick={() => setShowAllIndia(!showAllIndia)}>
                 {showAllIndia ? (lang === 'ml' ? 'കുറച്ചു കാണിക്കുക' : 'See Less') : (lang === 'ml' ? 'കൂടുതൽ ഇന്ത്യയിലെ കോളേജുകൾ കാണുക' : 'See More India Colleges')} <ChevronDown size={16} style={{ transform: showAllIndia ? 'rotate(180deg)' : 'none', transition: '0.3s' }} />
               </button>
             </div>
           )}
+        </div>
       </div>
-    </div>
       
-      {/* Hidden high-fidelity A4 layout for PDF/PNG exports */}
+      {/* ─── HIDDEN HIGH-FIDELITY A4 LAYOUT FOR 6-PAGE PDF EXPORT ─── */}
       <div style={{ position: 'absolute', left: '-9999px', top: '0', width: '800px', pointerEvents: 'none' }}>
         <div id="pdf-report-root">
-          {/* Page 1 */}
+          
+          {/* Page 1: COVER PAGE */}
           <div className="pdf-page" id="pdf-page-1">
             <div className="pdf-header">
               <div className="pdf-logo">
-                <BrainCircuit size={24} className="text-accent" />
+                <BrainCircuit size={24} style={{ color: '#0f3d8c' }} />
+                <span>{t('pdf.brandName') || "Careervo AI Guidance"}</span>
+              </div>
+              <div className="pdf-date">{new Date().toLocaleDateString('en-IN')}</div>
+            </div>
+            
+            <div className="pdf-body flex-center flex-column" style={{ justifyContent: 'center', height: '100%', gap: '40px' }}>
+              <div className="pdf-hero w-full text-center" style={{ padding: '48px 32px', background: 'linear-gradient(135deg, #0f3d8c 0%, #1d4ed8 100%)', borderRadius: '16px' }}>
+                <h1 className="pdf-main-title" style={{ fontSize: '2.5rem', marginBottom: '12px' }}>{t('pdf.reportTitle') || "CAREER PATHWAY ANALYSIS"}</h1>
+                <p className="pdf-sub-title" style={{ fontSize: '1.2rem', opacity: 0.9 }}>{t('pdf.reportSub') || "Personalized Assessment Report for Students"}</p>
+              </div>
+
+              {/* Match Score Circle */}
+              <div className="flex-center flex-column" style={{ margin: '20px 0' }}>
+                <div style={{ width: '160px', height: '160px', borderRadius: '50%', border: '8px solid #dbeafe', display: 'flex', alignItems: 'center', justifyContent: 'center', flexDirection: 'column', background: '#f8fafc', boxShadow: '0 4px 12px rgba(0,0,0,0.05)' }}>
+                  <span style={{ fontSize: '1.1rem', fontWeight: 'bold', color: '#6b7280', textTransform: 'uppercase', letterSpacing: '0.05em' }}>AI MATCH</span>
+                  <span style={{ fontSize: '3.2rem', fontWeight: '800', color: '#0f3d8c', lineHeight: 1 }}>{maxMatchScore}%</span>
+                </div>
+              </div>
+              
+              <div className="pdf-meta-grid w-full" style={{ border: '2px solid #e5e7eb', padding: '24px', borderRadius: '12px', background: '#f9fafb' }}>
+                <div className="pdf-meta-item">
+                  <span className="pdf-meta-label" style={{ fontSize: '0.85rem', color: '#6b7280' }}>{t('pdf.studentName') || "STUDENT NAME"}</span>
+                  <span className="pdf-meta-val" style={{ fontSize: '1.1rem', color: '#111827' }}>{userProfile.name || 'Student'}</span>
+                </div>
+                <div className="pdf-meta-item">
+                  <span className="pdf-meta-label" style={{ fontSize: '0.85rem', color: '#6b7280' }}>{t('pdf.academicStream') || "ACADEMIC STREAM"}</span>
+                  <span className="pdf-meta-val" style={{ fontSize: '1.1rem', color: '#111827' }}>{userProfile.stream === 'Science' ? (lang === 'ml' ? 'സയൻസ്' : 'Science') : userProfile.stream === 'Commerce' ? (lang === 'ml' ? 'കോമേഴ്‌സ്' : 'Commerce') : (lang === 'ml' ? 'ഹ്യുമാനിറ്റീസ്' : 'Humanities')}</span>
+                </div>
+                <div className="pdf-meta-item">
+                  <span className="pdf-meta-label" style={{ fontSize: '0.85rem', color: '#6b7280' }}>{t('pdf.interestFocus') || "EVALUATION FOCUS"}</span>
+                  <span className="pdf-meta-val" style={{ fontSize: '1.1rem', color: '#111827' }}>{userProfile.interests?.map(i => t('industries.' + i.toLowerCase().replace(/\s+/g, '_')) || i).join(", ") || 'General'}</span>
+                </div>
+              </div>
+
+              {/* Brief Intro */}
+              <div style={{ padding: '0 24px', textAlign: 'center', color: '#4b5563', lineHeight: '1.8' }}>
+                <p>
+                  {lang === 'ml' 
+                    ? 'ഈ കരിയർ ഇന്റലിജൻസ് റിപ്പോർട്ട് വിദ്യാർത്ഥിയുടെ വ്യക്തിത്വ സവിശേഷതകൾ, കരിയർ താല്പര്യങ്ങൾ, പരീക്ഷാ ഉത്തരങ്ങൾ എന്നിവ എ.ഐ സാങ്കേതികവിദ്യ ഉപയോഗിച്ച് വിശകലനം ചെയ്ത് തയ്യാറാക്കിയതാണ്. അടുത്ത ഘട്ടങ്ങളിൽ അനുയോജ്യമായ കോഴ്സുകൾ, കരിയർ വഴികൾ, കോളേജുകൾ, 1 വർഷത്തെ പഠനപദ്ധതി എന്നിവ ഉൾക്കൊള്ളുന്നു.'
+                    : 'This career intelligence report analyzes the student\'s cognitive strengths, traits, and answers using proprietary algorithms. It contains personalized course pathways, career recommendation cards, recommended institutions, and a 1-year transition roadmap.'
+                  }
+                </p>
+              </div>
+            </div>
+            
+            <div className="pdf-footer">
+              <span>© {new Date().getFullYear()} Careervo. All rights reserved.</span>
+              <span>{t('pdf.pageOf', { curr: 1, total: 6 })}</span>
+            </div>
+          </div>
+          
+          {/* Page 2: PERSONALITY PROFILE & BEHAVIORS */}
+          <div className="pdf-page" id="pdf-page-2">
+            <div className="pdf-header">
+              <div className="pdf-logo">
+                <BrainCircuit size={24} style={{ color: '#0f3d8c' }} />
                 <span>{t('pdf.brandName') || "Careervo AI Guidance"}</span>
               </div>
               <div className="pdf-date">{new Date().toLocaleDateString('en-IN')}</div>
             </div>
             
             <div className="pdf-body">
-              <div className="pdf-hero">
-                <h1 className="pdf-main-title">{t('pdf.reportTitle') || "CAREER PATHWAY ANALYSIS"}</h1>
-                <p className="pdf-sub-title">{t('pdf.reportSub') || "Personalized Assessment Report for Students"}</p>
-              </div>
-              
-              <div className="pdf-section pdf-meta-grid">
-                <div className="pdf-meta-item">
-                  <span className="pdf-meta-label">{t('pdf.studentName') || "STUDENT NAME"}</span>
-                  <span className="pdf-meta-val">{userProfile.name || 'Student'}</span>
-                </div>
-                <div className="pdf-meta-item">
-                  <span className="pdf-meta-label">{t('pdf.academicStream') || "ACADEMIC STREAM"}</span>
-                  <span className="pdf-meta-val">{userProfile.stream === 'Science' ? (lang === 'ml' ? 'സയൻസ്' : 'Science') : userProfile.stream === 'Commerce' ? (lang === 'ml' ? 'കോമേഴ്‌സ്' : 'Commerce') : (lang === 'ml' ? 'ഹ്യുമാനിറ്റീസ്' : 'Humanities')}</span>
-                </div>
-                <div className="pdf-meta-item">
-                  <span className="pdf-meta-label">{t('pdf.interestFocus') || "EVALUATION FOCUS"}</span>
-                  <span className="pdf-meta-val">{userProfile.interests?.map(i => t('industries.' + i.toLowerCase().replace(/\s+/g, '_')) || i).join(", ") || 'General'}</span>
-                </div>
-              </div>
-
-              <div className="pdf-section" style={{ marginTop: '24px' }}>
+              <div className="pdf-section">
                 <h2 className="pdf-section-title">{t('pdf.cognitiveProfile') || "Cognitive & Personality Profile"}</h2>
-                <div className="pdf-traits-grid">
+                <div className="pdf-traits-grid" style={{ gap: '24px 32px' }}>
                   {aiData.traits?.map(tTrait => (
                     <div key={tTrait.name} className="pdf-trait-card">
                       <div className="pdf-trait-header">
-                        <span className="pdf-trait-name">{t(`results.traits.${tTrait.name.toLowerCase()}`) || tTrait.name}</span>
-                        <span className="pdf-trait-score">{tTrait.val}%</span>
+                        <span className="pdf-trait-name" style={{ fontSize: '0.95rem', fontWeight: 'bold' }}>{getTraitLabel(tTrait.name)}</span>
+                        <span className="pdf-trait-score" style={{ fontSize: '0.95rem', fontWeight: 'bold' }}>{tTrait.val}%</span>
                       </div>
-                      <div className="pdf-trait-bar">
+                      <div className="pdf-trait-bar" style={{ height: '10px' }}>
                         <div className="pdf-trait-bar-fill" style={{ width: `${tTrait.val}%` }}></div>
                       </div>
                     </div>
@@ -525,26 +698,26 @@ const Results = () => {
                 </div>
               </div>
 
-              <div className="pdf-section" style={{ marginTop: '24px' }}>
+              <div className="pdf-section" style={{ marginTop: '40px' }}>
                 <h2 className="pdf-section-title">{t('pdf.behavioralEvaluation') || "Behavioral Evaluation"}</h2>
-                <div className="pdf-behavior-box">
-                  <p><strong>{lang === 'ml' ? 'ജോലി രീതി' : 'Work Style'}: </strong>{aiData.workStyle}</p>
-                  <p style={{ marginTop: '12px' }}><strong>{lang === 'ml' ? 'ലക്ഷ്യം & യോജിപ്പ്' : 'Ambition & Alignment'}: </strong>{aiData.ambition}</p>
+                <div className="pdf-behavior-box" style={{ padding: '24px', fontSize: '1rem' }}>
+                  <p style={{ marginBottom: '16px' }}><strong style={{ color: '#0f3d8c' }}>{t('results.workStyle') || 'Work Style'}: </strong>{aiData.workStyle}</p>
+                  <p><strong style={{ color: '#0f3d8c' }}>{t('results.ambition') || 'Ambition Type'}: </strong>{aiData.ambition}</p>
                 </div>
               </div>
             </div>
             
             <div className="pdf-footer">
               <span>© {new Date().getFullYear()} Careervo. All rights reserved.</span>
-              <span>{t('pdf.pageOf', { curr: 1, total: 3 })}</span>
+              <span>{t('pdf.pageOf', { curr: 2, total: 6 })}</span>
             </div>
           </div>
 
-          {/* Page 2 */}
-          <div className="pdf-page" id="pdf-page-2">
+          {/* Page 3: CAREER RECOMMENDATIONS */}
+          <div className="pdf-page" id="pdf-page-3">
             <div className="pdf-header">
               <div className="pdf-logo">
-                <BrainCircuit size={24} className="text-accent" />
+                <BrainCircuit size={24} style={{ color: '#0f3d8c' }} />
                 <span>{t('pdf.brandName') || "Careervo AI Guidance"}</span>
               </div>
               <div className="pdf-date">{new Date().toLocaleDateString('en-IN')}</div>
@@ -552,35 +725,31 @@ const Results = () => {
             
             <div className="pdf-body">
               <h2 className="pdf-page-title">{t('pdf.topRecommended') || "Top Recommended Career Paths"}</h2>
-              <div className="pdf-careers-container">
+              <div className="pdf-careers-container" style={{ gap: '24px' }}>
                 {enrichedCareers.slice(0, 3).map((career, index) => (
-                  <div key={career.id || index} className="pdf-career-card">
+                  <div key={career.id || index} className="pdf-career-card" style={{ padding: '20px', borderLeftWidth: '6px' }}>
                     <div className="pdf-career-header">
                       <div className="pdf-career-title-group">
                         <span className="pdf-career-rank">#{index + 1}</span>
-                        <h3 className="pdf-career-title">{lang === 'ml' ? (t(`careers.${career.id}`) || career.title) : career.title}</h3>
+                        <h3 className="pdf-career-title" style={{ fontSize: '1.2rem' }}>{lang === 'ml' ? (t(`careers.${career.id}`) || career.title) : career.title}</h3>
                       </div>
                       <span className="pdf-career-badge">{t('results.matchBadge', { score: career.match || 90 })}</span>
                     </div>
-                    <p className="pdf-career-desc">
+                    <p className="pdf-career-desc" style={{ fontSize: '0.9rem', marginBottom: '16px' }}>
                       {parentMode ? career.parentWhy : career.why}
                     </p>
-                    <div className="pdf-career-metrics">
+                    <div className="pdf-career-metrics" style={{ gridTemplateColumns: 'repeat(3, 1fr)', gap: '16px', paddingTop: '16px' }}>
                       <div className="pdf-metric-box">
                         <span className="pdf-metric-label">{t('results.salary') || "Salary Range"}</span>
-                        <span className="pdf-metric-val" style={{ fontSize: '0.75rem' }}>{career.salary ? career.salary.replace(' / year', ' ' + t('terms.perYear')).replace('total', t('terms.total')) : ''}</span>
+                        <span className="pdf-metric-val" style={{ fontSize: '0.85rem' }}>{career.salary ? career.salary.replace(' / year', ' ' + t('terms.perYear')).replace('total', t('terms.total')) : ''}</span>
                       </div>
                       <div className="pdf-metric-box">
                         <span className="pdf-metric-label">{t('results.futureScope') || "Future Scope"}</span>
-                        <span className="pdf-metric-val" style={{ color: '#059669', fontSize: '0.75rem' }}>{t(`terms.${career.futureScope}`) || career.futureScope}</span>
+                        <span className="pdf-metric-val" style={{ color: '#059669', fontSize: '0.85rem' }}>{t(`terms.${career.futureScope}`) || career.futureScope}</span>
                       </div>
                       <div className="pdf-metric-box">
                         <span className="pdf-metric-label">{t('results.aiRisk') || "AI Risk"}</span>
-                        <span className="pdf-metric-val" style={{ color: '#ef4444', fontSize: '0.75rem' }}>{t(`terms.${career.aiRisk}`) || career.aiRisk}</span>
-                      </div>
-                      <div className="pdf-metric-box">
-                        <span className="pdf-metric-label">{t('results.globalDemand') || "Global Demand"}</span>
-                        <span className="pdf-metric-val" style={{ fontSize: '0.75rem' }}>{t(`terms.${career.globalDemand}`) || career.globalDemand}</span>
+                        <span className="pdf-metric-val" style={{ color: '#ef4444', fontSize: '0.85rem' }}>{t(`terms.${career.aiRisk}`) || career.aiRisk}</span>
                       </div>
                     </div>
                   </div>
@@ -590,72 +759,167 @@ const Results = () => {
             
             <div className="pdf-footer">
               <span>© {new Date().getFullYear()} Careervo. All rights reserved.</span>
-              <span>{t('pdf.pageOf', { curr: 2, total: 3 })}</span>
+              <span>{t('pdf.pageOf', { curr: 3, total: 6 })}</span>
             </div>
           </div>
 
-          {/* Page 3 */}
-          <div className="pdf-page" id="pdf-page-3">
+          {/* Page 4: RECOMMENDED COURSES & ROADMAP */}
+          <div className="pdf-page" id="pdf-page-4">
             <div className="pdf-header">
               <div className="pdf-logo">
-                <BrainCircuit size={24} className="text-accent" />
+                <BrainCircuit size={24} style={{ color: '#0f3d8c' }} />
                 <span>{t('pdf.brandName') || "Careervo AI Guidance"}</span>
               </div>
               <div className="pdf-date">{new Date().toLocaleDateString('en-IN')}</div>
             </div>
             
-            <div className="pdf-body pdf-split-body">
-              <div className="pdf-body-left">
+            <div className="pdf-body" style={{ gap: '28px' }}>
+              <div>
+                <h2 className="pdf-section-title">{t('pdf.recommendedCourses') || "Recommended Courses & Duration"}</h2>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '14px' }}>
+                  {enrichedCareers.slice(0, 3).map((career, idx) => {
+                    const cDetails = getCourseDetails(career);
+                    return (
+                      <div key={idx} style={{ padding: '16px', background: '#f8fafc', borderRadius: '8px', border: '1px solid #e2e8f0' }}>
+                        <div className="flex-between" style={{ marginBottom: '8px' }}>
+                          <strong style={{ color: '#0f3d8c', fontSize: '1rem' }}>{lang === 'ml' ? (t(`careers.${career.id}`) || career.title) : career.title}</strong>
+                          <span style={{ fontSize: '0.85rem', fontWeight: 'bold', background: '#e0f2fe', color: '#0369a1', padding: '2px 8px', borderRadius: '4px' }}>
+                            {t('pdf.courseDuration') || 'Duration'}: {cDetails.duration}
+                          </span>
+                        </div>
+                        <div style={{ fontSize: '0.85rem', color: '#4b5563', display: 'flex', flexDirection: 'column', gap: '4px' }}>
+                          <span><strong>{t('pdf.skillsRequired') || 'Skills Required'}:</strong> {cDetails.skills}</span>
+                          <span><strong>{t('pdf.futureDemand') || 'Future Demand'}:</strong> {t(`terms.${cDetails.demand}`) || cDetails.demand}</span>
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+
+              <div>
                 <h2 className="pdf-section-title">{t('pdf.executionRoadmap') || "Execution Roadmap"}</h2>
                 <div className="pdf-roadmap-timeline">
                   {aiData.roadmap?.map((step, idx) => (
-                    <div key={idx} className="pdf-roadmap-item">
+                    <div key={idx} className="pdf-roadmap-item" style={{ gap: '16px' }}>
                       <div className="pdf-roadmap-bullet">{idx + 1}</div>
                       <div className="pdf-roadmap-content">
-                        <h4>{step.period}</h4>
-                        <p>{step.description}</p>
+                        <h4 style={{ fontSize: '0.95rem' }}>{step.period}</h4>
+                        <p style={{ fontSize: '0.85rem' }}>{step.description}</p>
                       </div>
                     </div>
                   ))}
-                </div>
-              </div>
-              
-              <div className="pdf-body-right">
-                <h2 className="pdf-section-title">{t('pdf.recommendedColleges') || "Recommended Institutions"}</h2>
-                
-                <h3 className="pdf-sub-section-title">{t('pdf.keralaColleges') || "Kerala Colleges"}</h3>
-                <div className="pdf-colleges-list">
-                  {matchedColleges.kerala.slice(0, 3).map((college, idx) => {
-                    const localizedCol = getLocalizedCollege(college);
-                    return (
-                      <div key={idx} className="pdf-college-row">
-                        <span className="pdf-college-name">{localizedCol.name}</span>
-                        <span className="pdf-college-details">{localizedCol.location} | {lang === 'ml' ? 'ശരാശരി പാക്കേജ്' : 'Avg Pkg'}: {college.avgPackage}</span>
-                      </div>
-                    );
-                  })}
-                </div>
-                
-                <h3 className="pdf-sub-section-title" style={{ marginTop: '16px' }}>{t('pdf.nationalColleges') || "National Colleges"}</h3>
-                <div className="pdf-colleges-list">
-                  {matchedColleges.india.slice(0, 3).map((college, idx) => {
-                    const localizedCol = getLocalizedCollege(college);
-                    return (
-                      <div key={idx} className="pdf-college-row">
-                        <span className="pdf-college-name">{localizedCol.name}</span>
-                        <span className="pdf-college-details">{localizedCol.location} | {lang === 'ml' ? 'ശരാശരി പാക്കേജ്' : 'Avg Pkg'}: {college.avgPackage}</span>
-                      </div>
-                    );
-                  })}
                 </div>
               </div>
             </div>
             
             <div className="pdf-footer">
               <span>© {new Date().getFullYear()} Careervo. All rights reserved.</span>
-              <span>{t('pdf.pageOf', { curr: 3, total: 3 })}</span>
+              <span>{t('pdf.pageOf', { curr: 4, total: 6 })}</span>
             </div>
           </div>
+
+          {/* Page 5: TOP KERALA COLLEGES (10 COLLEGES) */}
+          <div className="pdf-page" id="pdf-page-5">
+            <div className="pdf-header">
+              <div className="pdf-logo">
+                <BrainCircuit size={24} style={{ color: '#0f3d8c' }} />
+                <span>{t('pdf.brandName') || "Careervo AI Guidance"}</span>
+              </div>
+              <div className="pdf-date">{new Date().toLocaleDateString('en-IN')}</div>
+            </div>
+            
+            <div className="pdf-body">
+              <h2 className="pdf-page-title">{t('pdf.keralaTop10') || "Top 10 Institutions in Kerala"}</h2>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
+                {top10Kerala.map((college, idx) => {
+                  const localizedCol = getLocalizedCollege(college);
+                  return (
+                    <div key={idx} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '10px 16px', background: '#f9fafb', borderRadius: '8px', border: '1px solid #f3f4f6' }}>
+                      <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+                        <span style={{ fontSize: '0.9rem', fontWeight: 'bold', color: '#9ca3af', width: '24px' }}>#{idx + 1}</span>
+                        <div>
+                          <span className="pdf-college-name" style={{ fontSize: '0.9rem', color: '#1f2937' }}>{localizedCol.name}</span>
+                          <div style={{ fontSize: '0.75rem', color: '#6b7280', marginTop: '2px' }}>
+                            <span>{localizedCol.location} | {(college.category === "Government" ? (lang === 'ml' ? 'ഗവൺമെന്റ്' : 'Government') : (lang === 'ml' ? 'പ്രൈവറ്റ്' : 'Private'))}</span>
+                            <span style={{ marginLeft: '12px' }}>{t('results.fees') || "Fees"}: {college.fees ? college.fees.replace(' / year', ' ' + t('terms.perYear')).replace('total', t('terms.total')) : ''}</span>
+                          </div>
+                        </div>
+                      </div>
+                      <div style={{ textAlign: 'right', fontSize: '0.75rem', color: '#4b5563', lineHeight: '1.4' }}>
+                        <div><strong>{lang === 'ml' ? 'ശരാശരി പാക്കേജ്' : 'Avg Pkg'}:</strong> {college.avgPackage}</div>
+                        <div><strong>{lang === 'ml' ? 'ഉയർന്ന പാക്കേജ്' : 'Highest'}:</strong> {college.highestPackage}</div>
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+            
+            <div className="pdf-footer">
+              <span>© {new Date().getFullYear()} Careervo. All rights reserved.</span>
+              <span>{t('pdf.pageOf', { curr: 5, total: 6 })}</span>
+            </div>
+          </div>
+
+          {/* Page 6: TOP INDIA COLLEGES (10 COLLEGES) & AI SUMMARY */}
+          <div className="pdf-page" id="pdf-page-6">
+            <div className="pdf-header">
+              <div className="pdf-logo">
+                <BrainCircuit size={24} style={{ color: '#0f3d8c' }} />
+                <span>{t('pdf.brandName') || "Careervo AI Guidance"}</span>
+              </div>
+              <div className="pdf-date">{new Date().toLocaleDateString('en-IN')}</div>
+            </div>
+            
+            <div className="pdf-body" style={{ justifyContent: 'space-between', gap: '20px' }}>
+              <div>
+                <h2 className="pdf-page-title" style={{ marginBottom: '14px' }}>{t('pdf.nationalTop10') || "Top 10 National Institutions"}</h2>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+                  {top10India.map((college, idx) => {
+                    const localizedCol = getLocalizedCollege(college);
+                    return (
+                      <div key={idx} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '8px 14px', background: '#f9fafb', borderRadius: '8px', border: '1px solid #f3f4f6' }}>
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+                          <span style={{ fontSize: '0.85rem', fontWeight: 'bold', color: '#9ca3af', width: '24px' }}>#{idx + 1}</span>
+                          <div>
+                            <span className="pdf-college-name" style={{ fontSize: '0.85rem', color: '#1f2937' }}>{localizedCol.name}</span>
+                            <div style={{ fontSize: '0.7rem', color: '#6b7280', marginTop: '2px' }}>
+                              <span>{localizedCol.location} | {(college.category === "Government" ? (lang === 'ml' ? 'ഗവൺമെന്റ്' : 'Government') : (lang === 'ml' ? 'പ്രൈവറ്റ്' : 'Private'))}</span>
+                              <span style={{ marginLeft: '12px' }}>{t('results.fees') || "Fees"}: {college.fees ? college.fees.replace(' / year', ' ' + t('terms.perYear')).replace('total', t('terms.total')) : ''}</span>
+                            </div>
+                          </div>
+                        </div>
+                        <div style={{ textAlign: 'right', fontSize: '0.7rem', color: '#4b5563', lineHeight: '1.4' }}>
+                          <div><strong>{lang === 'ml' ? 'ശരാശരി' : 'Avg'}:</strong> {college.avgPackage}</div>
+                          <div><strong>{lang === 'ml' ? 'ഉയർന്നത്' : 'Highest'}:</strong> {college.highestPackage}</div>
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+
+              {/* Concluding Executive AI Summary */}
+              <div style={{ border: '2px solid #0f3d8c', padding: '16px', borderRadius: '10px', background: '#f0fdf4', borderStyle: 'dashed' }}>
+                <h3 style={{ fontSize: '0.95rem', fontWeight: '800', color: '#0f3d8c', marginBottom: '6px', textTransform: 'uppercase' }}>
+                  {t('pdf.finalSummary') || "Executive AI Summary"}
+                </h3>
+                <p style={{ fontSize: '0.8rem', color: '#374151', lineHeight: '1.5', margin: 0 }}>
+                  {lang === 'ml' 
+                    ? 'ഈ വിശകലന റിപ്പോർട്ടിലെ വിവരങ്ങൾ കരിയർ തിരഞ്ഞെടുപ്പുകൾക്ക് മികച്ച ഒരു അടിത്തറ നൽകുന്നു. നിങ്ങളുടെ വൈദഗ്ധ്യം വർദ്ധിപ്പിക്കുന്നതിനും അനുയോജ്യമായ സർട്ടിഫിക്കേഷനുകൾ നേടുന്നതിനും നൽകിയിട്ടുള്ള 1 വർഷത്തെ ഗൈഡ് ഉപയോഗിക്കുക. കരിയർ മേഖലകളിലെ മാറ്റങ്ങൾക്കനുസരിച്ച് തയ്യാറെടുപ്പുകൾ നടത്താൻ Careervo ആശംസിക്കുന്നു.'
+                    : 'The analysis provided in this report forms a strong strategic base for your career transition. Make active use of the 1-year milestones provided in the action roadmap to stack certifications and gain critical internships. Careervo wishes you all the best in your career pursuits.'
+                  }
+                </p>
+              </div>
+            </div>
+            
+            <div className="pdf-footer">
+              <span>© {new Date().getFullYear()} Careervo. All rights reserved.</span>
+              <span>{t('pdf.pageOf', { curr: 6, total: 6 })}</span>
+            </div>
+          </div>
+
         </div>
       </div>
     </div>

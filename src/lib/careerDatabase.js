@@ -7,33 +7,60 @@ export { questionBank, careerDatabase, collegeDatabase };
 // ─── DYNAMIC SHUFFLE AND SELECTION OF QUESTIONS ─────────────────────────────
 export function selectQuestionsForStudent(stream, interests, count = 10) {
   // Normalize interests to lowercase keys that match questionBank keys
-  const normalizedInterests = interests.map(i => {
+  const normalizedInterests = (interests || []).map(i => {
     if (i === "Government Jobs") return "government_jobs";
     return i.toLowerCase().replace(/\s+/g, '_');
-  });
+  }).filter(cat => !!questionBank[cat]);
 
   let selectedPool = [];
+  const selectedIds = new Set();
 
-  // Pick up to 4 questions per chosen interest category to build a personalized pool
-  normalizedInterests.forEach(cat => {
-    if (questionBank[cat]) {
-      const shuffledCat = shuffleArray([...questionBank[cat]]);
-      selectedPool.push(...shuffledCat.slice(0, 4));
-    }
-  });
+  if (normalizedInterests.length > 0) {
+    // Determine base questions count per selected interest
+    const basePerInterest = Math.floor(count / normalizedInterests.length);
+    let remainder = count % normalizedInterests.length;
 
-  // If pool size is less than requested count (e.g. fewer than 3 interests), fill with other categories
-  if (selectedPool.length < count) {
-    const allCats = Object.keys(questionBank);
-    const remainingCats = allCats.filter(c => !normalizedInterests.includes(c));
-    shuffleArray(remainingCats).forEach(cat => {
-      if (selectedPool.length < count && questionBank[cat]) {
-        selectedPool.push(...questionBank[cat].slice(0, 2));
+    normalizedInterests.forEach((cat, idx) => {
+      const targetCount = basePerInterest + (idx < remainder ? 1 : 0);
+      if (targetCount > 0 && questionBank[cat]) {
+        const shuffledCat = shuffleArray([...questionBank[cat]]);
+        let added = 0;
+        for (let i = 0; i < shuffledCat.length; i++) {
+          if (added >= targetCount) break;
+          const q = shuffledCat[i];
+          if (!selectedIds.has(q.id)) {
+            selectedPool.push(q);
+            selectedIds.add(q.id);
+            added++;
+          }
+        }
       }
     });
   }
 
-  // Final shuffle of the combined pool and slicing to requested count
+  // If pool size is less than requested count, fill dynamically from other categories
+  if (selectedPool.length < count) {
+    const allCats = Object.keys(questionBank);
+    const remainingCats = allCats.filter(c => !normalizedInterests.includes(c));
+    const shuffledRemainingCats = shuffleArray(remainingCats);
+
+    for (let cIdx = 0; cIdx < shuffledRemainingCats.length; cIdx++) {
+      if (selectedPool.length >= count) break;
+      const cat = shuffledRemainingCats[cIdx];
+      const shuffledCat = shuffleArray([...questionBank[cat]]);
+      
+      for (let qIdx = 0; qIdx < shuffledCat.length; qIdx++) {
+        if (selectedPool.length >= count) break;
+        const q = shuffledCat[qIdx];
+        if (!selectedIds.has(q.id)) {
+          selectedPool.push(q);
+          selectedIds.add(q.id);
+        }
+      }
+    }
+  }
+
+  // Final shuffle of the combined pool to interleave questions from different categories
   return shuffleArray(selectedPool).slice(0, count);
 }
 
