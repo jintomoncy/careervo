@@ -1,2401 +1,5798 @@
-// ============================================================================
-// CAREERVO SYSTEM DATABASE - 360 CONVERSATIONAL QUESTIONS
-// 20 Questions per interest category * 18 interest categories
-// ============================================================================
-
 export const questionBank = {
-  business: [
-    { id: "b1", category: "business", question: "If you had a budget to launch a small project, how would you allocate the funds?", options: ["Invest in marketing to get users fast", "Focus on product quality first", "Save a large buffer for unexpected costs", "Hire the best talent available immediately"], tags: ["business", "finance", "leadership"] },
-    { id: "b2", category: "business", question: "When you see a crowded market, what is your first business instinct?", options: ["Find a niche they are all ignoring", "Compete directly by offering lower prices", "Create a premium version for high-end users", "Partner with one of the existing players"], tags: ["business", "marketing", "risk tolerance"] },
-    { id: "b3", category: "business", question: "What is your main motivation for studying business concepts?", options: ["To understand how global economies scale", "To learn how to manage and lead large teams", "To optimize operations and solve inefficiencies", "To start my own venture as soon as possible"], tags: ["business", "leadership", "ambition"] },
-    { id: "b4", category: "business", question: "Which role in a corporation sounds most appealing to you?", options: ["Chief Executive Officer (Strategy & Vision)", "Chief Operating Officer (Execution & Flow)", "Chief Marketing Officer (Growth & Branding)", "Chief Financial Officer (Budgets & Strategy)"], tags: ["business", "leadership", "finance"] },
-    { id: "b5", category: "business", question: "How do you view customer complaints in a business setup?", options: ["An annoying hurdle to deal with quickly", "Valuable data to improve the product", "A sign that the marketing set wrong expectations", "An opportunity to win a loyal customer for life"], tags: ["business", "empathy", "communication"] },
-    { id: "b6", category: "business", question: "What business metric do you think is most important for long-term survival?", options: ["Net profit margins", "Customer acquisition cost", "Monthly active user growth", "Brand reputation score"], tags: ["business", "finance", "analytical thinking"] },
-    { id: "b7", category: "business", question: "A competitor copies your core product feature. What is your move?", options: ["File a lawsuit immediately", "Innovate the next feature faster", "Price match to beat their margins", "Focus on superior customer service instead"], tags: ["business", "risk tolerance", "innovation mindset"] },
-    { id: "b8", category: "business", question: "Which business book title would you be most likely to buy?", options: ["Zero to One: Building the Future", "The Lean Startup: Pivot to Success", "Good to Great: Why Some Companies Leap", "The Intelligent Investor: Wealth Management"], tags: ["business", "entrepreneurship", "logical thinking"] },
-    { id: "b9", category: "business", question: "How do you prefer to negotiate a deal?", options: ["Firmly set my terms and let them adjust", "Find a win-win compromise dynamically", "Listen to their demands first, then counter", "Offer options with varying price points"], tags: ["business", "communication", "social confidence"] },
-    { id: "b10", category: "business", question: "If your business sales drop by 20% in a month, what is your first action?", options: ["Fire non-essential staff to cut costs", "Audit customer feedback and product reviews", "Launch a massive promotional discount", "Consult a business strategist for advice"], tags: ["business", "analytical thinking", "discipline"] },
-    { id: "b11", category: "business", question: "What is your stance on corporate social responsibility?", options: ["It's mandatory; companies must solve social issues", "It's good for PR, but profit must come first", "It should be integrated directly into the product", "It should be left to non-profits and government"], tags: ["business", "empathy", "ambition"] },
-    { id: "b12", category: "business", question: "If you had to pitch to investors in 60 seconds, what would you emphasize?", options: ["The unique features of our technology", "The massive, untouched market demand", "The qualifications and skills of our team", "The projected financial returns and profit margins"], tags: ["business", "communication", "entrepreneurship"] },
-    { id: "b13", category: "business", question: "When launching a product, which launch strategy appeals to you most?", options: ["Invite-only beta for exclusive users", "Mass public launch with heavy advertising", "Partnership with a trusted, established brand", "Free open-source release to gain fast adoption"], tags: ["business", "marketing", "risk tolerance"] },
-    { id: "b14", category: "business", question: "How do you handle team members who are underperforming?", options: ["Provide direct feedback and set strict deadlines", "Mentor them to find the root cause of the issue", "Reassign them to tasks that match their strengths", "Replace them quickly to maintain overall efficiency"], tags: ["business", "leadership", "emotional intelligence"] },
-    { id: "b15", category: "business", question: "Which business environment do you prefer?", options: ["A fast-paced startup where everyone wears many hats", "A structured corporate office with clear roles", "A remote-first company offering geographic freedom", "A creative studio where innovation overrides rules"], tags: ["business", "work style", "discipline"] },
-    { id: "b16", category: "business", question: "How do you make crucial strategic decisions under high uncertainty?", options: ["Rely on data analytics and market forecasts", "Trust my gut and industry experience", "Consult with advisors and senior board members", "Run small tests first to gather direct evidence"], tags: ["business", "analytical thinking", "risk tolerance"] },
-    { id: "b17", category: "business", question: "What is the most exciting part of building a business?", options: ["Watching the daily revenue and valuation grow", "Leading a group of smart people to achieve goals", "Creating something that makes lives easier", "Outsmarting and beating tough competitors"], tags: ["business", "ambition", "creativity"] },
-    { id: "b18", category: "business", question: "How do you view failure in a business venture?", options: ["A painful waste of time and capital to avoid", "An essential learning experience for the next build", "A sign that we need to change our strategy quickly", "A normal risk of doing business in a free market"], tags: ["business", "risk tolerance", "emotional intelligence"] },
-    { id: "b19", category: "business", question: "What is your strategy to retain premium customers?", options: ["Offer loyalty discounts and financial perks", "Provide personalized, dedicated support services", "Continuously add exclusive features to the service", "Create an active community space for networking"], tags: ["business", "communication", "empathy"] },
-    { id: "b20", category: "business", question: "If you had to choose a superpower for business, what would it be?", options: ["The ability to predict market trends accurately", "Being able to read what negotiators are thinking", "Infinite energy to work without getting tired", "The charisma to persuade anyone to buy anything"], tags: ["business", "ambition", "social confidence"] }
-  ,
+  "business": [
     {
-      id: "b21",
-      category: "business",
-      subcategory: "leadership",
-      difficulty: "easy",
-      question: "Do you enjoy organizing events or leading team projects in school/college?",
-      options: ["Yes, absolutely","Sometimes, if needed","No, I prefer other roles"],
-      tags: ["business","leadership"],
-      scoringLogic: {"traits":{"leadership":5,"communication":3},"careers":["business_analyst","project_manager"]},
-      malayalamVersion: {"question":"സ്കൂളിലോ കോളേജിലോ പരിപാടികൾ സംഘടിപ്പിക്കാനോ ഗ്രൂപ്പ് പ്രോജക്റ്റുകൾക്ക് നേതൃത്വം നൽകാനോ നിങ്ങൾക്ക് ഇഷ്ടമാണോ?","options":["അതെ, തീർച്ചയായും","ചിലപ്പോൾ, ആവശ്യമുണ്ടെങ്കിൽ","ഇല്ല, എനിക്ക് മറ്റ് റോളുകളാണ് താത്പര്യം"]}
+      "id": "q_business_1",
+      "category": "business",
+      "text": "Do you enjoy managing teams?",
+      "options": [
+        {
+          "text": "Yes, absolutely",
+          "score": 1
+        },
+        {
+          "text": "Sometimes",
+          "score": 0.6
+        },
+        {
+          "text": "Neutral",
+          "score": 0.3
+        },
+        {
+          "text": "No",
+          "score": 0
+        }
+      ],
+      "scoringLogic": {
+        "traits": {
+          "analytical": 0.69,
+          "creativity": 0.57,
+          "leadership": 0.88,
+          "communication": 0.95
+        }
+      },
+      "difficulty": "easy"
     },
     {
-      id: "b22",
-      category: "business",
-      subcategory: "communication",
-      difficulty: "easy",
-      question: "I find it easy to explain ideas to other people and convince them.",
-      options: ["Strongly Agree","Agree","Neutral","Disagree","Strongly Disagree"],
-      tags: ["business","communication"],
-      scoringLogic: {"traits":{"communication":5},"careers":["sales_manager","public_relations"]},
-      malayalamVersion: {"question":"എൻ്റെ ആശയങ്ങൾ മറ്റുള്ളവർക്ക് വ്യക്തമായി വിശദീകരിക്കാനും അവരെ ബോധ്യപ്പെടുത്താനും എനിക്ക് എളുപ്പമാണ്.","options":["ശക്തമായി യോജിക്കുന്നു","യോജിക്കുന്നു","നിഷ്പക്ഷം","വിയോജിക്കുന്നു","ശക്തമായി വിയോജിക്കുന്നു"]}
+      "id": "q_business_2",
+      "category": "business",
+      "text": "Do you like analyzing market trends?",
+      "options": [
+        {
+          "text": "Yes, absolutely",
+          "score": 1
+        },
+        {
+          "text": "Sometimes",
+          "score": 0.6
+        },
+        {
+          "text": "Neutral",
+          "score": 0.3
+        },
+        {
+          "text": "No",
+          "score": 0
+        }
+      ],
+      "scoringLogic": {
+        "traits": {
+          "analytical": 0.42,
+          "creativity": 0.99,
+          "leadership": 0.9,
+          "communication": 0.65
+        }
+      },
+      "difficulty": "easy"
     },
     {
-      id: "b23",
-      category: "business",
-      subcategory: "decision_making",
-      difficulty: "medium",
-      question: "If a project fails, my first instinct is to analyze the reasons rather than feel upset.",
-      options: ["Yes","Sometimes","No"],
-      tags: ["business","analytical"],
-      scoringLogic: {"traits":{"analytical":5},"careers":["business_analyst","risk_analyst"]},
-      malayalamVersion: {"question":"ഒരു പ്രോജക്റ്റ് പരാജയപ്പെട്ടാൽ, വിഷമിക്കുന്നതിന് പകരം അതിൻ്റെ കാരണങ്ങൾ വിശകലനം ചെയ്യാനാണ് ഞാൻ ആദ്യം ശ്രമിക്കുന്നത്.","options":["അതെ","ചിലപ്പോൾ","അല്ല"]}
+      "id": "q_business_3",
+      "category": "business",
+      "text": "Are you good at negotiating?",
+      "options": [
+        {
+          "text": "Yes, absolutely",
+          "score": 1
+        },
+        {
+          "text": "Sometimes",
+          "score": 0.6
+        },
+        {
+          "text": "Neutral",
+          "score": 0.3
+        },
+        {
+          "text": "No",
+          "score": 0
+        }
+      ],
+      "scoringLogic": {
+        "traits": {
+          "analytical": 0.44,
+          "creativity": 0.56,
+          "leadership": 0.48,
+          "communication": 0.58
+        }
+      },
+      "difficulty": "easy"
     },
     {
-      id: "b24",
-      category: "business",
-      subcategory: "strategy",
-      difficulty: "medium",
-      question: "Which business strategy would you prefer to grow a new brand?",
-      options: ["Target a premium niche with high pricing","Target the mass market with low prices","Leverage creative social media campaigns","Form partnerships with existing popular brands"],
-      tags: ["business","strategy"],
-      scoringLogic: {"traits":{"creativity":4,"analytical":3},"careers":["brand_strategist","marketing_manager"]},
-      malayalamVersion: {"question":"ഒരു പുതിയ ബ്രാൻഡ് വളർത്താൻ നിങ്ങൾ ഏത് ബിസിനസ്സ് തന്ത്രമാണ് തിരഞ്ഞെടുക്കുക?","options":["ഉയർന്ന വിലയിൽ പ്രീമിയം കസ്റ്റമേഴ്സിനെ ലക്ഷ്യമിടുക","കുറഞ്ഞ വിലയിൽ വലിയ ജനവിഭാഗത്തെ ലക്ഷ്യമിടുക","സർഗ്ഗാത്മകമായ സോഷ്യൽ മീഡിയ കാമ്പെയ്നുകൾ ഉപയോഗിക്കുക","നിലവിലുള്ള ജനപ്രിയ ബ്രാൻഡുകളുമായി പങ്കാളിത്തം ഉണ്ടാക്കുക"]}
+      "id": "q_business_4",
+      "category": "business",
+      "text": "Do you find business strategies interesting?",
+      "options": [
+        {
+          "text": "Yes, absolutely",
+          "score": 1
+        },
+        {
+          "text": "Sometimes",
+          "score": 0.6
+        },
+        {
+          "text": "Neutral",
+          "score": 0.3
+        },
+        {
+          "text": "No",
+          "score": 0
+        }
+      ],
+      "scoringLogic": {
+        "traits": {
+          "analytical": 0.41,
+          "creativity": 0.23,
+          "leadership": 0.97,
+          "communication": 0.9
+        }
+      },
+      "difficulty": "medium"
     },
     {
-      id: "b25",
-      category: "business",
-      subcategory: "problem_solving",
-      difficulty: "hard",
-      question: "How do you handle multiple deadlines at the same time?",
-      options: ["Create a detailed priority checklist and execute","Delegate some tasks to others and focus on key items","Work extra hours under pressure without planning","Focus on one task at a time and let others delay if necessary"],
-      tags: ["business","discipline"],
-      scoringLogic: {"traits":{"leadership":4,"analytical":3},"careers":["operations_manager","project_manager"]},
-      malayalamVersion: {"question":"ഒരേ സമയം ഒന്നിലധികം ജോലികൾ പൂർത്തിയാക്കേണ്ടി വരുമ്പോൾ നിങ്ങൾ എങ്ങനെ കൈകാര്യം ചെയ്യും?","options":["മുൻഗണനാ ക്രമം അനുസരിച്ച് ലിസ്റ്റ് തയ്യാറാക്കി ചെയ്യും","ചില ജോലികൾ മറ്റുള്ളവരെ ഏൽപ്പിച്ച് പ്രധാനപ്പെട്ടവയിൽ ശ്രദ്ധ കേന്ദ്രീകരിക്കും","ആസൂത്രണം ഒന്നുമില്ലാതെ സമ്മർദ്ദത്തിലായി കൂടുതൽ സമയം ജോലി ചെയ്യും","ഒരു സമയം ഒരു ജോലിയിൽ മാത്രം ശ്രദ്ധിക്കും, മറ്റുള്ളവ വൈകിയാലും സാരമില്ലെന്ന് വെക്കും"]}
+      "id": "q_business_5",
+      "category": "business",
+      "text": "Would you like to run a company one day?",
+      "options": [
+        {
+          "text": "Yes, absolutely",
+          "score": 1
+        },
+        {
+          "text": "Sometimes",
+          "score": 0.6
+        },
+        {
+          "text": "Neutral",
+          "score": 0.3
+        },
+        {
+          "text": "No",
+          "score": 0
+        }
+      ],
+      "scoringLogic": {
+        "traits": {
+          "analytical": 0.59,
+          "creativity": 0.59,
+          "leadership": 0.56,
+          "communication": 0.94
+        }
+      },
+      "difficulty": "medium"
     },
     {
-      id: "b26",
-      category: "business",
-      subcategory: "risk_taking",
-      difficulty: "medium",
-      question: "I prefer a job with a stable salary over one with lower base pay but high performance bonuses.",
-      options: ["Strongly Agree","Agree","Neutral","Disagree","Strongly Disagree"],
-      tags: ["business","risk_tolerance"],
-      scoringLogic: {"traits":{"analytical":3},"careers":["consultant","corporate_planner"]},
-      malayalamVersion: {"question":"കുറഞ്ഞ അടിസ്ഥാന ശമ്പളവും ഉയർന്ന ബോണസും ഉള്ള ജോലിയേക്കാൾ സുരക്ഷിതമായ നിശ്ചിത ശമ്പളമുള്ള ജോലിയാണ് ഞാൻ തിരഞ്ഞെടുക്കുന്നത്.","options":["ശക്തമായി യോജിക്കുന്നു","യോജിക്കുന്നു","നിഷ്പക്ഷം","വിയോജിക്കുന്നു","ശക്തമായി വിയോജിക്കുന്നു"]}
+      "id": "q_business_6",
+      "category": "business",
+      "text": "Do you enjoy resolving conflicts between people?",
+      "options": [
+        {
+          "text": "Yes, absolutely",
+          "score": 1
+        },
+        {
+          "text": "Sometimes",
+          "score": 0.6
+        },
+        {
+          "text": "Neutral",
+          "score": 0.3
+        },
+        {
+          "text": "No",
+          "score": 0
+        }
+      ],
+      "scoringLogic": {
+        "traits": {
+          "analytical": 0.72,
+          "creativity": 0.45,
+          "leadership": 0.64,
+          "communication": 0.65
+        }
+      },
+      "difficulty": "medium"
     },
     {
-      id: "b27",
-      category: "business",
-      subcategory: "collaboration",
-      difficulty: "easy",
-      question: "I work best when collaborating with team members rather than working completely alone.",
-      options: ["Strongly Agree","Agree","Neutral","Disagree","Strongly Disagree"],
-      tags: ["business","teamwork"],
-      scoringLogic: {"traits":{"communication":4,"leadership":2},"careers":["human_resource_manager","project_manager"]},
-      malayalamVersion: {"question":"ഒറ്റയ്ക്ക് ജോലി ചെയ്യുന്നതിനേക്കാൾ ഗ്രൂപ്പായി സഹകരിച്ച് പ്രവർത്തിക്കുമ്പോഴാണ് ഞാൻ ഏറ്റവും നന്നായി തിളങ്ങുന്നത്.","options":["ശക്തമായി യോജിക്കുന്നു","യോജിക്കുന്നു","നിഷ്പക്ഷം","വിയോജിക്കുന്നു","ശക്തമായി വിയോജിക്കുന്നു"]}
+      "id": "q_business_7",
+      "category": "business",
+      "text": "Are you comfortable taking calculated risks?",
+      "options": [
+        {
+          "text": "Yes, absolutely",
+          "score": 1
+        },
+        {
+          "text": "Sometimes",
+          "score": 0.6
+        },
+        {
+          "text": "Neutral",
+          "score": 0.3
+        },
+        {
+          "text": "No",
+          "score": 0
+        }
+      ],
+      "scoringLogic": {
+        "traits": {
+          "analytical": 0.56,
+          "creativity": 0.78,
+          "leadership": 0.51,
+          "communication": 0.53
+        }
+      },
+      "difficulty": "medium"
     },
     {
-      id: "b28",
-      category: "business",
-      subcategory: "innovation",
-      difficulty: "hard",
-      question: "When buying products, do you analyze why they succeeded or failed in the market?",
-      options: ["Yes, I often think about the business logic","Sometimes, if it's a unique product","No, I just buy and use them"],
-      tags: ["business","analytical"],
-      scoringLogic: {"traits":{"analytical":5,"creativity":3},"careers":["product_manager","business_analyst"]},
-      malayalamVersion: {"question":"ഉൽപ്പന്നങ്ങൾ വാങ്ങുമ്പോൾ, അവ വിപണിയിൽ വിജയിക്കാനോ പരാജയപ്പെടാനോ ഉള്ള ബിസിനസ്സ് കാരണം നിങ്ങൾ ചിന്തിക്കാറുണ്ടോ?","options":["അതെ, ഞാൻ പലപ്പോഴും അതിൻ്റെ പിന്നിലെ ബിസിനസ് യുക്തിയെക്കുറിച്ച് ചിന്തിക്കാറുണ്ട്","ചിലപ്പോൾ, അത് വ്യത്യസ്തമായ ഒരു ഉൽപ്പന്നമാണെങ്കിൽ മാത്രം","ഇല്ല, ഞാൻ അത് വാങ്ങി ഉപയോഗിക്കാറേയുള്ളൂ"]}
+      "id": "q_business_8",
+      "category": "business",
+      "text": "Do you like reading about successful companies?",
+      "options": [
+        {
+          "text": "Yes, absolutely",
+          "score": 1
+        },
+        {
+          "text": "Sometimes",
+          "score": 0.6
+        },
+        {
+          "text": "Neutral",
+          "score": 0.3
+        },
+        {
+          "text": "No",
+          "score": 0
+        }
+      ],
+      "scoringLogic": {
+        "traits": {
+          "analytical": 0.89,
+          "creativity": 0.62,
+          "leadership": 0.88,
+          "communication": 0.93
+        }
+      },
+      "difficulty": "hard"
     },
     {
-      id: "b29",
-      category: "business",
-      subcategory: "negotiation",
-      difficulty: "medium",
-      question: "When group opinions clash, I am usually the one who helps find a middle ground.",
-      options: ["Strongly Agree","Agree","Neutral","Disagree","Strongly Disagree"],
-      tags: ["business","communication"],
-      scoringLogic: {"traits":{"communication":5,"leadership":3},"careers":["human_resource_manager","sales_manager"]},
-      malayalamVersion: {"question":"ഗ്രൂപ്പിലെ അഭിപ്രായങ്ങൾ ഭിന്നിക്കുമ്പോൾ, പൊതുവായ ഒരു പരിഹാരത്തിലേക്ക് എത്താൻ സാധാരണയായി സഹായിക്കുന്നത് ഞാനാണ്.","options":["ശക്തമായി യോജിക്കുന്നു","യോജിക്കുന്നു","നിഷ്പക്ഷം","വിയോജിക്കുന്നു","ശക്തമായി വിയോജിക്കുന്നു"]}
+      "id": "q_business_9",
+      "category": "business",
+      "text": "Can you easily convince others?",
+      "options": [
+        {
+          "text": "Yes, absolutely",
+          "score": 1
+        },
+        {
+          "text": "Sometimes",
+          "score": 0.6
+        },
+        {
+          "text": "Neutral",
+          "score": 0.3
+        },
+        {
+          "text": "No",
+          "score": 0
+        }
+      ],
+      "scoringLogic": {
+        "traits": {
+          "analytical": 0.28,
+          "creativity": 0.54,
+          "leadership": 0.53,
+          "communication": 0.78
+        }
+      },
+      "difficulty": "hard"
     },
     {
-      id: "b30",
-      category: "business",
-      subcategory: "adaptation",
-      difficulty: "hard",
-      question: "How do you respond when rules or requirements change suddenly in the middle of a project?",
-      options: ["Adapt quickly and update my plan immediately","Feel frustrated but follow instructions","Propose a systematic review of the changes first","Prefer to stick to the original plan if possible"],
-      tags: ["business","discipline"],
-      scoringLogic: {"traits":{"analytical":4,"leadership":3},"careers":["consultant","operations_manager"]},
-      malayalamVersion: {"question":"ഒരു പ്രോജക്റ്റിൽ പെട്ടെന്ന് നിബന്ധനകളോ നിയമങ്ങളോ മാറുമ്പോൾ നിങ്ങൾ എങ്ങനെ പ്രതികരിക്കും?","options":["വേഗത്തിൽ പൊരുത്തപ്പെടുകയും എൻ്റെ പ്ലാൻ ഉടൻ തന്നെ പുതുക്കുകയും ചെയ്യും","നിരാശ തോന്നും എങ്കിലും നിർദ്ദേശങ്ങൾ പാലിക്കും","ആദ്യം മാറ്റങ്ങളുടെ ഒരു സിസ്റ്റമാറ്റിക് അവലോകനം നിർദ്ദേശിക്കും","സാധ്യമെങ്കിൽ പഴയ പ്ലാനിൽ തന്നെ തുടരാൻ ആഗ്രഹിക്കും"]}
+      "id": "q_business_10",
+      "category": "business",
+      "text": "Do you like optimizing processes for efficiency?",
+      "options": [
+        {
+          "text": "Yes, absolutely",
+          "score": 1
+        },
+        {
+          "text": "Sometimes",
+          "score": 0.6
+        },
+        {
+          "text": "Neutral",
+          "score": 0.3
+        },
+        {
+          "text": "No",
+          "score": 0
+        }
+      ],
+      "scoringLogic": {
+        "traits": {
+          "analytical": 0.3,
+          "creativity": 0.41,
+          "leadership": 0.41,
+          "communication": 0.36
+        }
+      },
+      "difficulty": "hard"
     }
   ],
-  technology: [
-    { id: "t1", category: "technology", question: "When a new gadget or app is released, how do you react?", options: ["Download or buy it immediately to try it", "Read tech reviews and teardowns first", "Ignore it until it becomes widely popular", "Think about how it was programmed or designed"], tags: ["technology", "innovation mindset", "technical interest"] },
-    { id: "t2", category: "technology", question: "Which technology field do you think will impact society the most in 5 years?", options: ["Quantum computing and supercomputers", "Decentralized networks and blockchain", "IoT and smart city systems", "Robotics and automated vehicles"], tags: ["technology", "logical thinking", "technical interest"] },
-    { id: "t3", category: "technology", question: "How do you solve a hardware or software error on your PC?", options: ["Search online forums and fix it myself", "Ask a tech-savvy friend to help out", "Take it to a professional repair center", "Keep restarting and hope it goes away"], tags: ["technology", "analytical thinking", "discipline"] },
-    { id: "t4", category: "technology", question: "What is your level of interest in learning programming languages?", options: ["Extremely high — I want to master multiple", "Moderate — I want to learn the basics", "Low — I prefer using ready-made tools", "None — I find coding dry and boring"], tags: ["technology", "logical thinking", "technical interest"] },
-    { id: "t5", category: "technology", question: "If you could build a tech project, what would it be?", options: ["A high-performance operating system", "A mobile application that solves a daily chore", "A hardware robot that helps around the house", "A secure network protocol for encrypted chat"], tags: ["technology", "creativity", "technical interest"] },
-    { id: "t6", category: "technology", question: "What aspect of technology excites you the most?", options: ["The logical structure of coding", "The physical architecture of microchips", "The user interface and design of systems", "The way it connects people globally"], tags: ["technology", "logical thinking", "design"] },
-    { id: "t7", category: "technology", question: "How do you feel about open-source software projects?", options: ["I love contributing and sharing code freely", "I prefer commercial software for stability", "It's good for learning but not for enterprise", "I don't know much about it"], tags: ["technology", "teamwork", "technical interest"] },
-    { id: "t8", category: "technology", question: "Which tech icon do you admire the most?", options: ["Linus Torvalds (Creator of Linux)", "Steve Jobs (Product Design pioneer)", "Alan Turing (Father of Computer Science)", "Satya Nadella (Enterprise Tech leader)"], tags: ["technology", "leadership", "innovation mindset"] },
-    { id: "t9", category: "technology", question: "What type of data interests you the most to work with?", options: ["Structured databases and server logs", "User activity and behavior logs", "Real-time hardware sensor streams", "Cryptographic keys and hashes"], tags: ["technology", "analytical thinking", "technical interest"] },
-    { id: "t10", category: "technology", question: "When you hear about cybersecurity breaches, what do you think?", options: ["How did the hacker bypass the security protocols?", "The affected users must be feeling so vulnerable", "Companies should spend double on firewall tech", "I need to change all my passwords right now"], tags: ["technology", "analytical thinking", "risk tolerance"] },
-    { id: "t11", category: "technology", question: "If you could customize your own smart home system, what is your top priority?", options: ["Total automation of temperature, lighting, and chores", "High security and encryption of all devices", "Energy efficiency and minimal utility costs", "Fun integration of audio, video, and gaming setups"], tags: ["technology", "technical interest", "creativity"] },
-    { id: "t12", category: "technology", question: "How do you prefer to learn a new technology or framework?", options: ["Dive straight in and build a project with it", "Watch video tutorials and code along", "Read the official documentation from start to finish", "Attend a structured bootcamp or online class"], tags: ["technology", "discipline", "logical thinking"] },
-    { id: "t13", category: "technology", question: "What is your perspective on blockchain technology beyond cryptocurrency?", options: ["It's the future of secure voting and supply chains", "It's an inefficient database model with minor uses", "It's too complex and slow for mainstream use", "It holds great promise for digital identity verification"], tags: ["technology", "analytical thinking", "innovation mindset"] },
-    { id: "t14", category: "technology", question: "When coding a solution, what is your primary design goal?", options: ["Write the fastest, most optimized code possible", "Make the code clean and easy for others to read", "Solve the problem quickly, then refactor later", "Ensure there are absolute safety measures and no bugs"], tags: ["technology", "work style", "logical thinking"] },
-    { id: "t15", category: "technology", question: "How do you feel about the transition to Cloud Computing?", options: ["It's amazing; local hardware limitations are gone", "It creates central monopolies that own our data", "It is complex but essential for modern scaling", "I prefer keeping all my data on physical local hard drives"], tags: ["technology", "technical interest", "analytical thinking"] },
-    { id: "t16", category: "technology", question: "Which hardware component interests you the most?", options: ["The main CPU/GPU (Logic processing)", "The RAM and Storage (Memory speed and storage)", "The motherboard and power grid pathways", "External sensor modules and screen displays"], tags: ["technology", "technical interest", "logical thinking"] },
-    { id: "t17", category: "technology", question: "What is your attitude toward technology companies tracking web cookies?", options: ["It makes the internet experience smoother and personalized", "It is a severe violation of user privacy rights", "I accept it but use browsers that block tracking", "I don't care as long as the services remain free"], tags: ["technology", "analytical thinking", "risk tolerance"] },
-    { id: "t18", category: "technology", question: "How would you describe your experience with virtual or augmented reality?", options: ["Mind-blowing; it will replace physical monitors soon", "A fun gaming novelty, but not useful for work yet", "It causes motion sickness and feels uncomfortable", "I am interested in how it overlays data on real objects"], tags: ["technology", "creativity", "innovation mindset"] },
-    { id: "t19", category: "technology", question: "If your code has a bug that you can't find for hours, you...", options: ["Refuse to sleep until the issue is resolved", "Walk away, take a break, and look with fresh eyes", "Ask a peer or post on StackOverflow immediately", "Delete the section and write it in a simpler way"], tags: ["technology", "discipline", "emotional intelligence"] },
-    { id: "t20", category: "technology", question: "What kind of technology company would you want to work for?", options: ["A cutting-edge research lab building new algorithms", "A consumer tech giant that shapes daily life", "A cybersecurity firm defending digital infrastructure", "An indie startup building a passionate product"], tags: ["technology", "ambition", "technical interest"] }
-  ,
+  "technology": [
     {
-      id: "t21",
-      category: "technology",
-      subcategory: "logic",
-      difficulty: "easy",
-      question: "Do you enjoy solving math puzzles or logic games on your phone?",
-      options: ["Yes, very much","Sometimes","No, I find them boring"],
-      tags: ["technology","logical thinking"],
-      scoringLogic: {"traits":{"analytical":5},"careers":["software_engineer","data_scientist"]},
-      malayalamVersion: {"question":"നിങ്ങളുടെ ഫോണിൽ കണക്ക് പസിലുകളോ ലോജിക് ഗെയിമുകളോ കളിക്കുന്നത് നിങ്ങൾക്ക് ഇഷ്ടമാണോ?","options":["അതെ, വളരെ ഇഷ്ടമാണ്","ചിലപ്പോൾ","ഇല്ല, എനിക്ക് ബോറടിക്കാറുണ്ട്"]}
+      "id": "q_technology_1",
+      "category": "technology",
+      "text": "Do you enjoy coding or learning new software?",
+      "options": [
+        {
+          "text": "Yes, absolutely",
+          "score": 1
+        },
+        {
+          "text": "Sometimes",
+          "score": 0.6
+        },
+        {
+          "text": "Neutral",
+          "score": 0.3
+        },
+        {
+          "text": "No",
+          "score": 0
+        }
+      ],
+      "scoringLogic": {
+        "traits": {
+          "analytical": 0.86,
+          "creativity": 0.73,
+          "leadership": 0.97,
+          "communication": 0.58
+        }
+      },
+      "difficulty": "easy"
     },
     {
-      id: "t22",
-      category: "technology",
-      subcategory: "troubleshooting",
-      difficulty: "easy",
-      question: "When a home device (like Wi-Fi or TV) stops working, what do you do first?",
-      options: ["Try to fix it myself by searching online","Ask someone else in the house to fix it","Call a professional technician immediately","Wait for it to resolve on its own"],
-      tags: ["technology","technical interest"],
-      scoringLogic: {"traits":{"analytical":4,"creativity":2},"careers":["network_engineer","systems_administrator"]},
-      malayalamVersion: {"question":"വീട്ടിലെ വൈഫൈയോ ടിവിയോ പോലുള്ള ഒരു ഉപകരണം കേടായാൽ നിങ്ങൾ ആദ്യം എന്താണ് ചെയ്യുക?","options":["ഇൻ്റർനെറ്റിൽ തിരഞ്ഞ് ഞാൻ സ്വയം അത് പരിഹരിക്കാൻ ശ്രമിക്കും","വീട്ടിലുള്ള മറ്റാരെയെങ്കിലും കൊണ്ട് നന്നാക്കാൻ ആവശ്യപ്പെടും","ഉടൻ തന്നെ ഒരു പ്രൊഫഷണൽ ടെക്നീഷ്യനെ വിളിക്കും","അത് തനിയെ ശരിയാകുന്നതുവരെ കാത്തിരിക്കും"]}
+      "id": "q_technology_2",
+      "category": "technology",
+      "text": "Are you curious about how computers work?",
+      "options": [
+        {
+          "text": "Yes, absolutely",
+          "score": 1
+        },
+        {
+          "text": "Sometimes",
+          "score": 0.6
+        },
+        {
+          "text": "Neutral",
+          "score": 0.3
+        },
+        {
+          "text": "No",
+          "score": 0
+        }
+      ],
+      "scoringLogic": {
+        "traits": {
+          "analytical": 0.75,
+          "creativity": 0.4,
+          "leadership": 0.39,
+          "communication": 0.22
+        }
+      },
+      "difficulty": "easy"
     },
     {
-      id: "t23",
-      category: "technology",
-      subcategory: "coding",
-      difficulty: "medium",
-      question: "I am interested in learning how programming languages work behind the screen.",
-      options: ["Strongly Agree","Agree","Neutral","Disagree","Strongly Disagree"],
-      tags: ["technology","technical interest"],
-      scoringLogic: {"traits":{"analytical":5},"careers":["software_engineer","frontend_developer"]},
-      malayalamVersion: {"question":"സ്ക്രീനിന് പിന്നിൽ പ്രോഗ്രാമിംഗ് ഭാഷകൾ എങ്ങനെ പ്രവർത്തിക്കുന്നു എന്ന് പഠിക്കാൻ എനിക്ക് താല്പര്യമുണ്ട്.","options":["ശക്തമായി യോജിക്കുന്നു","യോജിക്കുന്നു","നിഷ്പക്ഷം","വിയോജിക്കുന്നു","ശക്തമായി വിയോജിക്കുന്നു"]}
+      "id": "q_technology_3",
+      "category": "technology",
+      "text": "Do you like building apps or websites?",
+      "options": [
+        {
+          "text": "Yes, absolutely",
+          "score": 1
+        },
+        {
+          "text": "Sometimes",
+          "score": 0.6
+        },
+        {
+          "text": "Neutral",
+          "score": 0.3
+        },
+        {
+          "text": "No",
+          "score": 0
+        }
+      ],
+      "scoringLogic": {
+        "traits": {
+          "analytical": 0.54,
+          "creativity": 0.43,
+          "leadership": 0.39,
+          "communication": 0.91
+        }
+      },
+      "difficulty": "easy"
     },
     {
-      id: "t24",
-      category: "technology",
-      subcategory: "architecture",
-      difficulty: "medium",
-      question: "When using a mobile app, I often think about how the user interface or databases are designed.",
-      options: ["Strongly Agree","Agree","Neutral","Disagree","Strongly Disagree"],
-      tags: ["technology","design"],
-      scoringLogic: {"traits":{"creativity":4,"analytical":3},"careers":["uiux_designer","fullstack_developer"]},
-      malayalamVersion: {"question":"ഒരു മൊബൈൽ ആപ്പ് ഉപയോഗിക്കുമ്പോൾ, അതിൻ്റെ ഇന്റർഫേസും ഡാറ്റാബേസുകളും എങ്ങനെയാണ് രൂപകൽപ്പന ചെയ്തിരിക്കുന്നത് എന്ന് ഞാൻ ചിന്തിക്കാറുണ്ട്.","options":["ശക്തമായി യോജിക്കുന്നു","യോജിക്കുന്നു","നിഷ്പക്ഷം","വിയോജിക്കുന്നു","ശക്തമായി വിയോജിക്കുന്നു"]}
+      "id": "q_technology_4",
+      "category": "technology",
+      "text": "Do you find troubleshooting tech issues fun?",
+      "options": [
+        {
+          "text": "Yes, absolutely",
+          "score": 1
+        },
+        {
+          "text": "Sometimes",
+          "score": 0.6
+        },
+        {
+          "text": "Neutral",
+          "score": 0.3
+        },
+        {
+          "text": "No",
+          "score": 0
+        }
+      ],
+      "scoringLogic": {
+        "traits": {
+          "analytical": 0.45,
+          "creativity": 0.55,
+          "leadership": 0.88,
+          "communication": 0.47
+        }
+      },
+      "difficulty": "medium"
     },
     {
-      id: "t25",
-      category: "technology",
-      subcategory: "hardware",
-      difficulty: "medium",
-      question: "Which tech area sounds most interesting to explore practically?",
-      options: ["Building software apps or web platforms","Understanding computer hardware and microchips","Cybersecurity and protecting networks from hackers","Designing games and interactive simulations"],
-      tags: ["technology","technical interest"],
-      scoringLogic: {"traits":{"analytical":4,"creativity":3},"careers":["embedded_systems_engineer","cybersecurity_analyst"]},
-      malayalamVersion: {"question":"പ്രായോഗികമായി പഠിക്കാൻ ഏത് സാങ്കേതിക മേഖലയാണ് നിങ്ങൾക്ക് കൂടുതൽ താല്പര്യം?","options":["സോഫ്റ്റ്‌വെയർ ആപ്പുകളോ വെബ് പ്ലാറ്റ്‌ഫോമുകളോ നിർമ്മിക്കുന്നത്","കമ്പ്യൂട്ടർ ഹാർഡ്‌വെയറുകളും മൈക്രോചിപ്പുകളും മനസ്സിലാക്കുന്നത്","സൈബർ സുരക്ഷയും ഹാക്കർമാരിൽ നിന്ന് നെറ്റ്‌വർക്കുകൾ സംരക്ഷിക്കുന്നതും","ഗെയിമുകളും ഇൻ്ററാക്ടീവ് സിമുലേഷനുകളും രൂപകൽപ്പന ചെയ്യുന്നത്"]}
+      "id": "q_technology_5",
+      "category": "technology",
+      "text": "Do you follow the latest tech news?",
+      "options": [
+        {
+          "text": "Yes, absolutely",
+          "score": 1
+        },
+        {
+          "text": "Sometimes",
+          "score": 0.6
+        },
+        {
+          "text": "Neutral",
+          "score": 0.3
+        },
+        {
+          "text": "No",
+          "score": 0
+        }
+      ],
+      "scoringLogic": {
+        "traits": {
+          "analytical": 0.27,
+          "creativity": 0.55,
+          "leadership": 0.77,
+          "communication": 0.44
+        }
+      },
+      "difficulty": "medium"
     },
     {
-      id: "t26",
-      category: "technology",
-      subcategory: "cybersecurity",
-      difficulty: "hard",
-      question: "How do you react to online privacy and data tracking concerns?",
-      options: ["I actively change settings and use privacy tools","I am concerned but do not know how to block tracking","I don't think about it much as long as apps work","I think data tracking is useful for personalized ads"],
-      tags: ["technology","analytical thinking"],
-      scoringLogic: {"traits":{"analytical":5},"careers":["cybersecurity_analyst","systems_administrator"]},
-      malayalamVersion: {"question":"ഓൺ‌ലൈൻ സ്വകാര്യതയെക്കുറിച്ചും ഡാറ്റ ട്രാക്കിംഗിനെക്കുറിച്ചുമുള്ള ആശങ്കകളോട് നിങ്ങൾ എങ്ങനെ പ്രതികരിക്കുന്നു?","options":["ഞാൻ ഫോൺ സെറ്റിംഗ്സ് മാറ്റുകയും പ്രൈവസി ടൂളുകൾ ഉപയോഗിക്കുകയും ചെയ്യും","എനിക്ക് ആശങ്കയുണ്ട് എങ്കിലും ട്രാക്കിംഗ് എങ്ങനെ തടയണമെന്ന് അറിയില്ല","ആപ്പുകൾ നന്നായി പ്രവർത്തിക്കുന്നിടത്തോളം ഞാൻ ഇതിനെക്കുറിച്ച് ചിന്തിക്കാറില്ല","വ്യക്തിഗത പരസ്യങ്ങൾ നൽകാൻ ഡാറ്റ ട്രാക്കിംഗ് ഉപകാരപ്പെടും എന്ന് കരുതുന്നു"]}
+      "id": "q_technology_6",
+      "category": "technology",
+      "text": "Do you enjoy logic puzzles?",
+      "options": [
+        {
+          "text": "Yes, absolutely",
+          "score": 1
+        },
+        {
+          "text": "Sometimes",
+          "score": 0.6
+        },
+        {
+          "text": "Neutral",
+          "score": 0.3
+        },
+        {
+          "text": "No",
+          "score": 0
+        }
+      ],
+      "scoringLogic": {
+        "traits": {
+          "analytical": 0.56,
+          "creativity": 0.68,
+          "leadership": 0.22,
+          "communication": 0.36
+        }
+      },
+      "difficulty": "medium"
     },
     {
-      id: "t27",
-      category: "technology",
-      subcategory: "collaboration",
-      difficulty: "medium",
-      question: "Working in open-source projects where developers share code globally sounds exciting.",
-      options: ["Strongly Agree","Agree","Neutral","Disagree","Strongly Disagree"],
-      tags: ["technology","teamwork"],
-      scoringLogic: {"traits":{"communication":3,"creativity":3},"careers":["software_engineer","devops_engineer"]},
-      malayalamVersion: {"question":"ആഗോള തലത്തിൽ ഡെവലപ്പർമാർ കോഡുകൾ പങ്കിടുന്ന ഓപ്പൺ സോഴ്സ് പ്രോജക്റ്റുകളിൽ പ്രവർത്തിക്കുന്നത് ആവേശകരമായി തോന്നുന്നു.","options":["ശക്തമായി യോജിക്കുന്നു","യോജിക്കുന്നു","നിഷ്പക്ഷം","വിയോജിക്കുന്നു","ശക്തമായി വിയോജിക്കുന്നു"]}
+      "id": "q_technology_7",
+      "category": "technology",
+      "text": "Would you like to work in cybersecurity?",
+      "options": [
+        {
+          "text": "Yes, absolutely",
+          "score": 1
+        },
+        {
+          "text": "Sometimes",
+          "score": 0.6
+        },
+        {
+          "text": "Neutral",
+          "score": 0.3
+        },
+        {
+          "text": "No",
+          "score": 0
+        }
+      ],
+      "scoringLogic": {
+        "traits": {
+          "analytical": 0.43,
+          "creativity": 0.47,
+          "leadership": 0.98,
+          "communication": 1
+        }
+      },
+      "difficulty": "medium"
     },
     {
-      id: "t28",
-      category: "technology",
-      subcategory: "adaptation",
-      difficulty: "hard",
-      question: "I enjoy spending hours debugging a minor error in a digital system until it is fixed.",
-      options: ["Strongly Agree","Agree","Neutral","Disagree","Strongly Disagree"],
-      tags: ["technology","discipline"],
-      scoringLogic: {"traits":{"analytical":5},"careers":["software_engineer","qa_engineer"]},
-      malayalamVersion: {"question":"ഒരു ഡിജിറ്റൽ സിസ്റ്റത്തിലെ ചെറിയ തെറ്റ് പരിഹരിക്കുന്നത് വരെ മണിക്കൂറുകളോളം അതിനായി ചിലവഴിക്കാൻ എനിക്ക് മടിയില്ല.","options":["ശക്തമായി യോജിക്കുന്നു","യോജിക്കുന്നു","നിഷ്പക്ഷം","വിയോജിക്കുന്നു","ശക്തമായി വിയോജിക്കുന്നു"]}
+      "id": "q_technology_8",
+      "category": "technology",
+      "text": "Do you like automating repetitive tasks?",
+      "options": [
+        {
+          "text": "Yes, absolutely",
+          "score": 1
+        },
+        {
+          "text": "Sometimes",
+          "score": 0.6
+        },
+        {
+          "text": "Neutral",
+          "score": 0.3
+        },
+        {
+          "text": "No",
+          "score": 0
+        }
+      ],
+      "scoringLogic": {
+        "traits": {
+          "analytical": 0.81,
+          "creativity": 0.91,
+          "leadership": 0.53,
+          "communication": 0.32
+        }
+      },
+      "difficulty": "hard"
     },
     {
-      id: "t29",
-      category: "technology",
-      subcategory: "innovation",
-      difficulty: "hard",
-      question: "Which future computing paradigm interests you the most?",
-      options: ["Quantum computing and supercomputers","Decentralized blockchain technologies","Cloud infrastructure systems globally","Virtual reality and spatial computing interfaces"],
-      tags: ["technology","innovation mindset"],
-      scoringLogic: {"traits":{"analytical":4,"creativity":4},"careers":["cloud_architect","blockchain_developer"]},
-      malayalamVersion: {"question":"ഭാവിയിലെ ഏത് കമ്പ്യൂട്ടിംഗ് ശൈലിയാണ് നിങ്ങൾക്ക് ഏറ്റവും കൂടുതൽ താല്പര്യം?","options":["ക്വാണ്ടം കമ്പ്യൂട്ടിംഗും സൂപ്പർകമ്പ്യൂട്ടറുകളും","വികേന്ദ്രീകൃത ബ്ലോക്ക്‌ചെയിൻ സാങ്കേതികവിദ്യകൾ","ആഗോള ക്ലൗഡ് ഇൻഫ്രാസ്ട്രക്ചർ സംവിധാനങ്ങൾ","വർച്വൽ റിയാലിറ്റിയും സ്പേഷ്യൽ കമ്പ്യൂട്ടിംഗും"]}
+      "id": "q_technology_9",
+      "category": "technology",
+      "text": "Are you interested in cloud computing?",
+      "options": [
+        {
+          "text": "Yes, absolutely",
+          "score": 1
+        },
+        {
+          "text": "Sometimes",
+          "score": 0.6
+        },
+        {
+          "text": "Neutral",
+          "score": 0.3
+        },
+        {
+          "text": "No",
+          "score": 0
+        }
+      ],
+      "scoringLogic": {
+        "traits": {
+          "analytical": 0.48,
+          "creativity": 0.35,
+          "leadership": 0.42,
+          "communication": 0.59
+        }
+      },
+      "difficulty": "hard"
     },
     {
-      id: "t30",
-      category: "technology",
-      subcategory: "education",
-      difficulty: "medium",
-      question: "I prefer building physical circuits or hardware over writing software scripts.",
-      options: ["Strongly Agree","Agree","Neutral","Disagree","Strongly Disagree"],
-      tags: ["technology","technical interest"],
-      scoringLogic: {"traits":{"analytical":4},"careers":["embedded_systems_engineer","robotics_engineer"]},
-      malayalamVersion: {"question":"സോഫ്റ്റ്‌വെയർ കോഡ് എഴുതുന്നതിനേക്കാൾ ഫിസിക്കൽ സർക്യൂട്ടുകളോ ഹാർഡ്‌വെയറുകളോ നിർമ്മിക്കാനാണ് എനിക്ക് താല്പര്യം.","options":["ശക്തമായി യോജിക്കുന്നു","യോജിക്കുന്നു","നിഷ്പക്ഷം","വിയോജിക്കുന്നു","ശക്തമായി വിയോജിക്കുന്നു"]}
+      "id": "q_technology_10",
+      "category": "technology",
+      "text": "Do you enjoy working with databases?",
+      "options": [
+        {
+          "text": "Yes, absolutely",
+          "score": 1
+        },
+        {
+          "text": "Sometimes",
+          "score": 0.6
+        },
+        {
+          "text": "Neutral",
+          "score": 0.3
+        },
+        {
+          "text": "No",
+          "score": 0
+        }
+      ],
+      "scoringLogic": {
+        "traits": {
+          "analytical": 0.73,
+          "creativity": 0.2,
+          "leadership": 0.91,
+          "communication": 0.91
+        }
+      },
+      "difficulty": "hard"
     }
   ],
-  ai: [
-    { id: "ai1", category: "ai", question: "How do you view the rise of AI tools like ChatGPT?", options: ["As a powerful tool to double my productivity", "A dangerous technology that will replace jobs", "An overhyped trend that will cool down soon", "A fascinating simulation of human intelligence"], tags: ["ai", "innovation mindset", "technical interest"] },
-    { id: "ai2", category: "ai", question: "If you were to train an AI model, what dataset would you use?", options: ["Vast libraries of books and literature", "Global weather and climate data logs", "Financial market history and charts", "Medical scans and biological data"], tags: ["ai", "analytical thinking", "science"] },
-    { id: "ai3", category: "ai", question: "Which AI sub-field sounds most interesting to you?", options: ["Natural Language Processing (NLP)", "Computer Vision (Image & Video analysis)", "Reinforcement Learning (Autonomous gaming/driving)", "Generative Art and creative AI systems"], tags: ["ai", "technical interest", "creativity"] },
-    { id: "ai4", category: "ai", question: "What is your stance on the ethical limits of artificial intelligence?", options: ["Strict regulations are needed to protect users", "Development should be completely open and free", "AI should never make decisions in legal matters", "AI should not replicate human emotional roles"], tags: ["ai", "empathy", "analytical thinking"] },
-    { id: "ai5", category: "ai", question: "How would you design a prompt to get a complex code snippet from AI?", options: ["Write detailed specifications and constraints", "Ask a simple question and iterate gradually", "Copy-paste the error and let it guess", "Give it an example of input and desired output"], tags: ["ai", "communication", "logical thinking"] },
-    { id: "ai6", category: "ai", question: "What excites you most about machine learning?", options: ["Computers learning patterns without direct programming", "The complex math behind neural networks", "The real-world predictions and analytics", "Building neural networks for robotics"], tags: ["ai", "logical thinking", "technical interest"] },
-    { id: "ai7", category: "ai", question: "If an AI system creates a piece of art, who owns the copyright?", options: ["The human who wrote the prompt", "The creator of the AI algorithm", "No one — it should be in the public domain", "The AI system itself"], tags: ["ai", "creativity", "law"] },
-    { id: "ai8", category: "ai", question: "What AI application do you want to see solved next?", options: ["AI curing complex genetic diseases", "AI managing traffic in smart mega-cities", "AI handling space exploration telemetry", "AI creating fully customized education modules"], tags: ["ai", "science", "innovation mindset"] },
-    { id: "ai9", category: "ai", question: "How do you feel about AI replacing code generation?", options: ["Great, now I can focus on high-level architecture", "Worried, it might make software engineers redundant", "Skeptical, AI code is often buggy and insecure", "Excited, it speeds up prototype building"], tags: ["ai", "technical interest", "work style"] },
-    { id: "ai10", category: "ai", question: "To master AI, what do you think is most important to study?", options: ["Advanced Mathematics & Linear Algebra", "Python Programming and PyTorch/TensorFlow", "Cognitive Psychology & Neural systems", "Data engineering and pipeline management"], tags: ["ai", "logical thinking", "technical interest"] },
-    { id: "ai11", category: "ai", question: "How would you feel about interacting with an AI therapist?", options: ["Very comfortable; it has no human bias or judgment", "Uncomfortable; AI lacks genuine empathy and consciousness", "Open to trying it as a secondary, cheap self-care tool", "Skeptical that it would understand complex human trauma"], tags: ["ai", "empathy", "psychology"] },
-    { id: "ai12", category: "ai", question: "Which AI development path scares you the most?", options: ["AI systems making automated decisions in warfare", "Deepfakes completely destroying trust in visual news", "Mass automation leaving millions without jobs", "Superintelligent AI operating beyond human understanding"], tags: ["ai", "risk tolerance", "analytical thinking"] },
-    { id: "ai13", category: "ai", question: "When an AI chatbot outputs an incorrect answer confidently (hallucination), what is your response?", options: ["I debug my prompt to clarify constraints and instructions", "I feel annoyed that the technology is unreliable", "I search for the real data using a standard search engine", "I am fascinated by how the AI arrived at that logic"], tags: ["ai", "analytical thinking", "logical thinking"] },
-    { id: "ai14", category: "ai", question: "What is the best way for society to handle job loss due to AI?", options: ["Enforce universal basic income funded by AI taxes", "Provide free tech training and education to workers", "Restrict AI use in industries that employ many people", "Let the free market adjust and create new kinds of jobs"], tags: ["ai", "empathy", "business"] },
-    { id: "ai15", category: "ai", question: "If you could build an AI startup, what problem would you focus on?", options: ["Automating boring paperwork and business admin tasks", "Personalized tutoring to match every child's learning speed", "Analyzing crop health data for local Indian farmers", "Detecting early markers of cancer in medical images"], tags: ["ai", "entrepreneurship", "innovation mindset"] },
-    { id: "ai16", category: "ai", question: "What is your view on the concept of 'Singularity' (AI overtaking human intellect)?", options: ["It is a mathematical certainty that will happen soon", "It is science fiction; AI is just math, not conscious", "It is highly likely, and we must start planning safeguards", "I think human brains will merge with AI before it happens"], tags: ["ai", "innovation mindset", "technical interest"] },
-    { id: "ai17", category: "ai", question: "How do you feel about AI generated music or literature?", options: ["It's cool; it gives people tools to express ideas fast", "It lacks soul and undermines actual human artists", "It is great for elevator music or background draft texts", "I enjoy analyzing the neural patterns in creative outputs"], tags: ["ai", "creativity", "communication"] },
-    { id: "ai18", category: "ai", question: "What mathematical field do you think is most key to modern neural nets?", options: ["Probability and Statistics", "Linear Algebra and Matrices", "Calculus and Optimization", "Discrete Mathematics and Logic"], tags: ["ai", "logical thinking", "analytical thinking"] },
-    { id: "ai19", category: "ai", question: "How do you feel about self-driving cars navigating Indian roads?", options: ["Excited; it will eventually reduce road accidents", "Terrified; our traffic is too chaotic for algorithms", "It requires specialized hybrid sensors and pathways", "I prefer driving myself and staying in full control"], tags: ["ai", "risk tolerance", "technical interest"] },
-    { id: "ai20", category: "ai", question: "If you were to work in AI, what role would you choose?", options: ["AI Research Scientist (Creating new architectures)", "ML Engineer (Deploying and scaling models)", "Prompt Engineer (Optimizing system outputs)", "AI Ethicist (Assessing societal and safety risks)"], tags: ["ai", "ambition", "technical interest"] }
-  ,
+  "ai": [
     {
-      id: "ai21",
-      category: "ai",
-      subcategory: "automation",
-      difficulty: "easy",
-      question: "Using AI tools (like ChatGPT) to write emails or plan my studies saves me a lot of time.",
-      options: ["Strongly Agree","Agree","Neutral","Disagree","Strongly Disagree"],
-      tags: ["ai","technology"],
-      scoringLogic: {"traits":{"creativity":3,"analytical":3},"careers":["ai_prompt_engineer","ai_consultant"]},
-      malayalamVersion: {"question":"ഇമെയിലുകൾ എഴുതാനും പഠനം പ്ലാൻ ചെയ്യാനും AI ടൂളുകൾ (ChatGPT പോലുള്ളവ) ഉപയോഗിക്കുന്നത് എൻ്റെ സമയം ലാഭിക്കുന്നു.","options":["ശക്തമായി യോജിക്കുന്നു","യോജിക്കുന്നു","നിഷ്പക്ഷം","വിയോജിക്കുന്നു","ശക്തമായി വിയോജിക്കുന്നു"]}
+      "id": "q_ai_1",
+      "category": "ai",
+      "text": "Are you fascinated by robots and automation?",
+      "options": [
+        {
+          "text": "Yes, absolutely",
+          "score": 1
+        },
+        {
+          "text": "Sometimes",
+          "score": 0.6
+        },
+        {
+          "text": "Neutral",
+          "score": 0.3
+        },
+        {
+          "text": "No",
+          "score": 0
+        }
+      ],
+      "scoringLogic": {
+        "traits": {
+          "analytical": 0.98,
+          "creativity": 0.68,
+          "leadership": 0.48,
+          "communication": 0.2
+        }
+      },
+      "difficulty": "easy"
     },
     {
-      id: "ai22",
-      category: "ai",
-      subcategory: "ethics",
-      difficulty: "easy",
-      question: "Do you worry that AI might replace human artists, writers, or jobs in the future?",
-      options: ["Yes, I am worried","No, AI will only help us work better","I am neutral on this issue"],
-      tags: ["ai","empathy"],
-      scoringLogic: {"traits":{"communication":3},"careers":["ai_ethicist","policy_analyst"]},
-      malayalamVersion: {"question":"ഭാവിയിൽ AI മനുഷ്യ കലാകാരന്മാരെയും എഴുത്തുകാരെയും ജോലികളെയും മാറ്റിസ്ഥാപിക്കുമെന്ന് നിങ്ങൾ ആശങ്കപ്പെടുന്നുണ്ടോ?","options":["അതെ, ഞാൻ ആശങ്കപ്പെടുന്നുണ്ട്","ഇല്ല, മികച്ച രീതിയിൽ ജോലി ചെയ്യാൻ AI നമ്മെ സഹായിക്കുകയേ ഉള്ളൂ","ഈ കാര്യത്തിൽ ഞാൻ നിഷ്പക്ഷനാണ്"]}
+      "id": "q_ai_2",
+      "category": "ai",
+      "text": "Do you want to build intelligent systems?",
+      "options": [
+        {
+          "text": "Yes, absolutely",
+          "score": 1
+        },
+        {
+          "text": "Sometimes",
+          "score": 0.6
+        },
+        {
+          "text": "Neutral",
+          "score": 0.3
+        },
+        {
+          "text": "No",
+          "score": 0
+        }
+      ],
+      "scoringLogic": {
+        "traits": {
+          "analytical": 0.48,
+          "creativity": 0.22,
+          "leadership": 0.57,
+          "communication": 0.67
+        }
+      },
+      "difficulty": "easy"
     },
     {
-      id: "ai23",
-      category: "ai",
-      subcategory: "algorithms",
-      difficulty: "medium",
-      question: "I want to understand how machine learning models learn patterns from raw datasets.",
-      options: ["Strongly Agree","Agree","Neutral","Disagree","Strongly Disagree"],
-      tags: ["ai","logical thinking"],
-      scoringLogic: {"traits":{"analytical":5},"careers":["machine_learning_engineer","data_scientist"]},
-      malayalamVersion: {"question":"റോ ഡാറ്റാസെറ്റുകളിൽ നിന്ന് മെഷീൻ ലേണിംഗ് മോഡലുകൾ എങ്ങനെയാണ് പാറ്റേണുകൾ പഠിക്കുന്നത് എന്ന് മനസ്സിലാക്കാൻ എനിക്ക് ആഗ്രഹമുണ്ട്.","options":["ശക്തമായി യോജിക്കുന്നു","യോജിക്കുന്നു","നിഷ്പക്ഷം","വിയോജിക്കുന്നു","ശക്തമായി വിയോജിക്കുന്നു"]}
+      "id": "q_ai_3",
+      "category": "ai",
+      "text": "Do you follow AI advancements like ChatGPT?",
+      "options": [
+        {
+          "text": "Yes, absolutely",
+          "score": 1
+        },
+        {
+          "text": "Sometimes",
+          "score": 0.6
+        },
+        {
+          "text": "Neutral",
+          "score": 0.3
+        },
+        {
+          "text": "No",
+          "score": 0
+        }
+      ],
+      "scoringLogic": {
+        "traits": {
+          "analytical": 0.9,
+          "creativity": 0.6,
+          "leadership": 0.53,
+          "communication": 0.27
+        }
+      },
+      "difficulty": "easy"
     },
     {
-      id: "ai24",
-      category: "ai",
-      subcategory: "nlp",
-      difficulty: "medium",
-      question: "Which area of artificial intelligence sounds most exciting to build?",
-      options: ["Language bots that chat like humans","Computer vision systems that identify images or drive cars","Generative AI that makes movies and music","Robotics software that moves physical machines"],
-      tags: ["ai","innovation mindset"],
-      scoringLogic: {"traits":{"creativity":4,"analytical":4},"careers":["nlp_engineer","computer_vision_engineer"]},
-      malayalamVersion: {"question":"ആർട്ടിഫിഷ്യൽ ഇൻ്റലിജൻസിൻ്റെ ഏത് മേഖലയാണ് നിങ്ങൾക്ക് നിർമ്മിക്കാൻ കൂടുതൽ താല്പര്യം?","options":["മനുഷ്യരെപ്പോലെ സംസാരിക്കുന്ന ചാറ്റ് ബോട്ടുകൾ","ചിത്രങ്ങൾ തിരിച്ചറിയുന്ന കമ്പ്യൂട്ടർ വിഷൻ അല്ലെങ്കിൽ ഡ്രൈവറില്ലാ കാറുകൾ","സിനിമകളും സംഗീതവും നിർമ്മിക്കുന്ന ജനറേറ്റീവ് AI","ഫിസിക്കൽ മെഷീനുകൾ ചലിപ്പിക്കുന്ന റോബോട്ടിക്സ് സോഫ്റ്റ്‌വെയർ"]}
+      "id": "q_ai_4",
+      "category": "ai",
+      "text": "Are you interested in machine learning?",
+      "options": [
+        {
+          "text": "Yes, absolutely",
+          "score": 1
+        },
+        {
+          "text": "Sometimes",
+          "score": 0.6
+        },
+        {
+          "text": "Neutral",
+          "score": 0.3
+        },
+        {
+          "text": "No",
+          "score": 0
+        }
+      ],
+      "scoringLogic": {
+        "traits": {
+          "analytical": 0.31,
+          "creativity": 0.36,
+          "leadership": 0.52,
+          "communication": 0.31
+        }
+      },
+      "difficulty": "medium"
     },
     {
-      id: "ai25",
-      category: "ai",
-      subcategory: "robotics",
-      difficulty: "hard",
-      question: "Would you trust a self-driving car to navigate heavy traffic without your supervision?",
-      options: ["Yes, completely","Only on highways or clear routes","No, I want physical control of the car"],
-      tags: ["ai","risk_tolerance"],
-      scoringLogic: {"traits":{"analytical":4},"careers":["autonomous_vehicle_engineer","robotics_engineer"]},
-      malayalamVersion: {"question":"നിങ്ങളുടെ മേൽനോട്ടമില്ലാതെ കനത്ത ട്രാഫിക്കിലൂടെ ഒരു സെൽഫ് ഡ്രൈവിംഗ് കാർ സഞ്ചരിക്കുന്നത് നിങ്ങൾ വിശ്വസിക്കുമോ?","options":["അതെ, പൂർണ്ണമായും","ഹൈവേകളിലോ തിരക്കില്ലാത്ത വഴികളിലോ മാത്രം","ഇല്ല, എനിക്ക് കാറിൻ്റെ നിയന്ത്രണം വേണം"]}
+      "id": "q_ai_5",
+      "category": "ai",
+      "text": "Do you enjoy math and algorithms?",
+      "options": [
+        {
+          "text": "Yes, absolutely",
+          "score": 1
+        },
+        {
+          "text": "Sometimes",
+          "score": 0.6
+        },
+        {
+          "text": "Neutral",
+          "score": 0.3
+        },
+        {
+          "text": "No",
+          "score": 0
+        }
+      ],
+      "scoringLogic": {
+        "traits": {
+          "analytical": 0.86,
+          "creativity": 0.26,
+          "leadership": 0.55,
+          "communication": 0.23
+        }
+      },
+      "difficulty": "medium"
     },
     {
-      id: "ai26",
-      category: "ai",
-      subcategory: "nlp",
-      difficulty: "medium",
-      question: "If an AI generates a painting, who owns the copyright: the creator, the software developer, or the model?",
-      options: ["The creator who wrote the prompt","The software developer who built the AI","Nobody, it should be public domain","It needs new legal regulations to decide"],
-      tags: ["ai","law"],
-      scoringLogic: {"traits":{"analytical":4},"careers":["ai_ethicist","ip_lawyer"]},
-      malayalamVersion: {"question":"ഒരു AI പെയിൻ്റിംഗ് നിർമ്മിക്കുകയാണെങ്കിൽ, അതിൻ്റെ പകർപ്പവകാശം ആർക്കായിരിക്കണം?","options":["പ്രോംപ്റ്റ് എഴുതിയ ഉപയോക്താവിന്","AI നിർമ്മിച്ച ഡെവലപ്പർക്ക്","ആർക്കും ഉണ്ടാകരുത്, അത് പൊതുസ്വത്തായിരിക്കണം","ഇത് തീരുമാനിക്കാൻ പുതിയ നിയമങ്ങൾ ആവശ്യമാണ്"]}
+      "id": "q_ai_6",
+      "category": "ai",
+      "text": "Do you want to solve complex problems using AI?",
+      "options": [
+        {
+          "text": "Yes, absolutely",
+          "score": 1
+        },
+        {
+          "text": "Sometimes",
+          "score": 0.6
+        },
+        {
+          "text": "Neutral",
+          "score": 0.3
+        },
+        {
+          "text": "No",
+          "score": 0
+        }
+      ],
+      "scoringLogic": {
+        "traits": {
+          "analytical": 0.9,
+          "creativity": 0.79,
+          "leadership": 0.46,
+          "communication": 0.93
+        }
+      },
+      "difficulty": "medium"
     },
     {
-      id: "ai27",
-      category: "ai",
-      subcategory: "data",
-      difficulty: "hard",
-      question: "I would enjoy sorting through messy databases to train complex neural networks.",
-      options: ["Strongly Agree","Agree","Neutral","Disagree","Strongly Disagree"],
-      tags: ["ai","discipline"],
-      scoringLogic: {"traits":{"analytical":5},"careers":["data_engineer","machine_learning_engineer"]},
-      malayalamVersion: {"question":"സങ്കീർണ്ണമായ ന്യൂറൽ നെറ്റ്‌വർക്കുകളെ പരിശീലിപ്പിക്കാൻ ഡാറ്റാബേസുകൾ ക്രമീകരിക്കുന്നത് ഞാൻ ആസ്വദിക്കും.","options":["ശക്തമായി യോജിക്കുന്നു","യോജിക്കുന്നു","നിഷ്പക്ഷം","വിയോജിക്കുന്നു","ശക്തമായി വിയോജിക്കുന്നു"]}
+      "id": "q_ai_7",
+      "category": "ai",
+      "text": "Are you curious about computer vision?",
+      "options": [
+        {
+          "text": "Yes, absolutely",
+          "score": 1
+        },
+        {
+          "text": "Sometimes",
+          "score": 0.6
+        },
+        {
+          "text": "Neutral",
+          "score": 0.3
+        },
+        {
+          "text": "No",
+          "score": 0
+        }
+      ],
+      "scoringLogic": {
+        "traits": {
+          "analytical": 0.58,
+          "creativity": 0.69,
+          "leadership": 0.84,
+          "communication": 0.93
+        }
+      },
+      "difficulty": "medium"
     },
     {
-      id: "ai28",
-      category: "ai",
-      subcategory: "integration",
-      difficulty: "medium",
-      question: "Helping traditional businesses (like hospitals or shops) integrate AI assistants sounds fulfilling.",
-      options: ["Strongly Agree","Agree","Neutral","Disagree","Strongly Disagree"],
-      tags: ["ai","business"],
-      scoringLogic: {"traits":{"communication":4,"analytical":3},"careers":["ai_consultant","product_manager"]},
-      malayalamVersion: {"question":"പരമ്പരാഗത ബിസിനസ്സുകളിൽ (ആശുപത്രികൾ അല്ലെങ്കിൽ കടകൾ) AI അസിസ്റ്റൻ്റുകൾ സംയോജിപ്പിക്കാൻ സഹായിക്കുന്നത് സംതൃപ്തി നൽകുന്ന കാര്യമാണ്.","options":["ശക്തമായി യോജിക്കുന്നു","യോജിക്കുന്നു","നിഷ്പക്ഷം","വിയോജിക്കുന്നു","ശക്തമായി വിയോജിക്കുന്നു"]}
+      "id": "q_ai_8",
+      "category": "ai",
+      "text": "Do you think about the ethics of AI?",
+      "options": [
+        {
+          "text": "Yes, absolutely",
+          "score": 1
+        },
+        {
+          "text": "Sometimes",
+          "score": 0.6
+        },
+        {
+          "text": "Neutral",
+          "score": 0.3
+        },
+        {
+          "text": "No",
+          "score": 0
+        }
+      ],
+      "scoringLogic": {
+        "traits": {
+          "analytical": 0.23,
+          "creativity": 0.56,
+          "leadership": 1,
+          "communication": 0.92
+        }
+      },
+      "difficulty": "hard"
     },
     {
-      id: "ai29",
-      category: "ai",
-      subcategory: "innovation",
-      difficulty: "hard",
-      question: "How do you view AI's future contribution to scientific discoveries (like curing diseases)?",
-      options: ["AI will accelerate drug discovery faster than humans","AI can process data but humans will make the real discoveries","It is hype; scientific discoveries require human intuition","AI might generate false results that delay actual research"],
-      tags: ["ai","science"],
-      scoringLogic: {"traits":{"analytical":5,"innovation":4},"careers":["bioinformatics_analyst","ai_researcher"]},
-      malayalamVersion: {"question":"ശാസ്ത്രീയ കണ്ടെത്തലുകളിൽ (രോഗങ്ങൾ സുഖപ്പെടുത്തുന്നത് പോലെ) AI-യുടെ ഭാവി സംഭാവനയെ നിങ്ങൾ എങ്ങനെ കാണുന്നു?","options":["AI മരുന്ന് കണ്ടെത്തലുകൾ മനുഷ്യരേക്കാൾ വേഗത്തിലാക്കും","AI-ക്ക് ഡാറ്റ പ്രോസസ്സ് ചെയ്യാം, എന്നാൽ യഥാർത്ഥ കണ്ടെത്തലുകൾ മനുഷ്യൻ തന്നെ നടത്തണം","അതൊരു വെറും പബ്ലിസിറ്റി മാത്രമാണ്; മനുഷ്യൻ്റെ സഹജാവബോധം ഇതിനാവശ്യമാണ്","AI തെറ്റായ ഫലങ്ങൾ ഉണ്ടാക്കാം, അത് യഥാർത്ഥ ഗവേഷണങ്ങളെ വൈകിപ്പിച്ചേക്കാം"]}
+      "id": "q_ai_9",
+      "category": "ai",
+      "text": "Would you like to train AI models?",
+      "options": [
+        {
+          "text": "Yes, absolutely",
+          "score": 1
+        },
+        {
+          "text": "Sometimes",
+          "score": 0.6
+        },
+        {
+          "text": "Neutral",
+          "score": 0.3
+        },
+        {
+          "text": "No",
+          "score": 0
+        }
+      ],
+      "scoringLogic": {
+        "traits": {
+          "analytical": 0.87,
+          "creativity": 0.46,
+          "leadership": 0.54,
+          "communication": 0.69
+        }
+      },
+      "difficulty": "hard"
     },
     {
-      id: "ai30",
-      category: "ai",
-      subcategory: "nlp",
-      difficulty: "medium",
-      question: "I prefer teaching an AI algorithm how to perform a task over performing it myself.",
-      options: ["Strongly Agree","Agree","Neutral","Disagree","Strongly Disagree"],
-      tags: ["ai","technical interest"],
-      scoringLogic: {"traits":{"analytical":4,"leadership":2},"careers":["machine_learning_engineer","ai_prompt_engineer"]},
-      malayalamVersion: {"question":"ഒരു ജോലി ഞാൻ തന്നെ നേരിട്ട് ചെയ്യുന്നതിനേക്കാൾ അത് എങ്ങനെ ചെയ്യണമെന്ന് ഒരു AI അൽഗോരിതത്തെ പഠിപ്പിക്കാനാണ് എനിക്ക് താല്പര്യം.","options":["ശക്തമായി യോജിക്കുന്നു","യോജിക്കുന്നു","നിഷ്പക്ഷം","വിയോജിക്കുന്നു","ശക്തമായി വിയോജിക്കുന്നു"]}
+      "id": "q_ai_10",
+      "category": "ai",
+      "text": "Do you want to build chatbots?",
+      "options": [
+        {
+          "text": "Yes, absolutely",
+          "score": 1
+        },
+        {
+          "text": "Sometimes",
+          "score": 0.6
+        },
+        {
+          "text": "Neutral",
+          "score": 0.3
+        },
+        {
+          "text": "No",
+          "score": 0
+        }
+      ],
+      "scoringLogic": {
+        "traits": {
+          "analytical": 0.75,
+          "creativity": 0.79,
+          "leadership": 0.77,
+          "communication": 0.29
+        }
+      },
+      "difficulty": "hard"
     }
   ],
-  design: [
-    { id: "d1", category: "design", question: "What catches your eye first when you visit a new website?", options: ["The colors, typography, and visual layout", "The speed and responsiveness of the page", "The quality of the text and content", "How easy it is to find the search bar"], tags: ["design", "creativity", "technical interest"] },
-    { id: "d2", category: "design", question: "Which design tool would you be most interested to master?", options: ["Figma or Adobe XD (UI/UX Design)", "Blender or Maya (3D Modeling & Animation)", "Adobe Photoshop & Illustrator (Graphic Design)", "AutoCAD or Rhino (Industrial & Product Design)"], tags: ["design", "creativity", "technical interest"] },
-    { id: "d3", category: "design", question: "How do you feel about the phrase 'Form follows function'?", options: ["Fully agree; usability is the only thing that matters", "Disagree; aesthetics can make or break a product", "A balance is needed, but aesthetics should lead first", "They are equal; a good designer never compromises"], tags: ["design", "logical thinking", "creativity"] },
-    { id: "d4", category: "design", question: "If you were to redesign your bedroom, what would you focus on first?", options: ["Choosing a perfect cohesive color palette", "Optimizing the space for maximum storage", "Installing smart modular lighting systems", "Creating a unique feature wall or art piece"], tags: ["design", "creativity", "discipline"] },
-    { id: "d5", category: "design", question: "What is your reaction to poor typography in a book or sign?", options: ["It immediately irritates me and ruins the experience", "I notice it, but it doesn't bother me too much", "I try to figure out how to make it look cleaner", "I rarely notice it unless someone points it out"], tags: ["design", "creativity", "work style"] },
-    { id: "d6", category: "design", question: "When creating a slide deck, what takes you the most time?", options: ["Formatting the layout, alignment, and spacing", "Writing and summarizing the text content", "Adding icons, animations, and transitions", "Researching the data to put into slides"], tags: ["design", "creativity", "work style"] },
-    { id: "d7", category: "design", question: "Which field of design sounds most exciting to you?", options: ["User Experience (UX) Design", "Sustainable Architecture & Spaces", "Motion Graphics & VFX Animation", "Fashion & Apparel Design"], tags: ["design", "creativity", "innovation mindset"] },
-    { id: "d8", category: "design", question: "How do you gather feedback on a creative design?", options: ["Present drafts to peers and note down criticisms", "Trust my own vision and make minimal edits", "A/B test different versions with real users", "Consult a senior creative director for advice"], tags: ["design", "communication", "teamwork"] },
-    { id: "d9", category: "design", question: "If you had to design a logo for a green energy startup, what would you use?", options: ["Clean, minimalist typography with a green accent", "An abstract organic icon showing movement", "A classic emblem representing reliability", "A dynamic geometric shape symbolizing power"], tags: ["design", "creativity", "innovation mindset"] },
-    { id: "d10", category: "design", question: "What kind of projects do you enjoy working on the most?", options: ["Visual designs where I can play with layouts", "Interactive prototypes that users can click on", "Physical crafts or sketches created by hand", "Logical wireframes and user flow diagrams"], tags: ["design", "creativity", "logical thinking"] },
-    { id: "d11", category: "design", question: "How do you view minimalist design style?", options: ["Clean, premium, and sophisticated", "Boring, empty, and lacking personality", "Functional but sometimes overused", "Hard to execute well but highly effective"], tags: ["design", "creativity", "work style"] },
-    { id: "d12", category: "design", question: "When you look at an object (like a chair), what is your first thought?", options: ["Is it comfortable to sit on for hours?", "What materials were used to manufacture it?", "Does it match the room aesthetics and vibe?", "Can it be folded or adjusted for space?"], tags: ["design", "analytical thinking", "creativity"] },
-    { id: "d13", category: "design", question: "How do you deal with creative blocks?", options: ["Look for inspiration on Pinterest/Behance", "Work on a completely different task for a day", "Start sketching random ideas without censoring myself", "Discuss concepts with a team member to bounce ideas"], tags: ["design", "creativity", "emotional intelligence"] },
-    { id: "d14", category: "design", question: "What is your favorite color theme for digital interfaces?", options: ["Sleek dark modes with neon highlights", "Minimalist light themes with lots of whitespace", "Earth tones (beige, green) that look natural", "High-contrast patterns with bold typography"], tags: ["design", "creativity", "technical interest"] },
-    { id: "d15", category: "design", question: "Which industry do you want to design for the most?", options: ["Entertainment, games, and movie studios", "Tech startups building apps and platforms", "Real estate, interior design, and construction", "Branding agencies building brand systems"], tags: ["design", "creativity", "ambition"] },
-    { id: "d16", category: "design", question: "How do you feel about using AI tools for graphic generation?", options: ["It's a great tool to generate quick concepts", "It threatens the livelihoods of real artists", "It will lead to generic, repetitive design work", "I want to learn how to integrate it into my flow"], tags: ["design", "creativity", "innovation mindset"] },
-    { id: "d17", category: "design", question: "What does good user experience mean to you?", options: ["A user achieves their goal with zero friction", "The interface looks breathtaking and premium", "The app has clear guidance and micro-animations", "It works perfectly on any screen size"], tags: ["design", "logical thinking", "empathy"] },
-    { id: "d18", category: "design", question: "Which aspect of 3D modeling interests you the most?", options: ["Sculpting detailed faces and characters", "Texturing and setting up realistic lighting", "Rigging and animating physical motion", "Creating clean architectural structures"], tags: ["design", "creativity", "technical interest"] },
-    { id: "d19", category: "design", question: "How do you prepare a portfolio to showcase your work?", options: ["Pick my top 3 projects and tell the story of how I built them", "Put all my sketches and designs in one folder", "Create a highly customized personal website", "Upload files directly to Behance or Dribbble"], tags: ["design", "communication", "discipline"] },
-    { id: "d20", category: "design", question: "If you could collaborate with one designer, who would it be?", options: ["Jony Ive (Former Apple Hardware Designer)", "Zaha Hadid (Futuristic Architect)", "Virgil Abloh (Fashion & Design innovator)", "Don Norman (Author of Design of Everyday Things)"], tags: ["design", "creativity", "leadership"] }
-  ,
+  "design": [
     {
-      id: "d21",
-      category: "design",
-      subcategory: "aesthetics",
-      difficulty: "easy",
-      question: "When I walk into a room, I notice the color schemes, layout, and visual aesthetics immediately.",
-      options: ["Strongly Agree","Agree","Neutral","Disagree","Strongly Disagree"],
-      tags: ["design","creativity"],
-      scoringLogic: {"traits":{"creativity":5},"careers":["interior_designer","exhibition_designer"]},
-      malayalamVersion: {"question":"ഞാൻ ഒരു മുറിയിലേക്ക് കടക്കുമ്പോൾ, അതിൻ്റെ കളർ സ്കീമുകളും, ലേഔട്ടും, വിഷ്വൽ ഭംഗിയും ഞാൻ പെട്ടെന്ന് ശ്രദ്ധിക്കാറുണ്ട്.","options":["ശക്തമായി യോജിക്കുന്നു","യോജിക്കുന്നു","നിഷ്പക്ഷം","വിയോജിക്കുന്നു","ശക്തമായി വിയോജിക്കുന്നു"]}
+      "id": "q_design_1",
+      "category": "design",
+      "text": "Do you enjoy drawing or sketching?",
+      "options": [
+        {
+          "text": "Yes, absolutely",
+          "score": 1
+        },
+        {
+          "text": "Sometimes",
+          "score": 0.6
+        },
+        {
+          "text": "Neutral",
+          "score": 0.3
+        },
+        {
+          "text": "No",
+          "score": 0
+        }
+      ],
+      "scoringLogic": {
+        "traits": {
+          "analytical": 0.45,
+          "creativity": 0.92,
+          "leadership": 0.9,
+          "communication": 0.58
+        }
+      },
+      "difficulty": "easy"
     },
     {
-      id: "d22",
-      category: "design",
-      subcategory: "ux",
-      difficulty: "easy",
-      question: "I get frustrated when website layouts make it hard to find a simple button or menu link.",
-      options: ["Yes, very much","Sometimes","No, it doesn't bother me"],
-      tags: ["design","analytical"],
-      scoringLogic: {"traits":{"creativity":3,"analytical":3},"careers":["uiux_designer","frontend_developer"]},
-      malayalamVersion: {"question":"വെബ്സൈറ്റുകളിൽ ഒരു ലളിതമായ ബട്ടണോ ലിങ്കോ കണ്ടെത്താൻ ബുദ്ധിമുട്ടുള്ള ലേഔട്ട് കാണുമ്പോൾ എനിക്ക് ദേഷ്യം വരാറുണ്ട്.","options":["അതെ, വളരെ കൂടുതൽ","ചിലപ്പോൾ","ഇല്ല, എന്നെ അത് ബാധിക്കാറില്ല"]}
+      "id": "q_design_2",
+      "category": "design",
+      "text": "Do you care about how websites look?",
+      "options": [
+        {
+          "text": "Yes, absolutely",
+          "score": 1
+        },
+        {
+          "text": "Sometimes",
+          "score": 0.6
+        },
+        {
+          "text": "Neutral",
+          "score": 0.3
+        },
+        {
+          "text": "No",
+          "score": 0
+        }
+      ],
+      "scoringLogic": {
+        "traits": {
+          "analytical": 0.37,
+          "creativity": 0.38,
+          "leadership": 0.53,
+          "communication": 0.3
+        }
+      },
+      "difficulty": "easy"
     },
     {
-      id: "d23",
-      category: "design",
-      subcategory: "graphics",
-      difficulty: "medium",
-      question: "Do you enjoy sketching, editing photos, or playing with digital illustration tools?",
-      options: ["Yes, regularly","Occasionally as a hobby","No, I don't draw or edit"],
-      tags: ["design","creativity"],
-      scoringLogic: {"traits":{"creativity":5},"careers":["graphic_designer","illustrator"]},
-      malayalamVersion: {"question":"വരയ്ക്കാനോ, ഫോട്ടോ എഡിറ്റ് ചെയ്യാനോ, ഡിജിറ്റൽ ഇല്ലസ്ട്രേഷൻ ടൂളുകൾ ഉപയോഗിക്കാനോ നിങ്ങൾക്ക് ഇഷ്ടമാണോ?","options":["അതെ, എപ്പോഴും ചെയ്യാറുണ്ട്","ചിലപ്പോൾ ഒരു വിനോദമായി ചെയ്യാറുണ്ട്","ഇല്ല, ഞാൻ വരയ്ക്കുകയോ എഡിറ്റ് ചെയ്യുകയോ ചെയ്യാറില്ല"]}
+      "id": "q_design_3",
+      "category": "design",
+      "text": "Are you sensitive to colors and layouts?",
+      "options": [
+        {
+          "text": "Yes, absolutely",
+          "score": 1
+        },
+        {
+          "text": "Sometimes",
+          "score": 0.6
+        },
+        {
+          "text": "Neutral",
+          "score": 0.3
+        },
+        {
+          "text": "No",
+          "score": 0
+        }
+      ],
+      "scoringLogic": {
+        "traits": {
+          "analytical": 0.93,
+          "creativity": 0.78,
+          "leadership": 0.79,
+          "communication": 0.24
+        }
+      },
+      "difficulty": "easy"
     },
     {
-      id: "d24",
-      category: "design",
-      subcategory: "industrial",
-      difficulty: "medium",
-      question: "Which design area interests you the most?",
-      options: ["Visual branding, logos, and graphics","Mobile app screens and website interface layouts","Physical product shapes, packaging, and ergonomics","3D virtual environments and game animation assets"],
-      tags: ["design","creativity"],
-      scoringLogic: {"traits":{"creativity":5},"careers":["industrial_designer","uiux_designer"]},
-      malayalamVersion: {"question":"രൂപകൽപ്പനയുടെ ഏത് മേഖലയിലാണ് നിങ്ങൾക്ക് കൂടുതൽ താല്പര്യം?","options":["വിഷ്വൽ ബ്രാൻഡിംഗ്, ലോഗോകൾ, ഗ്രാഫിക്സ്","മൊബൈൽ ആപ്പ് സ്ക്രീനുകളും വെബ്സൈറ്റ് ലേഔട്ടുകളും","ഫിസിക്കൽ ഉൽപ്പന്നങ്ങളുടെ രൂപങ്ങൾ, പാക്കേജിംഗ്","3D വർച്വൽ ഗെയിമുകളും ആനിമേഷൻ അസറ്റുകളും"]}
+      "id": "q_design_4",
+      "category": "design",
+      "text": "Do you like creating logos or graphics?",
+      "options": [
+        {
+          "text": "Yes, absolutely",
+          "score": 1
+        },
+        {
+          "text": "Sometimes",
+          "score": 0.6
+        },
+        {
+          "text": "Neutral",
+          "score": 0.3
+        },
+        {
+          "text": "No",
+          "score": 0
+        }
+      ],
+      "scoringLogic": {
+        "traits": {
+          "analytical": 0.88,
+          "creativity": 0.73,
+          "leadership": 0.61,
+          "communication": 0.26
+        }
+      },
+      "difficulty": "medium"
     },
     {
-      id: "d25",
-      category: "design",
-      subcategory: "architecture",
-      difficulty: "hard",
-      question: "How do you handle negative feedback on your creative work or ideas?",
-      options: ["Analyze the feedback objectively to improve my work","Defend my original design choice explanation","Feel demotivated but make the requested changes","Rethink the entire concept from scratch with new inputs"],
-      tags: ["design","communication"],
-      scoringLogic: {"traits":{"communication":4,"creativity":3},"careers":["art_director","design_consultant"]},
-      malayalamVersion: {"question":"നിങ്ങളുടെ ഡിസൈൻ വർക്കുകളിലോ ആശയങ്ങളിലോ മറ്റുള്ളവർ തെറ്റുകൾ ചൂണ്ടിക്കാണിക്കുമ്പോൾ നിങ്ങൾ എങ്ങനെ പ്രതികരിക്കും?","options":["ഡിസൈൻ മെച്ചപ്പെടുത്താൻ ഫീഡ്‌ബാക്ക് വസ്തുനിഷ്ഠമായി വിശകലനം ചെയ്യും","എന്റെ ഒറിജിനൽ ഡിസൈൻ തീരുമാനത്തെ ന്യായീകരിച്ച് വിശദീകരിക്കും","വിഷമം തോന്നുമെങ്കിലും മാറ്റങ്ങൾ വരുത്തും","പുതിയ നിർദ്ദേശങ്ങളോടെ ആശയം ആദ്യം മുതൽ മാറ്റിച്ചിന്തിക്കും"]}
+      "id": "q_design_5",
+      "category": "design",
+      "text": "Are you interested in user experience (UX)?",
+      "options": [
+        {
+          "text": "Yes, absolutely",
+          "score": 1
+        },
+        {
+          "text": "Sometimes",
+          "score": 0.6
+        },
+        {
+          "text": "Neutral",
+          "score": 0.3
+        },
+        {
+          "text": "No",
+          "score": 0
+        }
+      ],
+      "scoringLogic": {
+        "traits": {
+          "analytical": 0.72,
+          "creativity": 0.57,
+          "leadership": 0.31,
+          "communication": 0.79
+        }
+      },
+      "difficulty": "medium"
     },
     {
-      id: "d26",
-      category: "design",
-      subcategory: "typography",
-      difficulty: "medium",
-      question: "Using the right fonts and layout structures is critical to convey trust in commercial designs.",
-      options: ["Strongly Agree","Agree","Neutral","Disagree","Strongly Disagree"],
-      tags: ["design","communication"],
-      scoringLogic: {"traits":{"creativity":4,"communication":3},"careers":["graphic_designer","brand_specialist"]},
-      malayalamVersion: {"question":"വാണിജ്യ ഡിസൈനുകളിൽ വിശ്വാസ്യത നൽകാൻ ശരിയായ ഫോണ്ടുകളും ലേഔട്ട് ഘടനകളും ഉപയോഗിക്കുന്നത് പ്രധാനമാണ്.","options":["ശക്തമായി യോജിക്കുന്നു","യോജിക്കുന്നു","നിഷ്പക്ഷം","വിയോജിക്കുന്നു","ശക്തമായി വിയോജിക്കുന്നു"]}
+      "id": "q_design_6",
+      "category": "design",
+      "text": "Do you enjoy 3D modeling?",
+      "options": [
+        {
+          "text": "Yes, absolutely",
+          "score": 1
+        },
+        {
+          "text": "Sometimes",
+          "score": 0.6
+        },
+        {
+          "text": "Neutral",
+          "score": 0.3
+        },
+        {
+          "text": "No",
+          "score": 0
+        }
+      ],
+      "scoringLogic": {
+        "traits": {
+          "analytical": 0.57,
+          "creativity": 0.52,
+          "leadership": 0.82,
+          "communication": 0.64
+        }
+      },
+      "difficulty": "medium"
     },
     {
-      id: "d27",
-      category: "design",
-      subcategory: "collaboration",
-      difficulty: "easy",
-      question: "I prefer working closely with copywriters and marketing experts to build commercial ads.",
-      options: ["Strongly Agree","Agree","Neutral","Disagree","Strongly Disagree"],
-      tags: ["design","teamwork"],
-      scoringLogic: {"traits":{"communication":4},"careers":["advertising_designer","creative_director"]},
-      malayalamVersion: {"question":"പരസ്യങ്ങൾ നിർമ്മിക്കാൻ കോപ്പിറൈറ്റർമാരുമായും മാർക്കറ്റിംഗ് വിദഗ്ധരുമായും ചേർന്ന് പ്രവർത്തിക്കാൻ ഞാൻ താല്പര്യപ്പെടുന്നു.","options":["ശക്തമായി യോജിക്കുന്നു","യോജിക്കുന്നു","നിഷ്പക്ഷം","വിയോജിക്കുന്നു","ശക്തമായി വിയോജിക്കുന്നു"]}
+      "id": "q_design_7",
+      "category": "design",
+      "text": "Do you pay attention to product packaging?",
+      "options": [
+        {
+          "text": "Yes, absolutely",
+          "score": 1
+        },
+        {
+          "text": "Sometimes",
+          "score": 0.6
+        },
+        {
+          "text": "Neutral",
+          "score": 0.3
+        },
+        {
+          "text": "No",
+          "score": 0
+        }
+      ],
+      "scoringLogic": {
+        "traits": {
+          "analytical": 0.36,
+          "creativity": 0.44,
+          "leadership": 0.79,
+          "communication": 0.64
+        }
+      },
+      "difficulty": "medium"
     },
     {
-      id: "d28",
-      category: "design",
-      subcategory: "innovation",
-      difficulty: "hard",
-      question: "Designing physical objects that help differently-abled people navigate urban infrastructure sounds inspiring.",
-      options: ["Strongly Agree","Agree","Neutral","Disagree","Strongly Disagree"],
-      tags: ["design","empathy"],
-      scoringLogic: {"traits":{"creativity":4,"empathy":4},"careers":["industrial_designer","urban_planner"]},
-      malayalamVersion: {"question":"ഭിന്നശേഷിക്കാർക്ക് നഗരങ്ങളിലൂടെ എളുപ്പത്തിൽ സഞ്ചരിക്കാൻ സഹായിക്കുന്ന ഫിസിക്കൽ ഉപകരണങ്ങൾ രൂപകൽപ്പന ചെയ്യുന്നത് പ്രയോജനപ്രദമാണ്.","options":["ശക്തമായി യോജിക്കുന്നു","യോജിക്കുന്നു","നിഷ്പക്ഷം","വിയോജിക്കുന്നു","ശക്തമായി വിയോജിക്കുന്നു"]}
+      "id": "q_design_8",
+      "category": "design",
+      "text": "Do you like interior decoration?",
+      "options": [
+        {
+          "text": "Yes, absolutely",
+          "score": 1
+        },
+        {
+          "text": "Sometimes",
+          "score": 0.6
+        },
+        {
+          "text": "Neutral",
+          "score": 0.3
+        },
+        {
+          "text": "No",
+          "score": 0
+        }
+      ],
+      "scoringLogic": {
+        "traits": {
+          "analytical": 0.7,
+          "creativity": 0.68,
+          "leadership": 0.87,
+          "communication": 0.85
+        }
+      },
+      "difficulty": "hard"
     },
     {
-      id: "d29",
-      category: "design",
-      subcategory: "ux",
-      difficulty: "hard",
-      question: "Which skill is most critical for a lead product designer?",
-      options: ["Empathizing with target user frustrations","Mastering digital design tools (like Figma)","Presenting design concepts to business executives","Staying updated with global artistic trends"],
-      tags: ["design","leadership"],
-      scoringLogic: {"traits":{"leadership":4,"communication":3},"careers":["product_designer","art_director"]},
-      malayalamVersion: {"question":"ഒരു പ്രൊഡക്റ്റ് ഡിസൈനർക്ക് ഏറ്റവും ആവശ്യമുള്ള കഴിവ് ഏതാണ്?","options":["ഉപയോക്താക്കളുടെ ബുദ്ധിമുട്ടുകൾ മനസ്സിലാക്കാനും സഹതപിക്കാനുമുള്ള കഴിവ്","ഡിജിറ്റൽ ഡിസൈൻ ടൂളുകൾ (Figma പോലെ) നന്നായി ഉപയോഗിക്കാനുള്ള കഴിവ്","ബിസിനസ് മേധാവികൾക്ക് മുന്നിൽ ഡിസൈൻ ആശയങ്ങൾ അവതരിപ്പിക്കാനുള്ള കഴിവ്","ആഗോള കലാ ട്രെൻഡുകളെക്കുറിച്ച് അറിവുണ്ടാകൽ"]}
+      "id": "q_design_9",
+      "category": "design",
+      "text": "Do you enjoy typography?",
+      "options": [
+        {
+          "text": "Yes, absolutely",
+          "score": 1
+        },
+        {
+          "text": "Sometimes",
+          "score": 0.6
+        },
+        {
+          "text": "Neutral",
+          "score": 0.3
+        },
+        {
+          "text": "No",
+          "score": 0
+        }
+      ],
+      "scoringLogic": {
+        "traits": {
+          "analytical": 0.82,
+          "creativity": 0.88,
+          "leadership": 0.53,
+          "communication": 0.58
+        }
+      },
+      "difficulty": "hard"
     },
     {
-      id: "d30",
-      category: "design",
-      subcategory: "aesthetics",
-      difficulty: "medium",
-      question: "I prefer digital illustration and drawing over layout planning and research.",
-      options: ["Strongly Agree","Agree","Neutral","Disagree","Strongly Disagree"],
-      tags: ["design","creativity"],
-      scoringLogic: {"traits":{"creativity":5},"careers":["illustrator","animator"]},
-      malayalamVersion: {"question":"ലേഔട്ട് ആസൂത്രണം ചെയ്യുന്നതിനേക്കാളും റിസർച്ച് ചെയ്യുന്നതിനേക്കാളും എനിക്ക് താല്പര്യം വരയ്ക്കാനും ഡിജിറ്റൽ ഇല്ലസ്ട്രേഷൻ ചെയ്യാനുമാണ്.","options":["ശക്തമായി യോജിക്കുന്നു","യോജിക്കുന്നു","നിഷ്പക്ഷം","വിയോജിക്കുന്നു","ശക്തമായി വിയോജിക്കുന്നു"]}
+      "id": "q_design_10",
+      "category": "design",
+      "text": "Are you creative with visual arts?",
+      "options": [
+        {
+          "text": "Yes, absolutely",
+          "score": 1
+        },
+        {
+          "text": "Sometimes",
+          "score": 0.6
+        },
+        {
+          "text": "Neutral",
+          "score": 0.3
+        },
+        {
+          "text": "No",
+          "score": 0
+        }
+      ],
+      "scoringLogic": {
+        "traits": {
+          "analytical": 0.68,
+          "creativity": 0.9,
+          "leadership": 0.25,
+          "communication": 0.82
+        }
+      },
+      "difficulty": "hard"
     }
   ],
-  finance: [
-    { id: "f1", category: "finance", question: "What is your personal philosophy on saving money?", options: ["Invest early to compound wealth over time", "Save a safe emergency fund in a bank account", "Spend on quality life experiences today", "Use budgets to track every single expense"], tags: ["finance", "discipline", "risk tolerance"] },
-    { id: "f2", category: "finance", question: "How do you feel when you see stock market tickers?", options: ["Curious about the trends and company valuations", "Stressed by the high volatility and risk", "Excited by the potential to trade and make profit", "Indifferent; it feels like virtual numbers"], tags: ["finance", "analytical thinking", "risk tolerance"] },
-    { id: "f3", category: "finance", question: "If you had Rs. 10,000 to invest today, where would it go?", options: ["Direct equity stocks with high growth potential", "A diversified mutual fund or index fund", "A secure fixed deposit with guaranteed return", "A cryptocurrency or high-risk asset for quick gains"], tags: ["finance", "risk tolerance", "analytical thinking"] },
-    { id: "f4", category: "finance", question: "What finance concept interests you the most to learn?", options: ["Corporate mergers and investment banking", "Personal financial planning and tax saving", "Algorithmic trading and quantitative modeling", "Micro-finance for low-income communities"], tags: ["finance", "analytical thinking", "technical interest"] },
-    { id: "f5", category: "finance", question: "How do you view credit cards and personal debt?", options: ["A dangerous trap that should be avoided entirely", "A useful leverage tool if paid in full monthly", "A way to afford large purchases over time", "A mathematical puzzle to optimize rewards points"], tags: ["finance", "discipline", "logical thinking"] },
-    { id: "f6", category: "finance", question: "What is the primary role of a financial advisor?", options: ["To help clients build long-term generational wealth", "To protect client assets from inflation and market crashes", "To find hot stocks and beat the market index", "To educate families on basic financial literacy"], tags: ["finance", "empathy", "communication"] },
-    { id: "f7", category: "finance", question: "If a company has high revenue but negative cash flow, you think...", options: ["They are spending heavily on expansion and R&D", "They are highly inefficient and heading to crash", "Their accounting methods need an audit", "They need to raise debt capital immediately"], tags: ["finance", "analytical thinking", "logical thinking"] },
-    { id: "f8", category: "finance", question: "Which source of financial news do you prefer?", options: ["The Economic Times or Bloomberg", "Financial subreddits and YouTube channels", "Academic journals on economic policy", "Company quarterly earnings report PDFs"], tags: ["finance", "analytical thinking", "discipline"] },
-    { id: "f9", category: "finance", question: "What is your stance on gold as an investment asset?", options: ["A safe, reliable hedge against inflation", "An outdated asset that yields no compound interest", "Good for diversification but keep it under 10%", "A cultural necessity but poor financial asset"], tags: ["finance", "risk tolerance", "discipline"] },
-    { id: "f10", category: "finance", question: "How do you make a major purchase decision (like a laptop)?", options: ["Compare prices and specs across 5 stores", "Wait for a major holiday sale or discount coupon", "Buy the absolute best model that will last 5 years", "Look at monthly EMI plans that fit my budget"], tags: ["finance", "discipline", "analytical thinking"] },
-    { id: "f11", category: "finance", question: "Which corporate finance area sounds most exciting?", options: ["Mergers & Acquisitions (Buying other companies)", "Venture Capital (Investing in early-stage startups)", "Risk Management (Protecting against currency crashes)", "Treasury (Managing the cash flow and reserves)"], tags: ["finance", "ambition", "analytical thinking"] },
-    { id: "f12", category: "finance", question: "How do you feel about mathematical formulas in finance?", options: ["I love them; they bring absolute order to markets", "They are useful, but psychology drives markets more", "I find them dry; I prefer the human strategy side", "I tolerate them as long as software does the math"], tags: ["finance", "logical thinking", "technical interest"] },
-    { id: "f13", category: "finance", question: "What is the main cause of inflation in your view?", options: ["Excessive government money printing", "Rising cost of supply chain materials and oil", "Greed and price manipulation by large corporations", "High consumer demand outstripping supply"], tags: ["finance", "analytical thinking", "logical thinking"] },
-    { id: "f14", category: "finance", question: "If your friend asks for a large loan for a risky startup, you...", options: ["Decline politely to preserve the friendship", "Lend only what I am fully prepared to lose forever", "Ask for formal collateral and sign a legal agreement", "Help them pitch to actual venture capitalists instead"], tags: ["finance", "risk tolerance", "emotional intelligence"] },
-    { id: "f15", category: "finance", question: "What is your goal for retirement?", options: ["Achieve complete financial independence as early as possible", "Work indefinitely in roles I love, regardless of pay", "Have a secure pension that covers all basic expenses", "Build a massive estate to leave to my children"], tags: ["finance", "ambition", "discipline"] },
-    { id: "f16", category: "finance", question: "How do you view decentralized finance (DeFi)?", options: ["The future of open banking without middle-men", "A highly speculative and unregulated bubble", "A complex technical concept that needs security fixes", "An exciting sandbox for new financial protocols"], tags: ["finance", "innovation mindset", "technical interest"] },
-    { id: "f17", category: "finance", question: "What is your attitude toward paying taxes?", options: ["It's my civic duty to build infrastructure", "An annoying expense that I want to legal-optimize down", "A system that should be simplified and automated", "A necessary evil that is often misspent by governments"], tags: ["finance", "discipline", "analytical thinking"] },
-    { id: "f18", category: "finance", question: "Which financial simulation game would you play?", options: ["A stock market simulator with live pricing", "A monopoly-style real estate board game", "A city-builder game managing public budgets", "A startup simulation managing burn rate and runway"], tags: ["finance", "analytical thinking", "risk tolerance"] },
-    { id: "f19", category: "finance", question: "What does financial security mean to you?", options: ["Having zero debt and a paid-off home", "Having multiple streams of passive income", "Having a steady, high-paying corporate salary", "Having enough wealth to weather any crisis"], tags: ["finance", "discipline", "ambition"] },
-    { id: "f20", category: "finance", question: "If you could change one thing about schools, it would be...", options: ["Adding mandatory personal finance classes", "Teaching kids how to invest in the stock market", "Explaining how taxes and bank loans function", "All of the above — financial literacy is key"], tags: ["finance", "education", "communication"] }
-  ,
+  "finance": [
     {
-      id: "f21",
-      category: "finance",
-      subcategory: "budgeting",
-      difficulty: "easy",
-      question: "Do you keep track of your pocket money and plan your expenses in advance?",
-      options: ["Yes, I track carefully","Sometimes, for big purchases","No, I just spend as needed"],
-      tags: ["finance","discipline"],
-      scoringLogic: {"traits":{"analytical":4},"careers":["financial_planner","accountant"]},
-      malayalamVersion: {"question":"നിങ്ങൾ നിങ്ങളുടെ പോക്കറ്റ് മണി ട്രാക്ക് ചെയ്യുകയും ചെലവുകൾ മുൻകൂട്ടി പ്ലാൻ ചെയ്യുകയും ചെയ്യാറുണ്ടോ?","options":["അതെ, ഞാൻ കൃത്യമായി സൂക്ഷിക്കാറുണ്ട്","ചിലപ്പോൾ, വലിയ കാര്യങ്ങൾ വാങ്ങാൻ മാത്രം","ഇല്ല, ആവശ്യമനുസരിച്ച് ചെലവഴിക്കാറാണ് പതിവ്"]}
+      "id": "q_finance_1",
+      "category": "finance",
+      "text": "Do you like working with numbers?",
+      "options": [
+        {
+          "text": "Yes, absolutely",
+          "score": 1
+        },
+        {
+          "text": "Sometimes",
+          "score": 0.6
+        },
+        {
+          "text": "Neutral",
+          "score": 0.3
+        },
+        {
+          "text": "No",
+          "score": 0
+        }
+      ],
+      "scoringLogic": {
+        "traits": {
+          "analytical": 0.83,
+          "creativity": 0.41,
+          "leadership": 0.43,
+          "communication": 0.56
+        }
+      },
+      "difficulty": "easy"
     },
     {
-      id: "f22",
-      category: "finance",
-      subcategory: "investment",
-      difficulty: "easy",
-      question: "I find reports about stock markets, inflation rates, and global economy interesting.",
-      options: ["Strongly Agree","Agree","Neutral","Disagree","Strongly Disagree"],
-      tags: ["finance","analytical"],
-      scoringLogic: {"traits":{"analytical":5},"careers":["investment_analyst","portfolio_manager"]},
-      malayalamVersion: {"question":"ഓഹരി വിപണി, പണപ്പെരുപ്പം, ആഗോള സമ്പദ്‌വ്യവസ്ഥ എന്നിവയെക്കുറിച്ചുള്ള വാർത്തകൾ എനിക്ക് താല്പര്യമുള്ള വിഷയങ്ങളാണ്.","options":["ശക്തമായി യോജിക്കുന്നു","യോജിക്കുന്നു","നിഷ്പക്ഷം","വിയോജിക്കുന്നു","ശക്തമായി വിയോജിക്കുന്നു"]}
+      "id": "q_finance_2",
+      "category": "finance",
+      "text": "Are you interested in the stock market?",
+      "options": [
+        {
+          "text": "Yes, absolutely",
+          "score": 1
+        },
+        {
+          "text": "Sometimes",
+          "score": 0.6
+        },
+        {
+          "text": "Neutral",
+          "score": 0.3
+        },
+        {
+          "text": "No",
+          "score": 0
+        }
+      ],
+      "scoringLogic": {
+        "traits": {
+          "analytical": 0.73,
+          "creativity": 0.66,
+          "leadership": 0.29,
+          "communication": 0.91
+        }
+      },
+      "difficulty": "easy"
     },
     {
-      id: "f23",
-      category: "finance",
-      subcategory: "risk_management",
-      difficulty: "medium",
-      question: "If you had ₹10,000 to invest, how would you allocate it?",
-      options: ["High-risk high-return stocks","Safe fixed deposits or gold","Diversified mutual funds","Keep it in my bank account for security"],
-      tags: ["finance","risk_tolerance"],
-      scoringLogic: {"traits":{"analytical":4},"careers":["portfolio_manager","risk_analyst"]},
-      malayalamVersion: {"question":"നിങ്ങൾക്ക് നിക്ഷേപിക്കാൻ ₹10,000 ലഭിച്ചാൽ നിങ്ങൾ അത് എങ്ങനെ വിനിയോഗിക്കും?","options":["ഉയർന്ന റിസ്ക്കും മികച്ച ലാഭവും നൽകുന്ന ഓഹരികളിൽ","സുരക്ഷിതമായ ഫിക്സഡ് ഡിപ്പോസിറ്റുകളിലോ സ്വർണ്ണത്തിലോ","വ്യത്യസ്തമായ മ്യൂച്വൽ ഫണ്ടുകളിൽ","സുരക്ഷിതമായി എൻ്റെ ബാങ്ക് അക്കൗണ്ടിൽ തന്നെ സൂക്ഷിക്കും"]}
+      "id": "q_finance_3",
+      "category": "finance",
+      "text": "Do you enjoy budgeting and saving?",
+      "options": [
+        {
+          "text": "Yes, absolutely",
+          "score": 1
+        },
+        {
+          "text": "Sometimes",
+          "score": 0.6
+        },
+        {
+          "text": "Neutral",
+          "score": 0.3
+        },
+        {
+          "text": "No",
+          "score": 0
+        }
+      ],
+      "scoringLogic": {
+        "traits": {
+          "analytical": 0.79,
+          "creativity": 0.92,
+          "leadership": 0.41,
+          "communication": 1
+        }
+      },
+      "difficulty": "easy"
     },
     {
-      id: "f24",
-      category: "finance",
-      subcategory: "analysis",
-      difficulty: "medium",
-      question: "Analyzing balance sheets and profit numbers of popular companies sounds interesting.",
-      options: ["Strongly Agree","Agree","Neutral","Disagree","Strongly Disagree"],
-      tags: ["finance","analytical thinking"],
-      scoringLogic: {"traits":{"analytical":5},"careers":["equity_research_analyst","investment_banker"]},
-      malayalamVersion: {"question":"പ്രമുഖ കമ്പനികളുടെ ബാലൻസ് ഷീറ്റുകളും ലാഭക്കണക്കുകളും വിശകലനം ചെയ്യുന്നത് താല്പര്യമുള്ള കാര്യമാണ്.","options":["ശക്തമായി യോജിക്കുന്നു","യോജിക്കുന്നു","നിഷ്പക്ഷം","വിയോജിക്കുന്നു","ശക്തമായി വിയോജിക്കുന്നു"]}
+      "id": "q_finance_4",
+      "category": "finance",
+      "text": "Do you want to understand how banks work?",
+      "options": [
+        {
+          "text": "Yes, absolutely",
+          "score": 1
+        },
+        {
+          "text": "Sometimes",
+          "score": 0.6
+        },
+        {
+          "text": "Neutral",
+          "score": 0.3
+        },
+        {
+          "text": "No",
+          "score": 0
+        }
+      ],
+      "scoringLogic": {
+        "traits": {
+          "analytical": 0.67,
+          "creativity": 0.39,
+          "leadership": 0.88,
+          "communication": 0.46
+        }
+      },
+      "difficulty": "medium"
     },
     {
-      id: "f25",
-      category: "finance",
-      subcategory: "corporate_finance",
-      difficulty: "hard",
-      question: "Which role in a financial department sounds most appealing?",
-      options: ["Investment Banker (Managing company acquisitions)","Portfolio Manager (Trading client wealth)","Corporate Auditor (Checking books for fraud)","Wealth Advisor (Helping families save money)"],
-      tags: ["finance","analytical"],
-      scoringLogic: {"traits":{"analytical":4,"leadership":3},"careers":["investment_banker","auditor"]},
-      malayalamVersion: {"question":"ഒരു ഫിനാൻസ് ഡിപ്പാർട്ട്മെൻ്റിലെ ഏത് റോളാണ് നിങ്ങൾക്ക് കൂടുതൽ അനുയോജ്യം?","options":["ഇൻവെസ്റ്റ്‌മെൻ്റ് ബാങ്കർ (കമ്പനി ഏറ്റെടുക്കലുകൾ കൈകാര്യം ചെയ്യുന്നു)","പോർട്ട്‌ഫോളിയോ മാനേജർ (ക്ലയൻ്റ് ഫണ്ടുകൾ കൈകാര്യം ചെയ്യുന്നു)","കോർപ്പറേറ്റ് ഓഡിറ്റർ (അക്കൗണ്ടുകളിലെ ക്രമക്കേടുകൾ പരിശോധിക്കുന്നു)","വെൽത്ത് അഡ്വൈസർ (കുടുംബങ്ങളെ പണം സമ്പാദിക്കാൻ സഹായിക്കുന്നു)"]}
+      "id": "q_finance_5",
+      "category": "finance",
+      "text": "Are you good at mental math?",
+      "options": [
+        {
+          "text": "Yes, absolutely",
+          "score": 1
+        },
+        {
+          "text": "Sometimes",
+          "score": 0.6
+        },
+        {
+          "text": "Neutral",
+          "score": 0.3
+        },
+        {
+          "text": "No",
+          "score": 0
+        }
+      ],
+      "scoringLogic": {
+        "traits": {
+          "analytical": 0.89,
+          "creativity": 0.55,
+          "leadership": 0.63,
+          "communication": 0.32
+        }
+      },
+      "difficulty": "medium"
     },
     {
-      id: "f26",
-      category: "finance",
-      subcategory: "taxation",
-      difficulty: "medium",
-      question: "Learning about tax structures, GST regulations, and financial laws sounds interesting.",
-      options: ["Strongly Agree","Agree","Neutral","Disagree","Strongly Disagree"],
-      tags: ["finance","law"],
-      scoringLogic: {"traits":{"analytical":4},"careers":["tax_consultant","corporate_lawyer"]},
-      malayalamVersion: {"question":"നികുതി ഘടനകൾ, GST നിയമങ്ങൾ, ധനകാര്യ നിയമങ്ങൾ എന്നിവയെക്കുറിച്ച് പഠിക്കുന്നത് താല്പര്യമുള്ള കാര്യമാണ്.","options":["ശക്തമായി യോജിക്കുന്നു","യോജിക്കുന്നു","നിഷ്പക്ഷം","വിയോജിക്കുന്നു","ശക്തമായി വിയോജിക്കുന്നു"]}
+      "id": "q_finance_6",
+      "category": "finance",
+      "text": "Do you like analyzing financial reports?",
+      "options": [
+        {
+          "text": "Yes, absolutely",
+          "score": 1
+        },
+        {
+          "text": "Sometimes",
+          "score": 0.6
+        },
+        {
+          "text": "Neutral",
+          "score": 0.3
+        },
+        {
+          "text": "No",
+          "score": 0
+        }
+      ],
+      "scoringLogic": {
+        "traits": {
+          "analytical": 0.25,
+          "creativity": 0.52,
+          "leadership": 0.76,
+          "communication": 0.5
+        }
+      },
+      "difficulty": "medium"
     },
     {
-      id: "f27",
-      category: "finance",
-      subcategory: "automation",
-      difficulty: "medium",
-      question: "I prefer writing code algorithms to automate trading over reading market news reports.",
-      options: ["Strongly Agree","Agree","Neutral","Disagree","Strongly Disagree"],
-      tags: ["finance","technology"],
-      scoringLogic: {"traits":{"analytical":5},"careers":["quantitative_analyst","financial_technology_developer"]},
-      malayalamVersion: {"question":"വിപണിയിലെ വാർത്തകൾ വായിക്കുന്നതിനേക്കാൾ ട്രേഡിംഗ് ഓട്ടോമേറ്റ് ചെയ്യാൻ അൽഗോരിതങ്ങൾ എഴുതാനാണ് എനിക്ക് താല്പര്യം.","options":["ശക്തമായി യോജിക്കുന്നു","യോജിക്കുന്നു","നിഷ്പക്ഷം","വിയോജിക്കുന്നു","ശക്തമായി വിയോജിക്കുന്നു"]}
+      "id": "q_finance_7",
+      "category": "finance",
+      "text": "Are you interested in cryptocurrency?",
+      "options": [
+        {
+          "text": "Yes, absolutely",
+          "score": 1
+        },
+        {
+          "text": "Sometimes",
+          "score": 0.6
+        },
+        {
+          "text": "Neutral",
+          "score": 0.3
+        },
+        {
+          "text": "No",
+          "score": 0
+        }
+      ],
+      "scoringLogic": {
+        "traits": {
+          "analytical": 0.88,
+          "creativity": 0.64,
+          "leadership": 0.31,
+          "communication": 0.35
+        }
+      },
+      "difficulty": "medium"
     },
     {
-      id: "f28",
-      category: "finance",
-      subcategory: "risk_management",
-      difficulty: "hard",
-      question: "How do you respond when your investment value drops by 10% in a single day?",
-      options: ["Stay calm, do not panic, wait for market recovery","Sell immediately to prevent further loss","Buy more at discount price using research data","Feel anxious but do nothing"],
-      tags: ["finance","risk_tolerance"],
-      scoringLogic: {"traits":{"analytical":4},"careers":["risk_analyst","portfolio_manager"]},
-      malayalamVersion: {"question":"നിങ്ങൾ നിക്ഷേപിച്ച തുക ഒറ്റ ദിവസം കൊണ്ട് 10% കുറഞ്ഞാൽ നിങ്ങൾ എങ്ങനെ പ്രതികരിക്കും?","options":["പരിഭ്രാന്തരാകാതെ ശാന്തമായി വിപണി വീണ്ടെടുക്കുന്നതിനായി കാത്തിരിക്കും","കൂടുതൽ നഷ്ടം വരാതിരിക്കാൻ ഉടൻ തന്നെ വിൽക്കും","വിവരങ്ങൾ ശേഖരിച്ച ശേഷം കുറഞ്ഞ വിലയിൽ കൂടുതൽ വാങ്ങും","ആശങ്കപ്പെടുമെങ്കിലും ഒന്നും ചെയ്യില്ല"]}
+      "id": "q_finance_8",
+      "category": "finance",
+      "text": "Do you enjoy managing other people's money?",
+      "options": [
+        {
+          "text": "Yes, absolutely",
+          "score": 1
+        },
+        {
+          "text": "Sometimes",
+          "score": 0.6
+        },
+        {
+          "text": "Neutral",
+          "score": 0.3
+        },
+        {
+          "text": "No",
+          "score": 0
+        }
+      ],
+      "scoringLogic": {
+        "traits": {
+          "analytical": 0.46,
+          "creativity": 0.46,
+          "leadership": 0.85,
+          "communication": 0.56
+        }
+      },
+      "difficulty": "hard"
     },
     {
-      id: "f29",
-      category: "finance",
-      subcategory: "global_economics",
-      difficulty: "hard",
-      question: "Which macro-economic indicator is most crucial to monitor inflation in your view?",
-      options: ["Central Bank Interest Rates","Consumer Price Index (CPI) trends","National Debt-to-GDP ratio","Currency conversion exchange stability"],
-      tags: ["finance","analytical thinking"],
-      scoringLogic: {"traits":{"analytical":5},"careers":["economist","financial_analyst"]},
-      malayalamVersion: {"question":"പണപ്പെരുപ്പം നിരീക്ഷിക്കാൻ ഏറ്റവും നിർണായകമായ സൂചകം ഏതാണെന്നാണ് നിങ്ങളുടെ അഭിപ്രായം?","options":["സെൻട്രൽ ബാങ്ക് പലിശ നിരക്കുകൾ","കൺസ്യൂമർ പ്രൈസ് ഇൻഡക്സ് (CPI)","ദേശീയ കടവും GDP-യും തമ്മിലുള്ള അനുപാതം","കറൻസി വിനിമയ നിരക്കിൻ്റെ സ്ഥിരത"]}
+      "id": "q_finance_9",
+      "category": "finance",
+      "text": "Do you like learning about investments?",
+      "options": [
+        {
+          "text": "Yes, absolutely",
+          "score": 1
+        },
+        {
+          "text": "Sometimes",
+          "score": 0.6
+        },
+        {
+          "text": "Neutral",
+          "score": 0.3
+        },
+        {
+          "text": "No",
+          "score": 0
+        }
+      ],
+      "scoringLogic": {
+        "traits": {
+          "analytical": 0.66,
+          "creativity": 0.61,
+          "leadership": 0.82,
+          "communication": 0.42
+        }
+      },
+      "difficulty": "hard"
     },
     {
-      id: "f30",
-      category: "finance",
-      subcategory: "ethics",
-      difficulty: "medium",
-      question: "Ethical investment models that refuse to fund tobacco, weapon, or polluting companies are the future.",
-      options: ["Strongly Agree","Agree","Neutral","Disagree","Strongly Disagree"],
-      tags: ["finance","empathy"],
-      scoringLogic: {"traits":{"communication":3},"careers":["esg_investment_analyst","portfolio_manager"]},
-      malayalamVersion: {"question":"പുകയില, ആയുധങ്ങൾ, പരിസ്ഥിതി മലിനീകരണം എന്നിവ നടത്തുന്ന കമ്പനികൾക്ക് പണം നൽകാത്ത ധാർമ്മിക നിക്ഷേപങ്ങളാണ് ഭാവി.","options":["ശക്തമായി യോജിക്കുന്നു","യോജിക്കുന്നു","നിഷ്പക്ഷം","വിയോജിക്കുന്നു","ശക്തമായി വിയോജിക്കുന്നു"]}
+      "id": "q_finance_10",
+      "category": "finance",
+      "text": "Are you interested in taxation?",
+      "options": [
+        {
+          "text": "Yes, absolutely",
+          "score": 1
+        },
+        {
+          "text": "Sometimes",
+          "score": 0.6
+        },
+        {
+          "text": "Neutral",
+          "score": 0.3
+        },
+        {
+          "text": "No",
+          "score": 0
+        }
+      ],
+      "scoringLogic": {
+        "traits": {
+          "analytical": 0.91,
+          "creativity": 0.76,
+          "leadership": 0.77,
+          "communication": 0.96
+        }
+      },
+      "difficulty": "hard"
     }
   ],
-  marketing: [
-    { id: "m1", category: "marketing", question: "What makes you click on an online advertisement?", options: ["A clever, witty headline that sparks curiosity", "A stunning visual design or animation", "An discount offer that represents great value", "I never click on ads; I block them entirely"], tags: ["marketing", "communication", "creativity"] },
-    { id: "m2", category: "marketing", question: "Which social platform is best for organic brand building?", options: ["Instagram & TikTok (Visual stories)", "LinkedIn (Professional networking)", "YouTube (In-depth education & reviews)", "Twitter/X (Real-time news & discussions)"], tags: ["marketing", "communication", "social confidence"] },
-    { id: "m3", category: "marketing", question: "How would you define a strong brand logo?", options: ["It tells the core story and values of the company", "It is minimalist and memorable instantly", "It stands out clearly from its competitors", "It is clean and looks good on any product packaging"], tags: ["marketing", "design", "creativity"] },
-    { id: "m4", category: "marketing", question: "If your product launch campaign fails, what do you audit first?", options: ["The target audience parameters and filters", "The ad copy and creative visual assets", "The landing page user conversion funnel", "The pricing model compared to competitors"], tags: ["marketing", "analytical thinking", "discipline"] },
-    { id: "m5", category: "marketing", question: "How do you view influencer marketing partnerships?", options: ["Highly effective if the influencer fits the brand niche", "Overpriced and difficult to track actual sales returns", "Essential for brand trust and social proof today", "A temporary trend that is starting to decline"], tags: ["marketing", "communication", "social confidence"] },
-    { id: "m6", category: "marketing", question: "What is your stance on search engine optimization (SEO)?", options: ["A crucial long-term strategy for free web traffic", "Too slow; I prefer paid search ads for instant results", "A technical puzzle of keywords and site speed", "It is secondary to writing amazing content"], tags: ["marketing", "technical interest", "logical thinking"] },
-    { id: "m7", category: "marketing", question: "Which brand's advertising campaigns do you admire most?", options: ["Apple (Emotional, premium storytelling)", "Nike (Inspirational, athlete-focused motivation)", "Red Bull (Extreme sports, lifestyle branding)", "Duolingo (Playful, meme-driven social presence)"], tags: ["marketing", "communication", "creativity"] },
-    { id: "m8", category: "marketing", question: "If you had to promote a local eco-friendly coffee shop, you...", options: ["Host a free tasting event for neighborhood residents", "Run localized Instagram ads showcasing the aesthetic interior", "Offer a discount if customers bring reusable cups", "Partner with local environment groups for events"], tags: ["marketing", "social confidence", "empathy"] },
-    { id: "m9", category: "marketing", question: "What is your attitude toward writing copy (text for ads)?", options: ["I love playing with words to trigger emotional reactions", "I prefer analyzing the quantitative performance metrics of ads", "I want to design the visual banners, not write text", "I think AI should write the copy and I guide it"], tags: ["marketing", "communication", "creativity"] },
-    { id: "m10", category: "marketing", question: "How do you measure marketing success for an e-commerce brand?", options: ["Return on Ad Spend (ROAS)", "Total brand impressions and views", "Customer Lifetime Value (LTV)", "Click-through rate of ad banners"], tags: ["marketing", "analytical thinking", "finance"] },
-    { id: "m11", category: "marketing", question: "What is viral marketing in your view?", options: ["A lucky coincidence that can't be planned", "A science of psychological triggers and emotions", "Great content that fits a trending internet meme", "A result of massive paid seeding by PR agencies"], tags: ["marketing", "creativity", "psychology"] },
-    { id: "m12", category: "marketing", question: "How do you feel about email marketing newsletters?", options: ["I subscribe and read ones that offer good articles", "I find them spammy and delete them immediately", "They are highly effective for keeping clients updated", "I like analyzing their email design layouts"], tags: ["marketing", "communication", "design"] },
-    { id: "m13", category: "marketing", question: "Which pricing strategy sounds most interesting?", options: ["Psychological pricing (e.g. ₹99 instead of ₹100)", "Freemium (Free tier with paid premium features)", "Dynamic pricing (Prices change based on live demand)", "Value-based pricing (Charge based on customer budget)"], tags: ["marketing", "business", "analytical thinking"] },
-    { id: "m14", category: "marketing", question: "What is the key to managing a brand crisis?", options: ["Immediate, honest communication and taking responsibility", "Staying silent until all facts are audited", "Deflecting blame and shifting the focus to a new topic", "Offering refunds and vouchers to affected users"], tags: ["marketing", "communication", "emotional intelligence"] },
-    { id: "m15", category: "marketing", question: "Which marketing role would you enjoy?", options: ["Brand Manager (Directing overall strategy & vision)", "Growth Marketer (Running experiments and data math)", "Social Media Manager (Creating content and engaging)", "Copywriter (Writing script concepts and slogans)"], tags: ["marketing", "leadership", "creativity"] },
-    { id: "m16", category: "marketing", question: "How do you research a new demographic for a product?", options: ["Conduct detailed focus groups and 1-on-1 interviews", "Analyze demographic search data and web behavior", "Spy on what competitors are targeting successfully", "Launch a small test ad and review who buys it"], tags: ["marketing", "analytical thinking", "social confidence"] },
-    { id: "m17", category: "marketing", question: "What is your stance on guerrilla marketing (unusual offline campaigns)?", options: ["Brilliant; it gets massive PR attention for cheap", "Risky; it can backfire or break city laws", "A cool art form, but hard to measure actual sales", "It only works for established, trendy brands"], tags: ["marketing", "creativity", "risk tolerance"] },
-    { id: "m18", category: "marketing", question: "When you buy a product, what influences your trust?", options: ["Clean packaging and premium graphic design", "Endorsement by a trusted celebrity or creator", "Hundreds of verified positive online reviews", "Detailed list of ingredients or technical specs"], tags: ["marketing", "design", "communication"] },
-    { id: "m19", category: "marketing", question: "How do you feel about tracking user web history to show ads?", options: ["Necessary to show relevant offers and avoid spam", "A creepy invasion of personal privacy rights", "Acceptable if the user opted in transparently", "I ignore it since I block tracking scripts"], tags: ["marketing", "analytical thinking", "risk tolerance"] },
-    { id: "m20", category: "marketing", question: "What is the ultimate goal of advertising?", options: ["To build a long-term emotional bond with the user", "To make a sale as fast as humanly possible", "To educate the public about a new solution", "To make the brand a household name"], tags: ["marketing", "communication", "ambition"] }
-  ,
+  "marketing": [
     {
-      id: "m21",
-      category: "marketing",
-      subcategory: "campaigns",
-      difficulty: "easy",
-      question: "I notice clever taglines or catchy slogans in brand advertisements easily.",
-      options: ["Strongly Agree","Agree","Neutral","Disagree","Strongly Disagree"],
-      tags: ["marketing","communication"],
-      scoringLogic: {"traits":{"creativity":4,"communication":3},"careers":["copywriter","advertising_manager"]},
-      malayalamVersion: {"question":"പരസ്യങ്ങളിലെ ആകർഷകമായ സ്ലോഗനുകളും വാക്കുകളും ഞാൻ പെട്ടെന്ന് ശ്രദ്ധിക്കാറുണ്ട്.","options":["ശക്തമായി യോജിക്കുന്നു","യോജിക്കുന്നു","നിഷ്പക്ഷം","വിയോജിക്കുന്നു","ശക്തമായി വിയോജിക്കുന്നു"]}
+      "id": "q_marketing_1",
+      "category": "marketing",
+      "text": "Do you enjoy creating social media content?",
+      "options": [
+        {
+          "text": "Yes, absolutely",
+          "score": 1
+        },
+        {
+          "text": "Sometimes",
+          "score": 0.6
+        },
+        {
+          "text": "Neutral",
+          "score": 0.3
+        },
+        {
+          "text": "No",
+          "score": 0
+        }
+      ],
+      "scoringLogic": {
+        "traits": {
+          "analytical": 0.91,
+          "creativity": 0.52,
+          "leadership": 0.6,
+          "communication": 0.52
+        }
+      },
+      "difficulty": "easy"
     },
     {
-      id: "m22",
-      category: "marketing",
-      subcategory: "social_media",
-      difficulty: "easy",
-      question: "Do you keep up with viral trends, hashtags, and social media reels?",
-      options: ["Yes, regularly","Sometimes","No, I rarely use social media"],
-      tags: ["marketing","communication"],
-      scoringLogic: {"traits":{"creativity":4,"communication":4},"careers":["social_media_manager","content_creator"]},
-      malayalamVersion: {"question":"വൈറൽ ട്രെൻഡുകൾ, ഹാഷ്‌ടാഗുകൾ, സോഷ്യൽ മീഡിയ റീലുകൾ എന്നിവയെല്ലാം നിങ്ങൾ ശ്രദ്ധിക്കാറുണ്ടോ?","options":["അതെ, എപ്പോഴും നോക്കാറുണ്ട്","ചിലപ്പോൾ","ഇല്ല, ഞാൻ സോഷ്യൽ മീഡിയ ഉപയോഗിക്കാറില്ല"]}
+      "id": "q_marketing_2",
+      "category": "marketing",
+      "text": "Are you good at understanding what people want?",
+      "options": [
+        {
+          "text": "Yes, absolutely",
+          "score": 1
+        },
+        {
+          "text": "Sometimes",
+          "score": 0.6
+        },
+        {
+          "text": "Neutral",
+          "score": 0.3
+        },
+        {
+          "text": "No",
+          "score": 0
+        }
+      ],
+      "scoringLogic": {
+        "traits": {
+          "analytical": 0.9,
+          "creativity": 0.68,
+          "leadership": 0.69,
+          "communication": 0.88
+        }
+      },
+      "difficulty": "easy"
     },
     {
-      id: "m23",
-      category: "marketing",
-      subcategory: "analytics",
-      difficulty: "medium",
-      question: "I would enjoy analyzing user click-through rates and website visitor graphs to optimize ads.",
-      options: ["Strongly Agree","Agree","Neutral","Disagree","Strongly Disagree"],
-      tags: ["marketing","analytical"],
-      scoringLogic: {"traits":{"analytical":5},"careers":["digital_marketer","marketing_analyst"]},
-      malayalamVersion: {"question":"പരസ്യങ്ങൾ മെച്ചപ്പെടുത്താൻ വെബ്സൈറ്റ് സന്ദർശകരുടെ എണ്ണവും പരസ്യങ്ങളിൽ ക്ലിക്ക് ചെയ്തവരുടെ കണക്കുകളും വിശകലനം ചെയ്യാൻ ഞാൻ ആഗ്രഹിക്കുന്നു.","options":["ശക്തമായി യോജിക്കുന്നു","യോജിക്കുന്നു","നിഷ്പക്ഷം","വിയോജിക്കുന്നു","ശക്തമായി വിയോജിക്കുന്നു"]}
+      "id": "q_marketing_3",
+      "category": "marketing",
+      "text": "Do you like coming up with catchy slogans?",
+      "options": [
+        {
+          "text": "Yes, absolutely",
+          "score": 1
+        },
+        {
+          "text": "Sometimes",
+          "score": 0.6
+        },
+        {
+          "text": "Neutral",
+          "score": 0.3
+        },
+        {
+          "text": "No",
+          "score": 0
+        }
+      ],
+      "scoringLogic": {
+        "traits": {
+          "analytical": 0.53,
+          "creativity": 0.77,
+          "leadership": 0.7,
+          "communication": 0.56
+        }
+      },
+      "difficulty": "easy"
     },
     {
-      id: "m24",
-      category: "marketing",
-      subcategory: "brand_strategy",
-      difficulty: "medium",
-      question: "Which skill is most vital to pitch a product to a completely new customer segment?",
-      options: ["Emotional storytelling and connection","Offering large discounts and promo codes","Explaining technical specifications logically","Getting celebrity or influencer backing"],
-      tags: ["marketing","communication"],
-      scoringLogic: {"traits":{"communication":5,"creativity":3},"careers":["brand_manager","public_relations"]},
-      malayalamVersion: {"question":"ഒരു പുതിയ ഉപഭോക്താവിലേക്ക് ഒരു ഉൽപ്പന്നം എത്തിക്കാൻ ഏറ്റവും പ്രധാനപ്പെട്ട കഴിവ് ഏതാണ്?","options":["വൈകാരികമായ കഥപറച്ചിലും ബന്ധം സ്ഥാപിക്കലും","വлия കിഴിവുകളും പ്രൊമോ കോഡുകളും നൽകുന്നത്","സാങ്കേതിക വിവരങ്ങൾ യുക്തിസഹമായി വിശദീകരിക്കുന്നത്","പ്രശസ്തരായ വ്യക്തികളുടെ പിന്തുണ നേടുന്നത്"]}
+      "id": "q_marketing_4",
+      "category": "marketing",
+      "text": "Are you interested in digital marketing?",
+      "options": [
+        {
+          "text": "Yes, absolutely",
+          "score": 1
+        },
+        {
+          "text": "Sometimes",
+          "score": 0.6
+        },
+        {
+          "text": "Neutral",
+          "score": 0.3
+        },
+        {
+          "text": "No",
+          "score": 0
+        }
+      ],
+      "scoringLogic": {
+        "traits": {
+          "analytical": 0.97,
+          "creativity": 0.27,
+          "leadership": 0.21,
+          "communication": 0.75
+        }
+      },
+      "difficulty": "medium"
     },
     {
-      id: "m25",
-      category: "marketing",
-      subcategory: "copywriting",
-      difficulty: "medium",
-      question: "I prefer writing catchy ad lines over analyzing quantitative sales charts.",
-      options: ["Strongly Agree","Agree","Neutral","Disagree","Strongly Disagree"],
-      tags: ["marketing","creativity"],
-      scoringLogic: {"traits":{"creativity":5,"communication":3},"careers":["copywriter","brand_specialist"]},
-      malayalamVersion: {"question":"വില്പനയുടെ കണക്കുകൾ വിശകലനം ചെയ്യുന്നതിനേക്കാൾ ആകർഷകമായ പരസ്യവാചകങ്ങൾ എഴുതാനാണ് എനിക്ക് താല്പര്യം.","options":["ശക്തമായി യോജിക്കുന്നു","യോജിക്കുന്നു","നിഷ്പക്ഷം","വിയോജിക്കുന്നു","ശക്തമായി വിയോജിക്കുന്നു"]}
+      "id": "q_marketing_5",
+      "category": "marketing",
+      "text": "Do you enjoy studying consumer behavior?",
+      "options": [
+        {
+          "text": "Yes, absolutely",
+          "score": 1
+        },
+        {
+          "text": "Sometimes",
+          "score": 0.6
+        },
+        {
+          "text": "Neutral",
+          "score": 0.3
+        },
+        {
+          "text": "No",
+          "score": 0
+        }
+      ],
+      "scoringLogic": {
+        "traits": {
+          "analytical": 0.85,
+          "creativity": 0.2,
+          "leadership": 0.84,
+          "communication": 0.98
+        }
+      },
+      "difficulty": "medium"
     },
     {
-      id: "m26",
-      category: "marketing",
-      subcategory: "pr",
-      difficulty: "hard",
-      question: "How would you handle a major brand reputation crisis (e.g. food quality rumors)?",
-      options: ["Issue a fast, transparent apology and run lab tests","Delay response until we check internal systems","Divert focus by launching a new positive campaign","Hire a public relations team to dispute the rumors"],
-      tags: ["marketing","communication"],
-      scoringLogic: {"traits":{"communication":5,"leadership":3},"careers":["pr_specialist","brand_manager"]},
-      malayalamVersion: {"question":"ബ്രാൻഡിൻ്റെ പ്രതിച്ഛായയെ ബാധിക്കുന്ന ഒരു വലിയ പ്രതിസന്ധി ഉണ്ടായാൽ നിങ്ങൾ എങ്ങനെ കൈകാര്യം ചെയ്യും?","options":["വേഗത്തിലും സുതാര്യമായും മാപ്പ് പറയുകയും ലാബ് ടെസ്റ്റുകൾ നടത്തുകയും ചെയ്യും","ആഭ്യന്തര വിവരങ്ങൾ പരിശോധിക്കുന്നത് വരെ പ്രതികരണം വൈകിപ്പിക്കും","ഒരു പുതിയ നല്ല കാമ്പെയ്ൻ ആരംഭിച്ച് ആളുകളുടെ ശ്രദ്ധ തിരിക്കും","വ്യാജ പ്രചാരണങ്ങളെ ചെറുക്കാൻ ഒരു പി.ആർ ടീമിനെ നിയമിക്കും"]}
+      "id": "q_marketing_6",
+      "category": "marketing",
+      "text": "Do you like analyzing ad campaigns?",
+      "options": [
+        {
+          "text": "Yes, absolutely",
+          "score": 1
+        },
+        {
+          "text": "Sometimes",
+          "score": 0.6
+        },
+        {
+          "text": "Neutral",
+          "score": 0.3
+        },
+        {
+          "text": "No",
+          "score": 0
+        }
+      ],
+      "scoringLogic": {
+        "traits": {
+          "analytical": 0.34,
+          "creativity": 0.8,
+          "leadership": 0.47,
+          "communication": 0.45
+        }
+      },
+      "difficulty": "medium"
     },
     {
-      id: "m27",
-      category: "marketing",
-      subcategory: "innovation",
-      difficulty: "hard",
-      question: "Creating immersive virtual brand campaigns in video games sounds exciting.",
-      options: ["Strongly Agree","Agree","Neutral","Disagree","Strongly Disagree"],
-      tags: ["marketing","design"],
-      scoringLogic: {"traits":{"creativity":5},"careers":["creative_director","experiential_marketer"]},
-      malayalamVersion: {"question":"വീഡിയോ ഗെയിമുകളിൽ ബ്രാൻഡുകൾക്കായുള്ള വെർച്വൽ കാമ്പെയ്നുകൾ രൂപകൽപ്പന ചെയ്യുന്നത് ആവേശകരമാണ്.","options":["ശക്തമായി യോജിക്കുന്നു","യോജിക്കുന്നു","നിഷ്പക്ഷം","വിയോജിക്കുന്നു","ശക്തമായി വിയോജിക്കുന്നു"]}
+      "id": "q_marketing_7",
+      "category": "marketing",
+      "text": "Are you good at storytelling?",
+      "options": [
+        {
+          "text": "Yes, absolutely",
+          "score": 1
+        },
+        {
+          "text": "Sometimes",
+          "score": 0.6
+        },
+        {
+          "text": "Neutral",
+          "score": 0.3
+        },
+        {
+          "text": "No",
+          "score": 0
+        }
+      ],
+      "scoringLogic": {
+        "traits": {
+          "analytical": 0.26,
+          "creativity": 0.5,
+          "leadership": 0.45,
+          "communication": 0.57
+        }
+      },
+      "difficulty": "medium"
     },
     {
-      id: "m28",
-      category: "marketing",
-      subcategory: "psychology",
-      difficulty: "medium",
-      question: "I find the study of consumer buying psychology and decision triggers fascinating.",
-      options: ["Strongly Agree","Agree","Neutral","Disagree","Strongly Disagree"],
-      tags: ["marketing","psychology"],
-      scoringLogic: {"traits":{"analytical":4,"communication":3},"careers":["consumer_behavior_analyst","market_researcher"]},
-      malayalamVersion: {"question":"ഉപഭോക്താക്കൾ സാധനങ്ങൾ വാങ്ങുന്ന മനശാസ്ത്രത്തെക്കുറിച്ചും അതിൻ്റെ കാരണങ്ങളെക്കുറിച്ചും പഠിക്കുന്നത് താല്പര്യമുള്ള കാര്യമാണ്.","options":["ശക്തമായി യോജിക്കുന്നു","യോജിക്കുന്നു","നിഷ്പക്ഷം","വിയോജിക്കുന്നു","ശക്തമായി വിയോജിക്കുന്നു"]}
+      "id": "q_marketing_8",
+      "category": "marketing",
+      "text": "Do you want to build brand identities?",
+      "options": [
+        {
+          "text": "Yes, absolutely",
+          "score": 1
+        },
+        {
+          "text": "Sometimes",
+          "score": 0.6
+        },
+        {
+          "text": "Neutral",
+          "score": 0.3
+        },
+        {
+          "text": "No",
+          "score": 0
+        }
+      ],
+      "scoringLogic": {
+        "traits": {
+          "analytical": 0.57,
+          "creativity": 0.2,
+          "leadership": 0.73,
+          "communication": 0.21
+        }
+      },
+      "difficulty": "hard"
     },
     {
-      id: "m29",
-      category: "marketing",
-      subcategory: "seo",
-      difficulty: "medium",
-      question: "I prefer technical SEO keyword strategies over creative graphic design layout creation.",
-      options: ["Strongly Agree","Agree","Neutral","Disagree","Strongly Disagree"],
-      tags: ["marketing","technology"],
-      scoringLogic: {"traits":{"analytical":4},"careers":["seo_specialist","digital_marketer"]},
-      malayalamVersion: {"question":"ഗ്രാഫിക് ഡിസൈൻ ചെയ്യുന്നതിനേക്കാൾ സാങ്കേതികമായ SEO കീവേഡ് തന്ത്രങ്ങൾ രൂപീകരിക്കാനാണ് എനിക്ക് താല്പര്യം.","options":["ശക്തമായി യോജിക്കുന്നു","യോജിക്കുന്നു","നിഷ്പക്ഷം","വിയോജിക്കുന്നു","ശക്തമായി വിയോജിക്കുന്നു"]}
+      "id": "q_marketing_9",
+      "category": "marketing",
+      "text": "Do you enjoy public relations?",
+      "options": [
+        {
+          "text": "Yes, absolutely",
+          "score": 1
+        },
+        {
+          "text": "Sometimes",
+          "score": 0.6
+        },
+        {
+          "text": "Neutral",
+          "score": 0.3
+        },
+        {
+          "text": "No",
+          "score": 0
+        }
+      ],
+      "scoringLogic": {
+        "traits": {
+          "analytical": 0.55,
+          "creativity": 0.36,
+          "leadership": 0.49,
+          "communication": 0.87
+        }
+      },
+      "difficulty": "hard"
     },
     {
-      id: "m30",
-      category: "marketing",
-      subcategory: "sales",
-      difficulty: "easy",
-      question: "I feel comfortable talking directly to strangers to explain a product's value.",
-      options: ["Strongly Agree","Agree","Neutral","Disagree","Strongly Disagree"],
-      tags: ["marketing","communication"],
-      scoringLogic: {"traits":{"communication":5},"careers":["sales_manager","client_relationship_manager"]},
-      malayalamVersion: {"question":"അപരിചിതരോട് സംസാരിച്ച് ഒരു ഉൽപ്പന്നത്തിൻ്റെ സവിശേഷതകൾ വിശദീകരിക്കാൻ എനിക്ക് ഒരു മടിയുമില്ല.","options":["ശക്തമായി യോജിക്കുന്നു","യോജിക്കുന്നു","നിഷ്പക്ഷം","വിയോജിക്കുന്നു","ശക്തമായി വിയോജിക്കുന്നു"]}
+      "id": "q_marketing_10",
+      "category": "marketing",
+      "text": "Are you interested in SEO?",
+      "options": [
+        {
+          "text": "Yes, absolutely",
+          "score": 1
+        },
+        {
+          "text": "Sometimes",
+          "score": 0.6
+        },
+        {
+          "text": "Neutral",
+          "score": 0.3
+        },
+        {
+          "text": "No",
+          "score": 0
+        }
+      ],
+      "scoringLogic": {
+        "traits": {
+          "analytical": 0.68,
+          "creativity": 0.73,
+          "leadership": 0.52,
+          "communication": 0.33
+        }
+      },
+      "difficulty": "hard"
     }
   ],
-  agriculture: [
-    { id: "ag1", category: "agriculture", question: "How do you view the role of farming in the modern economy?", options: ["The vital foundation of human survival", "An outdated industry that needs high-tech automation", "An exciting field for bio-tech and genetic innovation", "A sustainable lifestyle in harmony with nature"], tags: ["agriculture", "science", "discipline"] },
-    { id: "ag2", category: "agriculture", question: "Which agricultural advancement sounds most interesting?", options: ["Vertical farming inside urban city towers", "Precision farming using drones and IoT sensors", "Developing drought-resistant organic seeds", "Large-scale automated tractor networks"], tags: ["agriculture", "technology", "technical interest"] },
-    { id: "ag3", category: "agriculture", question: "How do you feel about working outdoors in natural elements?", options: ["I love it; physical connection to soil and nature is great", "I prefer a hybrid style (some outdoor, some lab/office)", "I prefer working in a clean scientific laboratory", "I prefer staying inside a modern computer office"], tags: ["agriculture", "work style", "discipline"] },
-    { id: "ag4", category: "agriculture", question: "What is the biggest challenge facing Indian agriculture today?", options: ["Unpredictable weather and climate change patterns", "Lack of direct access to fair market pricing", "Depleted soil health due to chemical fertilizers", "Water scarcity and inefficient irrigation setups"], tags: ["agriculture", "analytical thinking", "empathy"] },
-    { id: "ag5", category: "agriculture", question: "If you could manage a farm, what would you grow?", options: ["High-value organic cash crops (saffron, spices)", "Basic staples (rice, wheat) to feed the public", "Hydroponic salads and microgreens for urban cafes", "Rare botanical medicinal plants and herbs"], tags: ["agriculture", "creativity", "business"] },
-    { id: "ag6", category: "agriculture", question: "What is your stance on genetically modified crops (GMOs)?", options: ["Essential to solve global hunger and resist pests", "A threat to organic biodiversity and soil health", "Useful if developed with transparent safety reviews", "I prefer traditional breeding methods instead"], tags: ["agriculture", "science", "analytical thinking"] },
-    { id: "ag7", category: "agriculture", question: "How do you feel about chemical pesticides?", options: ["A dangerous poison that we must eliminate entirely", "A necessary tool to protect crops on massive scale", "We should transition to organic biopesticides", "I trust scientific standards to decide safe limits"], tags: ["agriculture", "science", "empathy"] },
-    { id: "ag8", category: "agriculture", question: "Which career path in agriculture sounds best?", options: ["Agribusiness Manager (Handling sales & supply chain)", "Agronomist (Analyzing soil health & plant genetics)", "Urban Farming Entrepreneur (Building indoor setups)", "Agricultural Engineer (Designing smart tools & machinery)"], tags: ["agriculture", "leadership", "science"] },
-    { id: "ag9", category: "agriculture", question: "What is permaculture to you?", options: ["A beautiful design system for sustainable living", "An idealistic method that cannot scale to feed cities", "The future of restoring dead agricultural lands", "A fun hobby gardening method for homeowners"], tags: ["agriculture", "design", "creativity"] },
-    { id: "ag10", category: "agriculture", question: "If a crop gets infected by a rare disease, what is your move?", options: ["Isolate the area and analyze leaves in a laboratory", "Consult an agronomist database for pesticide recommendations", "Destroy the infected crops to save the remaining field", "Run tests on soil mineral levels to find the root cause"], tags: ["agriculture", "analytical thinking", "science"] },
-    { id: "ag11", category: "agriculture", question: "How do you view the organic food movement?", options: ["A healthier, sustainable choice worth a premium price", "A marketing gimmick to inflate standard food prices", "The only ethical way to practice agriculture", "Good for health but difficult to practice at scale"], tags: ["agriculture", "business", "empathy"] },
-    { id: "ag12", category: "agriculture", question: "What smart farm technology excites you most?", options: ["AI drone mapping that spots dry soil patches", "Automated hydroponic nutrition dosing pumps", "Robotic fruit harvesters that don't damage crops", "Weather tracking apps built for local languages"], tags: ["agriculture", "technology", "technical interest"] },
-    { id: "ag13", category: "agriculture", question: "How do you feel about animal farming / animal husbandry?", options: ["I prefer focusing on plant crops and agriculture", "I support sustainable, ethical free-range farming", "It's vital for diary, eggs, and nutrition systems", "I think we should transition to plant alternatives"], tags: ["agriculture", "empathy", "science"] },
-    { id: "ag14", category: "agriculture", question: "What is your experience with gardening or growing plants?", options: ["I have a home garden that I care for regularly", "I have grown a few potted plants or indoor herbs", "I have visited farms but never grown anything", "I have zero experience with plants and soil"], tags: ["agriculture", "work style", "discipline"] },
-    { id: "ag15", category: "agriculture", question: "How do we make farming attractive to the younger generation?", options: ["Integrate tech, coding, and smart automation into it", "Ensure guaranteed high-profit returns and pricing structures", "Introduce sustainable design and permaculture in school", "Offer green business grants for agtech startups"], tags: ["agriculture", "entrepreneurship", "innovation mindset"] },
-    { id: "ag16", category: "agriculture", question: "What is the most important factor for plant growth in your view?", options: ["Microscopic soil biome and organic nutrients", "Clean water supply and efficient irrigation", "Sunlight cycles and environmental temperature", "Genetic seed quality and resistance traits"], tags: ["agriculture", "science", "logical thinking"] },
-    { id: "ag17", category: "agriculture", question: "How do you view water conservation in farming?", options: ["Drip irrigation is mandatory and should be subsidized", "Rainwater harvesting must be integrated on every farm", "We should transition to crops that require less water", "I think tech sensors should manage water flows"], tags: ["agriculture", "technology", "empathy"] },
-    { id: "ag18", category: "agriculture", question: "What agribusiness field sounds most profitable?", options: ["Exporting organic spices and teas globally", "Building automated greenhouses in urban areas", "Manufacturing smart farming iot sensors", "Processing food into ready-to-eat premium goods"], tags: ["agriculture", "business", "ambition"] },
-    { id: "ag19", category: "agriculture", question: "How do you react to a severe monsoon affecting crops?", options: ["I study crop insurance policies and financial backups", "I work on drainage channels to prevent waterlogging", "I research climate-resilient seed varieties for next season", "I adapt by planting short-duration quick-harvest crops"], tags: ["agriculture", "discipline", "risk tolerance"] },
-    { id: "ag20", category: "agriculture", question: "If you could invent a tool for small farmers, what would it be?", options: ["A cheap hand-held soil mineral tester", "An affordable small solar-powered pump", "A local language mobile app for crop advice", "A community tractor sharing platform app"], tags: ["agriculture", "creativity", "technology"] }
-  ,
+  "agriculture": [
     {
-      id: "ag21",
-      category: "agriculture",
-      subcategory: "ecology",
-      difficulty: "easy",
-      question: "Do you enjoy home gardening or spending time outdoors close to nature?",
-      options: ["Yes, very much","Sometimes","No, I prefer staying indoors"],
-      tags: ["agriculture","work style"],
-      scoringLogic: {"traits":{"creativity":3,"discipline":2},"careers":["horticulturalist","organic_farmer"]},
-      malayalamVersion: {"question":"വീട്ടുതോട്ട നിർമ്മാണത്തിലോ പ്രകൃതിയോട് ചേർന്ന് സമയം ചെലവഴിക്കുന്നതിലോ നിങ്ങൾക്ക് താല്പര്യമുണ്ടോ?","options":["അതെ, വളരെ താല്പര്യമുണ്ട്","ചിലപ്പോൾ","ഇല്ല, എനിക്ക് വീടിനുള്ളിൽ ഇരിക്കാനാണ് ഇഷ്ടം"]}
+      "id": "q_agriculture_1",
+      "category": "agriculture",
+      "text": "Do you enjoy being in nature?",
+      "options": [
+        {
+          "text": "Yes, absolutely",
+          "score": 1
+        },
+        {
+          "text": "Sometimes",
+          "score": 0.6
+        },
+        {
+          "text": "Neutral",
+          "score": 0.3
+        },
+        {
+          "text": "No",
+          "score": 0
+        }
+      ],
+      "scoringLogic": {
+        "traits": {
+          "analytical": 0.53,
+          "creativity": 0.97,
+          "leadership": 0.8,
+          "communication": 0.67
+        }
+      },
+      "difficulty": "easy"
     },
     {
-      id: "ag22",
-      category: "agriculture",
-      subcategory: "tech",
-      difficulty: "easy",
-      question: "Using automated systems or mobile sensors to measure soil moisture sounds interesting.",
-      options: ["Strongly Agree","Agree","Neutral","Disagree","Strongly Disagree"],
-      tags: ["agriculture","technology"],
-      scoringLogic: {"traits":{"analytical":4},"careers":["agricultural_technologist","precision_farmer"]},
-      malayalamVersion: {"question":"മണ്ണിലെ ഈർപ്പം അളക്കാൻ ഓട്ടോമേറ്റഡ് സിസ്റ്റങ്ങളോ മൊബൈൽ സെൻസറുകളോ ഉപയോഗിക്കുന്നത് താല്പര്യമുള്ള കാര്യമാണ്.","options":["ശക്തമായി യോജിക്കുന്നു","യോജിക്കുന്നു","നിഷ്പക്ഷം","വിയോജിക്കുന്നു","ശക്തമായി വിയോജിക്കുന്നു"]}
+      "id": "q_agriculture_2",
+      "category": "agriculture",
+      "text": "Are you interested in farming techniques?",
+      "options": [
+        {
+          "text": "Yes, absolutely",
+          "score": 1
+        },
+        {
+          "text": "Sometimes",
+          "score": 0.6
+        },
+        {
+          "text": "Neutral",
+          "score": 0.3
+        },
+        {
+          "text": "No",
+          "score": 0
+        }
+      ],
+      "scoringLogic": {
+        "traits": {
+          "analytical": 0.91,
+          "creativity": 0.28,
+          "leadership": 0.24,
+          "communication": 0.23
+        }
+      },
+      "difficulty": "easy"
     },
     {
-      id: "ag23",
-      category: "agriculture",
-      subcategory: "biotech",
-      difficulty: "medium",
-      question: "I am interested in understanding how plant genetics can make crops resistant to dry weather.",
-      options: ["Strongly Agree","Agree","Neutral","Disagree","Strongly Disagree"],
-      tags: ["agriculture","science"],
-      scoringLogic: {"traits":{"analytical":5},"careers":["agronomist","biotechnology_researcher"]},
-      malayalamVersion: {"question":"വരണ്ട കാലാവസ്ഥയെ പ്രതിരോധിക്കാൻ സസ്യങ്ങളുടെ ജനിതകഘടന മാറ്റുന്നത് എങ്ങനെയെന്ന് മനസ്സിലാക്കാൻ എനിക്ക് താല്പര്യമുണ്ട്.","options":["ശക്തമായി യോജിക്കുന്നു","യോജിക്കുന്നു","നിഷ്പക്ഷം","വിയോജിക്കുന്നു","ശക്തമായി വിയോജിക്കുന്നു"]}
+      "id": "q_agriculture_3",
+      "category": "agriculture",
+      "text": "Do you want to solve food security issues?",
+      "options": [
+        {
+          "text": "Yes, absolutely",
+          "score": 1
+        },
+        {
+          "text": "Sometimes",
+          "score": 0.6
+        },
+        {
+          "text": "Neutral",
+          "score": 0.3
+        },
+        {
+          "text": "No",
+          "score": 0
+        }
+      ],
+      "scoringLogic": {
+        "traits": {
+          "analytical": 0.22,
+          "creativity": 0.5,
+          "leadership": 0.41,
+          "communication": 0.52
+        }
+      },
+      "difficulty": "easy"
     },
     {
-      id: "ag24",
-      category: "agriculture",
-      subcategory: "business",
-      difficulty: "medium",
-      question: "Which agriculture area would you prefer to build a career in?",
-      options: ["Managing large farm operations and machinery","Lab research on crop yields and plant nutrition","Starting an organic farm and selling directly to urban buyers","Designing smart farm apps and IoT sensors"],
-      tags: ["agriculture","business"],
-      scoringLogic: {"traits":{"analytical":4,"leadership":3},"careers":["agribusiness_manager","organic_farm_entrepreneur"]},
-      malayalamVersion: {"question":"കൃഷിയുമായി ബന്ധപ്പെട്ട് ഏത് മേഖലയിലാണ് ഒരു കരിയർ കെട്ടിപ്പടുക്കാൻ നിങ്ങൾ ആഗ്രഹിക്കുന്നത്?","options":["വലിയ കൃഷിസ്ഥലങ്ങളും യന്ത്രസാമഗ്രികളും കൈകാര്യം ചെയ്യുന്നത്","വിളവുകളെക്കുറിച്ചും സസ്യപോഷണത്തെക്കുറിച്ചുമുള്ള ലാബ് ഗവേഷണങ്ങൾ","ജൈവകൃഷി ആരംഭിച്ച് നഗരങ്ങളിലെ ഉപഭോക്താക്കൾക്ക് നേരിട്ട് വിൽക്കുന്നത്","കൃഷിക്കായുള്ള സ്മാർട്ട് ആപ്പുകളും IoT സെൻസറുകളും നിർമ്മിക്കുന്നത്"]}
+      "id": "q_agriculture_4",
+      "category": "agriculture",
+      "text": "Do you care about sustainable agriculture?",
+      "options": [
+        {
+          "text": "Yes, absolutely",
+          "score": 1
+        },
+        {
+          "text": "Sometimes",
+          "score": 0.6
+        },
+        {
+          "text": "Neutral",
+          "score": 0.3
+        },
+        {
+          "text": "No",
+          "score": 0
+        }
+      ],
+      "scoringLogic": {
+        "traits": {
+          "analytical": 0.75,
+          "creativity": 0.99,
+          "leadership": 0.78,
+          "communication": 0.53
+        }
+      },
+      "difficulty": "medium"
     },
     {
-      id: "ag25",
-      category: "agriculture",
-      subcategory: "sustainability",
-      difficulty: "hard",
-      question: "How do you view chemical fertilizers in food cultivation?",
-      options: ["A dangerous hazard; we must shift to 100% organic","Necessary to maintain food security for the population","Acceptable only in small quantities with bio-alternatives","I trust regulatory standards to decide safe limits"],
-      tags: ["agriculture","empathy"],
-      scoringLogic: {"traits":{"analytical":4},"careers":["sustainable_agriculture_specialist","soil_chemist"]},
-      malayalamVersion: {"question":"ഭക്ഷണ വിളവെടുപ്പിലെ രാസവളങ്ങളുടെ ഉപയോഗത്തെ നിങ്ങൾ എങ്ങനെ കാണുന്നു?","options":["അപകടകരമാണ്; നമ്മൾ 100% ജൈവകൃഷിയിലേക്ക് മാറണം","വലിയ ജനവിഭാഗത്തിന് ആഹാരം നൽകാൻ ഇത് ആവശ്യമാണ്","ജൈവ വളങ്ങളോടൊപ്പം ചെറിയ അളവിൽ മാത്രം ഉപയോഗിക്കാം","സുരക്ഷിതമായ അളവ് നിശ്ചയിക്കാൻ സർക്കാർ മാനദണ്ഡങ്ങളെ വിശ്വസിക്കാം"]}
+      "id": "q_agriculture_5",
+      "category": "agriculture",
+      "text": "Are you interested in plant biology?",
+      "options": [
+        {
+          "text": "Yes, absolutely",
+          "score": 1
+        },
+        {
+          "text": "Sometimes",
+          "score": 0.6
+        },
+        {
+          "text": "Neutral",
+          "score": 0.3
+        },
+        {
+          "text": "No",
+          "score": 0
+        }
+      ],
+      "scoringLogic": {
+        "traits": {
+          "analytical": 0.76,
+          "creativity": 0.98,
+          "leadership": 0.43,
+          "communication": 0.29
+        }
+      },
+      "difficulty": "medium"
     },
     {
-      id: "ag26",
-      category: "agriculture",
-      subcategory: "innovation",
-      difficulty: "medium",
-      question: "Vertical farming inside urban multi-story buildings is the future of city food supply.",
-      options: ["Strongly Agree","Agree","Neutral","Disagree","Strongly Disagree"],
-      tags: ["agriculture","innovation mindset"],
-      scoringLogic: {"traits":{"creativity":4,"analytical":3},"careers":["urban_farming_specialist","hydroponics_consultant"]},
-      malayalamVersion: {"question":"നഗരങ്ങളിലെ ബഹുനില കെട്ടിടങ്ങൾക്കുള്ളിലെ വെർട്ടിക്കൽ ഫാമിംഗ് ആണ് നഗരങ്ങളിലെ ഭക്ഷണം വിതരണത്തിൻ്റെ ഭാവി.","options":["ശക്തമായി യോജിക്കുന്നു","യോജിക്കുന്നു","നിഷ്പക്ഷം","വിയോജിക്കുന്നു","ശക്തമായി വിയോജിക്കുന്നു"]}
+      "id": "q_agriculture_6",
+      "category": "agriculture",
+      "text": "Do you like learning about crop yields?",
+      "options": [
+        {
+          "text": "Yes, absolutely",
+          "score": 1
+        },
+        {
+          "text": "Sometimes",
+          "score": 0.6
+        },
+        {
+          "text": "Neutral",
+          "score": 0.3
+        },
+        {
+          "text": "No",
+          "score": 0
+        }
+      ],
+      "scoringLogic": {
+        "traits": {
+          "analytical": 0.84,
+          "creativity": 0.25,
+          "leadership": 0.43,
+          "communication": 0.35
+        }
+      },
+      "difficulty": "medium"
     },
     {
-      id: "ag27",
-      category: "agriculture",
-      subcategory: "management",
-      difficulty: "hard",
-      question: "I would enjoy planning logistics and supply chain flows to deliver fresh crops to food stores.",
-      options: ["Strongly Agree","Agree","Neutral","Disagree","Strongly Disagree"],
-      tags: ["agriculture","business"],
-      scoringLogic: {"traits":{"analytical":4,"leadership":3},"careers":["agribusiness_manager","supply_chain_analyst"]},
-      malayalamVersion: {"question":"കടകളിലേക്ക് പുതിയ കാർഷിക വിളകൾ എത്തിക്കുന്നതിനുള്ള ലോജിസ്റ്റിക്സും സപ്ലൈ ചെയിനും പ്ലാൻ ചെയ്യുന്നത് ഞാൻ ആസ്വദിക്കും.","options":["ശക്തമായി യോജിക്കുന്നു","യോജിക്കുന്നു","നിഷ്പക്ഷം","വിയോജിക്കുന്നു","ശക്തമായി വിയോജിക്കുന്നു"]}
+      "id": "q_agriculture_7",
+      "category": "agriculture",
+      "text": "Are you interested in agritech?",
+      "options": [
+        {
+          "text": "Yes, absolutely",
+          "score": 1
+        },
+        {
+          "text": "Sometimes",
+          "score": 0.6
+        },
+        {
+          "text": "Neutral",
+          "score": 0.3
+        },
+        {
+          "text": "No",
+          "score": 0
+        }
+      ],
+      "scoringLogic": {
+        "traits": {
+          "analytical": 0.43,
+          "creativity": 0.75,
+          "leadership": 0.77,
+          "communication": 0.64
+        }
+      },
+      "difficulty": "medium"
     },
     {
-      id: "ag28",
-      category: "agriculture",
-      subcategory: "ecology",
-      difficulty: "medium",
-      question: "I find the science behind forest ecosystems and restoration of dead lands interesting.",
-      options: ["Strongly Agree","Agree","Neutral","Disagree","Strongly Disagree"],
-      tags: ["agriculture","science"],
-      scoringLogic: {"traits":{"analytical":4},"careers":["forestry_officer","conservationist"]},
-      malayalamVersion: {"question":"വന ആവാസവ്യവസ്ഥയെക്കുറിച്ചും നശിച്ച പ്രദേശങ്ങൾ പുനരുജ്ജീവിപ്പിക്കുന്നതിൻ്റെ പിന്നിലെ ശാസ്ത്രത്തെക്കുറിച്ചും പഠിക്കുന്നത് താല്പര്യമുള്ള കാര്യമാണ്.","options":["ശക്തമായി യോജിക്കുന്നു","യോജിക്കുന്നു","നിഷ്പക്ഷം","വിയോജിക്കുന്നു","ശക്തമായി വിയോജിക്കുന്നു"]}
+      "id": "q_agriculture_8",
+      "category": "agriculture",
+      "text": "Do you want to manage a farm?",
+      "options": [
+        {
+          "text": "Yes, absolutely",
+          "score": 1
+        },
+        {
+          "text": "Sometimes",
+          "score": 0.6
+        },
+        {
+          "text": "Neutral",
+          "score": 0.3
+        },
+        {
+          "text": "No",
+          "score": 0
+        }
+      ],
+      "scoringLogic": {
+        "traits": {
+          "analytical": 0.91,
+          "creativity": 0.42,
+          "leadership": 0.36,
+          "communication": 0.83
+        }
+      },
+      "difficulty": "hard"
     },
     {
-      id: "ag29",
-      category: "agriculture",
-      subcategory: "water",
-      difficulty: "hard",
-      question: "How would you address water scarcity issues in a dry farming district?",
-      options: ["Implement mandatory drip irrigation systems","Research and plant crops that require very little water","Build systematic rainwater storage reservoirs","Partner with hydrologists to dig deeper borewells"],
-      tags: ["agriculture","analytical"],
-      scoringLogic: {"traits":{"analytical":5},"careers":["irrigation_engineer","water_resource_manager"]},
-      malayalamVersion: {"question":"വരണ്ട കൃഷിമേഖലകളിൽ നേരിടുന്ന ജലക്ഷാമം നിങ്ങൾ എങ്ങനെ പരിഹരിക്കും?","options":["ഡ്രിപ്പ് ഇറിഗേഷൻ സംവിധാനങ്ങൾ നിർബന്ധമാക്കും","വളരെ കുറഞ്ഞ വെള്ളം ആവശ്യമുള്ള വിളകളെക്കുറിച്ച് ഗവേഷണം നടത്തി കൃഷി ചെയ്യും","മഴവെള്ള സംഭരണികൾ വ്യവസ്ഥാപിതമായി നിർമ്മിക്കും","ഭൂഗർഭ ജലവിദഗ്ദ്ധരുമായി ചേർന്ന് പുതിയ കുഴൽക്കിണറുകൾ നിർമ്മിക്കും"]}
+      "id": "q_agriculture_9",
+      "category": "agriculture",
+      "text": "Do you enjoy learning about soil science?",
+      "options": [
+        {
+          "text": "Yes, absolutely",
+          "score": 1
+        },
+        {
+          "text": "Sometimes",
+          "score": 0.6
+        },
+        {
+          "text": "Neutral",
+          "score": 0.3
+        },
+        {
+          "text": "No",
+          "score": 0
+        }
+      ],
+      "scoringLogic": {
+        "traits": {
+          "analytical": 0.63,
+          "creativity": 0.64,
+          "leadership": 0.24,
+          "communication": 0.93
+        }
+      },
+      "difficulty": "hard"
     },
     {
-      id: "ag30",
-      category: "agriculture",
-      subcategory: "education",
-      difficulty: "easy",
-      question: "Teaching local farmers about modern eco-friendly techniques sounds rewarding.",
-      options: ["Strongly Agree","Agree","Neutral","Disagree","Strongly Disagree"],
-      tags: ["agriculture","communication"],
-      scoringLogic: {"traits":{"communication":5},"careers":["agricultural_extension_officer","educator"]},
-      malayalamVersion: {"question":"ആധുനിക പരിസ്ഥിതി സൗഹൃദ കൃഷിരീതികളെക്കുറിച്ച് കർഷകർക്ക് ക്ലാസുകൾ എടുക്കുന്നത് സംതൃപ്തി നൽകുന്ന കാര്യമാണ്.","options":["ശക്തമായി യോജിക്കുന്നു","യോജിക്കുന്നു","നിഷ്പക്ഷം","വിയോജിക്കുന്നു","ശക്തമായി വിയോജിക്കുന്നു"]}
+      "id": "q_agriculture_10",
+      "category": "agriculture",
+      "text": "Are you interested in organic farming?",
+      "options": [
+        {
+          "text": "Yes, absolutely",
+          "score": 1
+        },
+        {
+          "text": "Sometimes",
+          "score": 0.6
+        },
+        {
+          "text": "Neutral",
+          "score": 0.3
+        },
+        {
+          "text": "No",
+          "score": 0
+        }
+      ],
+      "scoringLogic": {
+        "traits": {
+          "analytical": 0.46,
+          "creativity": 0.67,
+          "leadership": 0.52,
+          "communication": 0.57
+        }
+      },
+      "difficulty": "hard"
     }
   ],
-  sports: [
-    { id: "sp1", category: "sports", question: "How would you describe your relationship with sports?", options: ["An active athlete who trains regularly", "A passionate fan who watches and analyzes matches", "Interested in the fitness and training science side", "I prefer individual exercises or yoga for health"], tags: ["sports", "discipline", "teamwork"] },
-    { id: "sp2", category: "sports", question: "What is the most vital trait for a team captain?", options: ["Leading by example with exceptional performance", "High emotional intelligence and conflict resolution", "Strategic thinking and tactical game adjustments", "Unshakeable confidence under extreme pressure"], tags: ["sports", "leadership", "emotional intelligence"] },
-    { id: "sp3", category: "sports", question: "Which sports field interests you as a career?", options: ["Sports Management (Managing leagues and business)", "Sports Science & Nutrition (Training optimization)", "Professional Athlete / Coaching (Direct competition)", "Sports Journalism & Analytics (Writing and statistics)"], tags: ["sports", "leadership", "science"] },
-    { id: "sp4", category: "sports", question: "How do you handle a painful defeat in a competition?", options: ["Analyze video footage to find strategic errors", "Train harder the very next day to fix weaknesses", "Focus on boosting team morale and mental health", "Accept it as part of the game and move on fast"], tags: ["sports", "discipline", "analytical thinking"] },
-    { id: "sp5", category: "sports", question: "What aspect of physical training do you enjoy most?", options: ["Building raw strength and explosive power", "Optimizing cardiovascular stamina and breathing", "Practicing technical skills and muscle memory", "Exploring nutrition plans and biohacking metrics"], tags: ["sports", "discipline", "science"] },
-    { id: "sp6", category: "sports", question: "How do you view data analytics in sports (e.g. Moneyball)?", options: ["Essential; numbers reveal patterns coaches miss", "Overrated; gut instinct and heart win matches", "Useful for player acquisition but not daily tactics", "Fascinating; I want to build sports model metrics"], tags: ["sports", "analytical thinking", "technical interest"] },
-    { id: "sp7", category: "sports", question: "Which type of sport do you prefer to play?", options: ["Team sports (Football, Cricket, Basketball)", "Individual sports (Tennis, Badminton, Athletics)", "Mind sports (Chess, Esports)", "Adventure sports (Climbing, Surfing)"], tags: ["sports", "teamwork", "risk tolerance"] },
-    { id: "sp8", category: "sports", question: "What is your attitude toward strict athletic discipline?", options: ["I thrive on rigid schedules, early mornings, and diets", "I prefer a balanced routine that leaves room for life", "I focus on mental clarity and smart training instead", "I find it exhausting to maintain long-term"], tags: ["sports", "discipline", "work style"] },
-    { id: "sp9", category: "sports", question: "If a teammate makes a critical mistake that loses the game, you...", options: ["Encourage them immediately and highlight their strengths", "Give them direct constructive feedback in private", "Let the coach handle it; I focus on my own game", "Discuss the error as a team in the next session"], tags: ["sports", "teamwork", "emotional intelligence"] },
-    { id: "sp10", category: "sports", question: "What is the primary role of sports in society?", options: ["To build community bond, pride, and entertainment", "To teach children discipline, health, and teamwork", "To push the boundaries of human physical potential", "To provide a lucrative business and career ecosystem"], tags: ["sports", "empathy", "business"] },
-    { id: "sp11", category: "sports", question: "How do you feel about extreme sports with high safety risk?", options: ["Thrilled; the adrenaline and risk make it worth it", "Cautious; I want safety measures and calculations first", "Uninterested; I prefer sports with low injury risk", "I love watching them but would not play them"], tags: ["sports", "risk tolerance", "discipline"] },
-    { id: "sp12", category: "sports", question: "Which sports technology interests you the most?", options: ["Wearable trackers that monitor heartbeat and lactic acid", "VAR and high-speed camera systems for decisions", "Advanced carbon fiber shoes and aerodynamic gear", "Neuro-training software that improves reaction time"], tags: ["sports", "technology", "technical interest"] },
-    { id: "sp13", category: "sports", question: "If you could manage a professional sports franchise, you would...", options: ["Hire data scientists to optimize team selection", "Focus on building a massive global fan brand", "Create a world-class youth training academy", "Sign the highest-rated superstar players immediately"], tags: ["sports", "business", "leadership"] },
-    { id: "sp14", category: "sports", question: "How do you handle high-pressure moments (e.g. final penalty)?", options: ["Focus on my breathing, block out crowds, and trust muscle memory", "Visualize the positive outcome before executing", "Take a brief pause to analyze the opponent's posture", "Rely on raw energy and explosive reaction"], tags: ["sports", "discipline", "social confidence"] },
-    { id: "sp15", category: "sports", question: "What is your stance on dietary supplements in sports?", options: ["Crucial; natural food is not enough for elite athletes", "Risky; should be heavily audited for banned substances", "I prefer a clean, 100% natural organic diet", "Useful but only under professional medical guidance"], tags: ["sports", "science", "discipline"] },
-    { id: "sp16", category: "sports", question: "What makes a sports match memorable for you?", options: ["A tactical masterclass by a genius coach", "A dramatic comeback win against all odds", "Individual displays of pure athletic grace", "The electric energy of the stadium crowd"], tags: ["sports", "analytical thinking", "communication"] },
-    { id: "sp17", category: "sports", question: "How do you view sports psychology?", options: ["The most neglected factor in training; mind wins games", "Useful for elite levels but basic fitness comes first", "A fascinating study of focus, anxiety, and visual skills", "Good for motivation, but physical talent dominates"], tags: ["sports", "psychology", "discipline"] },
-    { id: "sp18", category: "sports", question: "Which sport has the best business opportunities in India?", options: ["Cricket (IPL model expansion)", "Football (ISL development)", "Kabaddi (PKL localized growth)", "Esports and digital gaming leagues"], tags: ["sports", "business", "ambition"] },
-    { id: "sp19", category: "sports", question: "How do you feel about referee decisions?", options: ["They are final; respect the authority of the official", "We should replace referees with AI and cameras entirely", "They add human drama and storytelling to sports", "They should be challenged using official reviews"], tags: ["sports", "discipline", "logical thinking"] },
-    { id: "sp20", category: "sports", question: "If you could attend one sporting event, which would it be?", options: ["The Olympic Games (Diverse sports and unity)", "The FIFA World Cup (Global passion and football)", "The Wimbledon Finals (History and individual skill)", "The Monaco Grand Prix (High speed and engineering)"], tags: ["sports", "communication", "risk tolerance"] }
-  ,
+  "sports": [
     {
-      id: "sp21",
-      category: "sports",
-      subcategory: "fitness",
-      difficulty: "easy",
-      question: "Do you exercise, run, or play physical sports on a regular basis?",
-      options: ["Yes, almost daily","Sometimes, on weekends","No, I rarely play sports"],
-      tags: ["sports","discipline"],
-      scoringLogic: {"traits":{"discipline":5},"careers":["fitness_coach","professional_athlete"]},
-      malayalamVersion: {"question":"നിങ്ങൾ സ്ഥിരമായി വ്യായാമം ചെയ്യുകയോ ഓടുകയോ കളിക്കുകയോ ചെയ്യാറുണ്ടോ?","options":["അതെ, ദിവസവും ചെയ്യാറുണ്ട്","ചിലപ്പോൾ, അവധി ദിവസങ്ങളിൽ മാത്രം","ഇല്ല, ഞാൻ കളിക്കാറില്ല"]}
+      "id": "q_sports_1",
+      "category": "sports",
+      "text": "Are you passionate about athletics?",
+      "options": [
+        {
+          "text": "Yes, absolutely",
+          "score": 1
+        },
+        {
+          "text": "Sometimes",
+          "score": 0.6
+        },
+        {
+          "text": "Neutral",
+          "score": 0.3
+        },
+        {
+          "text": "No",
+          "score": 0
+        }
+      ],
+      "scoringLogic": {
+        "traits": {
+          "analytical": 0.53,
+          "creativity": 0.75,
+          "leadership": 0.55,
+          "communication": 0.51
+        }
+      },
+      "difficulty": "easy"
     },
     {
-      id: "sp22",
-      category: "sports",
-      subcategory: "leadership",
-      difficulty: "easy",
-      question: "In team games, I naturally step up to guide strategies or motivate others.",
-      options: ["Strongly Agree","Agree","Neutral","Disagree","Strongly Disagree"],
-      tags: ["sports","leadership"],
-      scoringLogic: {"traits":{"leadership":5,"communication":3},"careers":["sports_coach","team_manager"]},
-      malayalamVersion: {"question":"ടീം ഗെയിമുകളിൽ, തന്ത്രങ്ങൾ മെനയാനും മറ്റുള്ളവരെ പ്രോത്സാഹിപ്പിക്കാനും ഞാൻ സ്വമേധയാ മുന്നോട്ട് വരാറുണ്ട്.","options":["ശക്തമായി യോജിക്കുന്നു","യോജിക്കുന്നു","നിഷ്പക്ഷം","വിയോജിക്കുന്നു","ശക്തമായി വിയോജിക്കുന്നു"]}
+      "id": "q_sports_2",
+      "category": "sports",
+      "text": "Do you enjoy team sports?",
+      "options": [
+        {
+          "text": "Yes, absolutely",
+          "score": 1
+        },
+        {
+          "text": "Sometimes",
+          "score": 0.6
+        },
+        {
+          "text": "Neutral",
+          "score": 0.3
+        },
+        {
+          "text": "No",
+          "score": 0
+        }
+      ],
+      "scoringLogic": {
+        "traits": {
+          "analytical": 0.94,
+          "creativity": 0.98,
+          "leadership": 0.66,
+          "communication": 0.59
+        }
+      },
+      "difficulty": "easy"
     },
     {
-      id: "sp23",
-      category: "sports",
-      subcategory: "science",
-      difficulty: "medium",
-      question: "I find the science of sports nutrition, recovery, and heart rate monitoring interesting.",
-      options: ["Strongly Agree","Agree","Neutral","Disagree","Strongly Disagree"],
-      tags: ["sports","science"],
-      scoringLogic: {"traits":{"analytical":4,"discipline":3},"careers":["sports_scientist","physiotherapist"]},
-      malayalamVersion: {"question":"കായികരംഗത്തെ പോഷകാഹാരം, വ്യായാമത്തിന് ശേഷമുള്ള റിക്കവറി, ഹൃദയമിടിപ്പ് നിരീക്ഷിക്കൽ എന്നിവയ്ക്ക് പിന്നിലെ ശാസ്ത്രം മനസ്സിലാക്കുന്നത് താല്പര്യമുള്ള കാര്യമാണ്.","options":["ശക്തമായി യോജിക്കുന്നു","യോജിക്കുന്നു","നിഷ്പക്ഷം","വിയോജിക്കുന്നു","ശക്തമായി വിയോജിക്കുന്നു"]}
+      "id": "q_sports_3",
+      "category": "sports",
+      "text": "Are you interested in sports management?",
+      "options": [
+        {
+          "text": "Yes, absolutely",
+          "score": 1
+        },
+        {
+          "text": "Sometimes",
+          "score": 0.6
+        },
+        {
+          "text": "Neutral",
+          "score": 0.3
+        },
+        {
+          "text": "No",
+          "score": 0
+        }
+      ],
+      "scoringLogic": {
+        "traits": {
+          "analytical": 0.65,
+          "creativity": 0.27,
+          "leadership": 0.35,
+          "communication": 1
+        }
+      },
+      "difficulty": "easy"
     },
     {
-      id: "sp24",
-      category: "sports",
-      subcategory: "analytics",
-      difficulty: "medium",
-      question: "Which sports industry career path sounds most exciting?",
-      options: ["Managing sports leagues, events, and business budgets","Coaching athletes directly to improve technical skills","Analyzing player statistics to predict game outcomes","Reporting sports news or commentating live on TV"],
-      tags: ["sports","business"],
-      scoringLogic: {"traits":{"analytical":4,"leadership":3},"careers":["sports_agent","sports_analyst"]},
-      malayalamVersion: {"question":"കായികരംഗവുമായി ബന്ധപ്പെട്ട ഏത് ജോലിയാണ് നിങ്ങൾക്ക് ഏറ്റവും ആവേശകരമായി തോന്നുന്നത്?","options":["കായിക ലീഗുകളും ഇവിന്റുകളും ബിസിനസ്സും നിയന്ത്രിക്കുന്നത്","കളിക്കാർക്ക് സാങ്കേതിക കഴിവുകൾ മെച്ചപ്പെടുത്താൻ നേരിട്ട് പരിശീലനം നൽകുന്നത്","കളിക്കാരുടെ വിവരങ്ങൾ അടിസ്ഥാനമാക്കി കളിയുടെ ഫലം പ്രവചിക്കുന്നത്","ടിവിയിൽ കായിക വാർത്തകൾ റിപ്പോർട്ട് ചെയ്യുകയോ കമന്ററി പറയുകയോ ചെയ്യുന്നത്"]}
+      "id": "q_sports_4",
+      "category": "sports",
+      "text": "Do you want to be a coach or trainer?",
+      "options": [
+        {
+          "text": "Yes, absolutely",
+          "score": 1
+        },
+        {
+          "text": "Sometimes",
+          "score": 0.6
+        },
+        {
+          "text": "Neutral",
+          "score": 0.3
+        },
+        {
+          "text": "No",
+          "score": 0
+        }
+      ],
+      "scoringLogic": {
+        "traits": {
+          "analytical": 0.74,
+          "creativity": 0.75,
+          "leadership": 0.9,
+          "communication": 0.84
+        }
+      },
+      "difficulty": "medium"
     },
     {
-      id: "sp25",
-      category: "sports",
-      subcategory: "psychology",
-      difficulty: "hard",
-      question: "How do you maintain focus under extreme pressure (like a final game minutes)?",
-      options: ["Stay completely calm, breathe, block out audience noise","Rely on raw adrenaline and fast actions","Discuss tactical quick updates with teammates","Observe the opponent's movements for any mistakes"],
-      tags: ["sports","discipline"],
-      scoringLogic: {"traits":{"discipline":5,"analytical":3},"careers":["sports_psychologist","professional_athlete"]},
-      malayalamVersion: {"question":"കളിയുടെ അവസാന മിനിറ്റുകളിൽ കടുത്ത സമ്മർദ്ദമുണ്ടാകുമ്പോൾ നിങ്ങൾ എങ്ങനെയാണ് ശ്രദ്ധ കേന്ദ്രീകരിക്കുക?","options":["പൂർണ്ണമായി ശാന്തമായി ശ്വാസമെടുത്ത് കാണികളുടെ ബഹളം അവഗണിക്കും","വേഗത്തിലുള്ള ചലനങ്ങളിലും ഊർജ്ജത്തിലും ശ്രദ്ധ കേന്ദ്രീകരിക്കും","സഹതാരങ്ങളുമായി ചെറിയ തന്ത്രങ്ങൾ ചർച്ച ചെയ്യും","എതിരാളികളുടെ ചലനങ്ങൾ സൂക്ഷ്മമായി നിരീക്ഷിക്കും"]}
+      "id": "q_sports_5",
+      "category": "sports",
+      "text": "Do you like analyzing sports statistics?",
+      "options": [
+        {
+          "text": "Yes, absolutely",
+          "score": 1
+        },
+        {
+          "text": "Sometimes",
+          "score": 0.6
+        },
+        {
+          "text": "Neutral",
+          "score": 0.3
+        },
+        {
+          "text": "No",
+          "score": 0
+        }
+      ],
+      "scoringLogic": {
+        "traits": {
+          "analytical": 0.6,
+          "creativity": 0.29,
+          "leadership": 0.31,
+          "communication": 0.51
+        }
+      },
+      "difficulty": "medium"
     },
     {
-      id: "sp26",
-      category: "sports",
-      subcategory: "business",
-      difficulty: "medium",
-      question: "The growth of franchise leagues (like IPL) shows that sports is primarily a business.",
-      options: ["Strongly Agree","Agree","Neutral","Disagree","Strongly Disagree"],
-      tags: ["sports","business"],
-      scoringLogic: {"traits":{"analytical":4},"careers":["sports_administrator","brand_manager"]},
-      malayalamVersion: {"question":"ഫ്രാഞ്ചൈസി ലീഗുകളുടെ (IPL പോലുള്ളവ) വളർച്ച കാണിക്കുന്നത് കായികം പ്രധാനമായും ഒരു ബിസിനസ്സ് ആണെന്നാണ്.","options":["ശക്തമായി യോജിക്കുന്നു","യോജിക്കുന്നു","നിഷ്പക്ഷം","വിയോജിക്കുന്നു","ശക്തമായി വിയോജിക്കുന്നു"]}
+      "id": "q_sports_6",
+      "category": "sports",
+      "text": "Are you interested in sports medicine?",
+      "options": [
+        {
+          "text": "Yes, absolutely",
+          "score": 1
+        },
+        {
+          "text": "Sometimes",
+          "score": 0.6
+        },
+        {
+          "text": "Neutral",
+          "score": 0.3
+        },
+        {
+          "text": "No",
+          "score": 0
+        }
+      ],
+      "scoringLogic": {
+        "traits": {
+          "analytical": 0.22,
+          "creativity": 0.25,
+          "leadership": 0.21,
+          "communication": 0.84
+        }
+      },
+      "difficulty": "medium"
     },
     {
-      id: "sp27",
-      category: "sports",
-      subcategory: "injury",
-      difficulty: "hard",
-      question: "I would enjoy helping injured athletes recover their physical strength through exercises.",
-      options: ["Strongly Agree","Agree","Neutral","Disagree","Strongly Disagree"],
-      tags: ["sports","empathy"],
-      scoringLogic: {"traits":{"discipline":4,"analytical":3},"careers":["sports_physiotherapist","rehabilitation_specialist"]},
-      malayalamVersion: {"question":"പരിക്കേറ്റ കായികതാരങ്ങൾക്ക് വ്യായാമങ്ങളിലൂടെ അവരുടെ ആരോഗ്യം വീണ്ടെടുക്കാൻ സഹായിക്കുന്നത് ഞാൻ ഇഷ്ടപ്പെടുന്നു.","options":["ശക്തമായി യോജിക്കുന്നു","യോജിക്കുന്നു","നിഷ്പക്ഷം","വിയോജിക്കുന്നു","ശക്തമായി വിയോജിക്കുന്നു"]}
+      "id": "q_sports_7",
+      "category": "sports",
+      "text": "Do you enjoy physical fitness?",
+      "options": [
+        {
+          "text": "Yes, absolutely",
+          "score": 1
+        },
+        {
+          "text": "Sometimes",
+          "score": 0.6
+        },
+        {
+          "text": "Neutral",
+          "score": 0.3
+        },
+        {
+          "text": "No",
+          "score": 0
+        }
+      ],
+      "scoringLogic": {
+        "traits": {
+          "analytical": 0.69,
+          "creativity": 0.52,
+          "leadership": 0.92,
+          "communication": 0.43
+        }
+      },
+      "difficulty": "medium"
     },
     {
-      id: "sp28",
-      category: "sports",
-      subcategory: "esports",
-      difficulty: "medium",
-      question: "Professional esports and gaming should be recognized as official sports globally.",
-      options: ["Strongly Agree","Agree","Neutral","Disagree","Strongly Disagree"],
-      tags: ["sports","technology"],
-      scoringLogic: {"traits":{"creativity":4,"analytical":3},"careers":["esports_coach","gaming_analyst"]},
-      malayalamVersion: {"question":"പ്രൊഫഷണൽ ഇ-സ്പോർട്സും ഗെയിമിംഗും ലോകമെമ്പാടും ഔദ്യോഗിക കായിക ഇനമായി അംഗീകരിക്കപ്പെടണം.","options":["ശക്തമായി യോജിക്കുന്നു","യോജിക്കുന്നു","നിഷ്പക്ഷം","വിയോജിക്കുന്നു","ശക്തമായി വിയോജിക്കുന്നു"]}
+      "id": "q_sports_8",
+      "category": "sports",
+      "text": "Do you want to organize sports events?",
+      "options": [
+        {
+          "text": "Yes, absolutely",
+          "score": 1
+        },
+        {
+          "text": "Sometimes",
+          "score": 0.6
+        },
+        {
+          "text": "Neutral",
+          "score": 0.3
+        },
+        {
+          "text": "No",
+          "score": 0
+        }
+      ],
+      "scoringLogic": {
+        "traits": {
+          "analytical": 0.47,
+          "creativity": 0.43,
+          "leadership": 0.22,
+          "communication": 0.53
+        }
+      },
+      "difficulty": "hard"
     },
     {
-      id: "sp29",
-      category: "sports",
-      subcategory: "ethics",
-      difficulty: "hard",
-      question: "Strict regulations and testing against performance-enhancing drugs are necessary to keep sports fair.",
-      options: ["Strongly Agree","Agree","Neutral","Disagree","Strongly Disagree"],
-      tags: ["sports","discipline"],
-      scoringLogic: {"traits":{"discipline":5},"careers":["sports_lawyer","anti_doping_officer"]},
-      malayalamVersion: {"question":"കായികരംഗത്തെ സുതാര്യത നിലനിർത്താൻ മരുന്നടി പരിശോധനയും കർശനമായ നിയമങ്ങളും അത്യാവശ്യമാണ്.","options":["ശക്തമായി യോജിക്കുന്നു","യോജിക്കുന്നു","നിഷ്പക്ഷം","വിയോജിക്കുന്നു","ശക്തമായി വിയോജിക്കുന്നു"]}
+      "id": "q_sports_9",
+      "category": "sports",
+      "text": "Are you interested in sports journalism?",
+      "options": [
+        {
+          "text": "Yes, absolutely",
+          "score": 1
+        },
+        {
+          "text": "Sometimes",
+          "score": 0.6
+        },
+        {
+          "text": "Neutral",
+          "score": 0.3
+        },
+        {
+          "text": "No",
+          "score": 0
+        }
+      ],
+      "scoringLogic": {
+        "traits": {
+          "analytical": 0.94,
+          "creativity": 0.75,
+          "leadership": 0.36,
+          "communication": 0.61
+        }
+      },
+      "difficulty": "hard"
     },
     {
-      id: "sp30",
-      category: "sports",
-      subcategory: "teamwork",
-      difficulty: "easy",
-      question: "I prefer team sports (like football/cricket) over individual sports (like tennis/athletics).",
-      options: ["Strongly Agree","Agree","Neutral","Disagree","Strongly Disagree"],
-      tags: ["sports","teamwork"],
-      scoringLogic: {"traits":{"communication":4},"careers":["team_manager","sports_coach"]},
-      malayalamVersion: {"question":"വ്യക്തിഗത ഇനങ്ങളേക്കാൾ (ടെന്നീസ്/അത്ലറ്റിക്സ്) ടീം ഇനങ്ങൾ (ഫുട്ബോൾ/ക്രിക്കറ്റ്) കളിക്കാനാണ് എനിക്ക് കൂടുതൽ താല്പര്യം.","options":["ശക്തമായി യോജിക്കുന്നു","യോജിക്കുന്നു","നിഷ്പക്ഷം","വിയോജിക്കുന്നു","ശക്തമായി വിയോജിക്കുന്നു"]}
+      "id": "q_sports_10",
+      "category": "sports",
+      "text": "Do you follow sports leagues closely?",
+      "options": [
+        {
+          "text": "Yes, absolutely",
+          "score": 1
+        },
+        {
+          "text": "Sometimes",
+          "score": 0.6
+        },
+        {
+          "text": "Neutral",
+          "score": 0.3
+        },
+        {
+          "text": "No",
+          "score": 0
+        }
+      ],
+      "scoringLogic": {
+        "traits": {
+          "analytical": 0.33,
+          "creativity": 0.98,
+          "leadership": 0.56,
+          "communication": 0.7
+        }
+      },
+      "difficulty": "hard"
     }
   ],
-  healthcare: [
-    { id: "h1", category: "healthcare", question: "What is your main motivation for considering a career in healthcare?", options: ["The deep desire to help and heal sick people", "The scientific challenge of understanding diseases", "The high social respect and stable income of doctors", "Designing new systems and technologies for hospitals"], tags: ["healthcare", "empathy", "science"] },
-    { id: "h2", category: "healthcare", question: "How do you react to seeing blood or medical injuries?", options: ["Calm and focused; it doesn't bother me at all", "Slightly uncomfortable, but I can manage it", "Very squeamish; I prefer to look away immediately", "Fascinated by the biological anatomy of the body"], tags: ["healthcare", "discipline", "science"] },
-    { id: "h3", category: "healthcare", question: "Which field of healthcare sounds most interesting?", options: ["Clinical Medicine / Surgery (Direct treatment)", "Public Health policy and disease prevention", "Biomedical research and drug development", "Hospital Administration and operations"], tags: ["healthcare", "leadership", "science"] },
-    { id: "h4", category: "healthcare", question: "How would you handle a highly anxious patient who is scared of a procedure?", options: ["Listen to their fears, comfort them, and explain the steps slowly", "State the facts and safety statistics of the procedure clearly", "Ask a family member to comfort them while I prepare", "Distract them with light conversation or jokes"], tags: ["healthcare", "empathy", "communication"] },
-    { id: "h5", category: "healthcare", question: "What is your stance on alternative medicine (Ayurveda, Homeopathy)?", options: ["Should be integrated with modern medicine based on clinical tests", "Outdated; only scientifically-proven modern medicine is valid", "A natural, holistic lifestyle approach that is highly effective", "Good for mild symptoms but not for major acute diseases"], tags: ["healthcare", "science", "analytical thinking"] },
-    { id: "h6", category: "healthcare", question: "How do you feel about working long, unpredictable hours, including night shifts?", options: ["I am prepared to do whatever it takes to save lives", "I prefer a standard daytime clinic schedule", "I prefer working in research with fixed lab hours", "I would find night shifts extremely exhausting"], tags: ["healthcare", "discipline", "work style"] },
-    { id: "h7", category: "healthcare", question: "Which biological system interests you the most?", options: ["The brain and nervous system (Neurology)", "The heart and blood vessels (Cardiology)", "The immune system and genetics (Virology)", "The skeletal and muscular structure (Orthopedics)"], tags: ["healthcare", "science", "technical interest"] },
-    { id: "h8", category: "healthcare", question: "If you had a budget to research a health issue, what would you choose?", options: ["Finding a cure for rare genetic cancers", "Improving mental health support networks in rural areas", "Creating cheap, portable diagnostic kits for remote villages", "Designing automated AI assistants for surgery"], tags: ["healthcare", "science", "creativity"] },
-    { id: "h9", category: "healthcare", question: "How do you handle delivering bad news to someone?", options: ["Empathetic, soft, but clear and supportive", "Direct and objective, focusing on the factual options ahead", "Consult a senior colleague to accompany me", "I find it extremely difficult and stressful to do"], tags: ["healthcare", "communication", "emotional intelligence"] },
-    { id: "h10", category: "healthcare", question: "What is your view on the commercialization of hospitals?", options: ["Healthcare is a fundamental human right, not a business", "Privatization drives efficiency and advanced technology", "A hybrid model is best: free public care and private options", "Insurance and pharmaceutical systems need strict regulation"], tags: ["healthcare", "empathy", "business"] },
-    { id: "h11", category: "healthcare", question: "What smart medical technology interests you most?", options: ["Robotic arms that assist in ultra-precise surgeries", "Wearable patches that continuously transmit vital signs to doctors", "AI software that flags early signs of disease on MRI scans", "Custom 3D-printed organic tissues and bone grafts"], tags: ["healthcare", "technology", "technical interest"] },
-    { id: "h12", category: "healthcare", question: "How do you deal with stress after a high-stakes, exhausting day?", options: ["Meditation, quiet reflection, and processing emotions", "Talking through the day with colleagues or family", "Diverting my mind completely with games or shows", "Physical exercise to burn off residual tension"], tags: ["healthcare", "discipline", "emotional intelligence"] },
-    { id: "h13", category: "healthcare", question: "Which medical environment do you prefer?", options: ["A fast-paced, high-pressure Emergency Room (ER)", "A calm, structured private specialist clinic", "A clean research laboratory analyzing cell samples", "A global NGO coordinating public health drives"], tags: ["healthcare", "work style", "discipline"] },
-    { id: "h14", category: "healthcare", question: "What is your attitude toward preventative wellness?", options: ["Nutrition and exercise are the best medicines", "Medical check-ups and early screening save lives", "Vaccination and clean public sanitation are critical", "I focus on wellness only when symptoms appear"], tags: ["healthcare", "science", "empathy"] },
-    { id: "h15", category: "healthcare", question: "How would you handle a situation where you disagree with a senior doctor's diagnosis?", options: ["Politely ask clarifying questions to verify their logic", "Double check the guidelines and present data in private", "Trust their senior experience and proceed as instructed", "Consult another senior doctor for a second opinion"], tags: ["healthcare", "analytical thinking", "communication"] },
-    { id: "h16", category: "healthcare", question: "What makes a great nurse or healthcare provider in your eyes?", options: ["Infinite patience and a warm, comforting presence", "High technical precision and zero-error execution", "Fast reflexes and adaptability during emergencies", "Excellent communication of complex medical jargon"], tags: ["healthcare", "empathy", "discipline"] },
-    { id: "h17", category: "healthcare", question: "What is your view on global mental health awareness?", options: ["A critical priority that should be integrated into general health", "Highly important, but physical diseases need more funding", "Needs localized, community-driven support systems", "Requires destigmatization through schools and media"], tags: ["healthcare", "empathy", "psychology"] },
-    { id: "h18", category: "healthcare", question: "Which research topic sounds most fascinating?", options: ["How gut bacteria influence brain health and mood", "Developing synthetic vaccines using mRNA technology", "Reversing cellular aging in human organs", "The impact of microplastics on human hormonal cycles"], tags: ["healthcare", "science", "analytical thinking"] },
-    { id: "h19", category: "healthcare", question: "If a patient refuses a life-saving treatment due to personal beliefs, you...", options: ["Respect their autonomy and offer supportive alternatives", "Explain the medical risks of refusal multiple times", "Try to persuade their close family to intervene", "Consult the hospital's ethical board for guidance"], tags: ["healthcare", "empathy", "law"] },
-    { id: "h20", category: "healthcare", question: "What is your ultimate goal in entering the healthcare field?", options: ["To make a meaningful, direct difference in human lives daily", "To advance medical science through discovery and research", "To lead healthcare institutions toward better accessibility", "To master a highly respected and complex scientific discipline"], tags: ["healthcare", "ambition", "science"] }
-  ,
+  "healthcare": [
     {
-      id: "h21",
-      category: "healthcare",
-      subcategory: "empathy",
-      difficulty: "easy",
-      question: "Helping sick or injured people recover gives me a strong sense of purpose.",
-      options: ["Strongly Agree","Agree","Neutral","Disagree","Strongly Disagree"],
-      tags: ["healthcare","empathy"],
-      scoringLogic: {"traits":{"communication":4},"careers":["nurse","physician"]},
-      malayalamVersion: {"question":"രോഗികളെയോ പരിക്കേറ്റവരെയോ സഹായിക്കുന്നത് എനിക്ക് ജീവിക്കാൻ നല്ലൊരു ലക്ഷ്യബോധം നൽകുന്നു.","options":["ശക്തമായി യോജിക്കുന്നു","യോജിക്കുന്നു","നിഷ്പക്ഷം","വിയോജിക്കുന്നു","ശക്തമായി വിയോജിക്കുന്നു"]}
+      "id": "q_healthcare_1",
+      "category": "healthcare",
+      "text": "Do you enjoy helping sick people?",
+      "options": [
+        {
+          "text": "Yes, absolutely",
+          "score": 1
+        },
+        {
+          "text": "Sometimes",
+          "score": 0.6
+        },
+        {
+          "text": "Neutral",
+          "score": 0.3
+        },
+        {
+          "text": "No",
+          "score": 0
+        }
+      ],
+      "scoringLogic": {
+        "traits": {
+          "analytical": 0.22,
+          "creativity": 0.43,
+          "leadership": 0.81,
+          "communication": 0.96
+        }
+      },
+      "difficulty": "easy"
     },
     {
-      id: "h22",
-      category: "healthcare",
-      subcategory: "blood_handling",
-      difficulty: "easy",
-      question: "Are you comfortable working in environments with blood, injuries, or surgical setups?",
-      options: ["Yes, completely fine","Slightly nervous but okay","No, I cannot stand it"],
-      tags: ["healthcare","discipline"],
-      scoringLogic: {"traits":{"discipline":5},"careers":["surgeon","er_doctor"]},
-      malayalamVersion: {"question":"രക്തം, മുറിവുകൾ, അല്ലെങ്കിൽ ശസ്ത്രക്രിയാ സംവിധാനങ്ങൾ എന്നിവയുള്ള അന്തരീക്ഷത്തിൽ ജോലി ചെയ്യാൻ നിങ്ങൾക്ക് ബുദ്ധിമുട്ടുണ്ടോ?","options":["ഇല്ല, യാതൊരു പ്രശ്നവുമില്ല","ചെറിയ ബുദ്ധിമുട്ട് തോന്നുമെങ്കിലും കുഴപ്പമില്ല","ഇല്ല, എനിക്ക് തീരെ പറ്റില്ല"]}
+      "id": "q_healthcare_2",
+      "category": "healthcare",
+      "text": "Are you interested in human biology?",
+      "options": [
+        {
+          "text": "Yes, absolutely",
+          "score": 1
+        },
+        {
+          "text": "Sometimes",
+          "score": 0.6
+        },
+        {
+          "text": "Neutral",
+          "score": 0.3
+        },
+        {
+          "text": "No",
+          "score": 0
+        }
+      ],
+      "scoringLogic": {
+        "traits": {
+          "analytical": 0.98,
+          "creativity": 0.44,
+          "leadership": 0.74,
+          "communication": 0.86
+        }
+      },
+      "difficulty": "easy"
     },
     {
-      id: "h23",
-      category: "healthcare",
-      subcategory: "research",
-      difficulty: "medium",
-      question: "I find the scientific research of viruses, vaccines, and drug development interesting.",
-      options: ["Strongly Agree","Agree","Neutral","Disagree","Strongly Disagree"],
-      tags: ["healthcare","science"],
-      scoringLogic: {"traits":{"analytical":5},"careers":["pharmacologist","virologist"]},
-      malayalamVersion: {"question":"വൈറസുകൾ, വാക്സിനുകൾ, മരുന്ന് വികസനം എന്നിവയെക്കുറിച്ചുള്ള ശാസ്ത്രീയ ഗവേഷണങ്ങൾ എനിക്ക് വളരെ താല്പര്യമുള്ളതാണ്.","options":["ശക്തമായി യോജിക്കുന്നു","യോജിക്കുന്നു","നിഷ്പക്ഷം","വിയോജിക്കുന്നു","ശക്തമായി വിയോജിക്കുന്നു"]}
+      "id": "q_healthcare_3",
+      "category": "healthcare",
+      "text": "Do you want to become a doctor or nurse?",
+      "options": [
+        {
+          "text": "Yes, absolutely",
+          "score": 1
+        },
+        {
+          "text": "Sometimes",
+          "score": 0.6
+        },
+        {
+          "text": "Neutral",
+          "score": 0.3
+        },
+        {
+          "text": "No",
+          "score": 0
+        }
+      ],
+      "scoringLogic": {
+        "traits": {
+          "analytical": 0.47,
+          "creativity": 0.71,
+          "leadership": 0.57,
+          "communication": 0.63
+        }
+      },
+      "difficulty": "easy"
     },
     {
-      id: "h24",
-      category: "healthcare",
-      subcategory: "public_health",
-      difficulty: "medium",
-      question: "Which health sector career path sounds most fulfilling?",
-      options: ["Direct clinical treatment as a specialist doctor","Working in labs designing diagnostic tools or tests","Managing hospital administrations and workflow operations","Planning global disease prevention drives with NGOs"],
-      tags: ["healthcare","science"],
-      scoringLogic: {"traits":{"analytical":4,"leadership":3},"careers":["hospital_administrator","epidemiologist"]},
-      malayalamVersion: {"question":"ആരോഗ്യരംഗത്തെ ഏത് കരിയർ പാതയാണ് നിങ്ങൾക്ക് കൂടുതൽ അനുയോജ്യമായി തോന്നുന്നത്?","options":["ഒരു സ്പെഷ്യലിസ്റ്റ് ഡോക്ടറായി രോഗികളെ നേരിട്ട് ചികിത്സിക്കുന്നത്","രോഗനിർണ്ണയ ടൂളുകളും ടെസ്റ്റുകളും രൂപകൽപ്പന ചെയ്യുന്ന ലബോറട്ടറി ജോലികൾ","ആശുപത്രികളുടെ ഭരണവും പ്രവർത്തനങ്ങളും നിയന്ത്രിക്കുന്നത്","NGO-കളുമായി ചേർന്ന് ലോകമെമ്പാടുമുള്ള രോഗപ്രതിരോധ പ്രവർത്തനങ്ങൾ ആസൂത്രണം ചെയ്യുന്നത്"]}
+      "id": "q_healthcare_4",
+      "category": "healthcare",
+      "text": "Are you calm in emergency situations?",
+      "options": [
+        {
+          "text": "Yes, absolutely",
+          "score": 1
+        },
+        {
+          "text": "Sometimes",
+          "score": 0.6
+        },
+        {
+          "text": "Neutral",
+          "score": 0.3
+        },
+        {
+          "text": "No",
+          "score": 0
+        }
+      ],
+      "scoringLogic": {
+        "traits": {
+          "analytical": 0.46,
+          "creativity": 0.92,
+          "leadership": 0.86,
+          "communication": 1
+        }
+      },
+      "difficulty": "medium"
     },
     {
-      id: "h25",
-      category: "healthcare",
-      subcategory: "ethics",
-      difficulty: "hard",
-      question: "How would you handle a situation where a patient cannot afford a necessary life-saving treatment?",
-      options: ["Seek emergency hospital funds and social sponsorships","Advise alternative lower-cost treatment methods","Refer them to low-cost government setups immediately","Consult senior doctors to negotiate treatment cost waivers"],
-      tags: ["healthcare","empathy"],
-      scoringLogic: {"traits":{"communication":5,"leadership":3},"careers":["medical_social_worker","hospital_administrator"]},
-      malayalamVersion: {"question":"ജീവൻ രക്ഷിക്കാൻ അത്യാവശ്യമായ ഒരു ചികിത്സയ്ക്ക് പണമില്ലാത്ത ഒരു രോഗി വന്നാൽ നിങ്ങൾ എന്തു ചെയ്യും?","options":["ആശുപത്രിയുടെ അടിയന്തിര ഫണ്ടുകളും ജീവകാരുണ്യ സഹായങ്ങളും കണ്ടെത്തും","വിലകുറഞ്ഞ മറ്റ് ചികിത്സാരീതികൾ നിർദ്ദേശിക്കും","ഉടൻ തന്നെ സർക്കാർ ആശുപത്രിയിലേക്ക് റഫർ ചെയ്യും","ചികിത്സാ ചിലവുകൾ ഒഴിവാക്കി നൽകാൻ സീനിയർ ഡോക്ടർമാരുമായി ചർച്ച ചെയ്യും"]}
+      "id": "q_healthcare_5",
+      "category": "healthcare",
+      "text": "Do you enjoy learning about medicines?",
+      "options": [
+        {
+          "text": "Yes, absolutely",
+          "score": 1
+        },
+        {
+          "text": "Sometimes",
+          "score": 0.6
+        },
+        {
+          "text": "Neutral",
+          "score": 0.3
+        },
+        {
+          "text": "No",
+          "score": 0
+        }
+      ],
+      "scoringLogic": {
+        "traits": {
+          "analytical": 1,
+          "creativity": 0.28,
+          "leadership": 0.27,
+          "communication": 0.29
+        }
+      },
+      "difficulty": "medium"
     },
     {
-      id: "h26",
-      category: "healthcare",
-      subcategory: "technology",
-      difficulty: "medium",
-      question: "AI image scanners that spot tumors faster than human doctors are a great advancement.",
-      options: ["Strongly Agree","Agree","Neutral","Disagree","Strongly Disagree"],
-      tags: ["healthcare","technology"],
-      scoringLogic: {"traits":{"analytical":4},"careers":["medical_imaging_specialist","biomedical_engineer"]},
-      malayalamVersion: {"question":"ഡോക്ടർമാരേക്കാൾ വേഗത്തിൽ ട്യൂമറുകൾ കണ്ടെത്താൻ കഴിയുന്ന AI ഇമേജ് സ്കാനറുകൾ മികച്ചൊരു പുരോഗതിയാണ്.","options":["ശക്തമായി യോജിക്കുന്നു","യോജിക്കുന്നു","നിഷ്പക്ഷം","വിയോജിക്കുന്നു","ശക്തമായി വിയോജിക്കുന്നു"]}
+      "id": "q_healthcare_6",
+      "category": "healthcare",
+      "text": "Are you interested in medical research?",
+      "options": [
+        {
+          "text": "Yes, absolutely",
+          "score": 1
+        },
+        {
+          "text": "Sometimes",
+          "score": 0.6
+        },
+        {
+          "text": "Neutral",
+          "score": 0.3
+        },
+        {
+          "text": "No",
+          "score": 0
+        }
+      ],
+      "scoringLogic": {
+        "traits": {
+          "analytical": 0.23,
+          "creativity": 0.54,
+          "leadership": 0.66,
+          "communication": 0.31
+        }
+      },
+      "difficulty": "medium"
     },
     {
-      id: "h27",
-      category: "healthcare",
-      subcategory: "workload",
-      difficulty: "hard",
-      question: "I am willing to handle long, unpredictable work hours during medical emergency crises.",
-      options: ["Strongly Agree","Agree","Neutral","Disagree","Strongly Disagree"],
-      tags: ["healthcare","discipline"],
-      scoringLogic: {"traits":{"discipline":5},"careers":["er_physician","paramedic"]},
-      malayalamVersion: {"question":"മെഡിക്കൽ അടിയന്തിര ഘട്ടങ്ങളിൽ കൂടുതൽ സമയവും പ്രതികൂല സാഹചര്യങ്ങളിലും ജോലി ചെയ്യാൻ ഞാൻ തയ്യാറാണ്.","options":["ശക്തമായി യോജിക്കുന്നു","യോജിക്കുന്നു","നിഷ്പക്ഷം","വിയോജിക്കുന്നു","ശക്തമായി വിയോജിക്കുന്നു"]}
+      "id": "q_healthcare_7",
+      "category": "healthcare",
+      "text": "Do you want to work in a hospital?",
+      "options": [
+        {
+          "text": "Yes, absolutely",
+          "score": 1
+        },
+        {
+          "text": "Sometimes",
+          "score": 0.6
+        },
+        {
+          "text": "Neutral",
+          "score": 0.3
+        },
+        {
+          "text": "No",
+          "score": 0
+        }
+      ],
+      "scoringLogic": {
+        "traits": {
+          "analytical": 0.95,
+          "creativity": 0.36,
+          "leadership": 0.76,
+          "communication": 0.52
+        }
+      },
+      "difficulty": "medium"
     },
     {
-      id: "h28",
-      category: "healthcare",
-      subcategory: "preventative",
-      difficulty: "medium",
-      question: "Educating public schools about nutrition, hygiene, and wellness is the best way to prevent diseases.",
-      options: ["Strongly Agree","Agree","Neutral","Disagree","Strongly Disagree"],
-      tags: ["healthcare","communication"],
-      scoringLogic: {"traits":{"communication":5},"careers":["public_health_educator","nutritionist"]},
-      malayalamVersion: {"question":"പോഷകാഹാരം, വ്യക്തിശുചിത്വം എന്നിവയെക്കുറിച്ച് സ്കൂളുകളിൽ ബോധവൽക്കരണം നൽകുന്നതാണ് രോഗങ്ങൾ തടയാനുള്ള ഏറ്റവും നല്ല മാർഗം.","options":["ശക്തമായി യോജിക്കുന്നു","യോജിക്കുന്നു","നിഷ്പക്ഷം","വിയോജിക്കുന്നു","ശക്തമായി വിയോജിക്കുന്നു"]}
+      "id": "q_healthcare_8",
+      "category": "healthcare",
+      "text": "Are you empathetic towards patients?",
+      "options": [
+        {
+          "text": "Yes, absolutely",
+          "score": 1
+        },
+        {
+          "text": "Sometimes",
+          "score": 0.6
+        },
+        {
+          "text": "Neutral",
+          "score": 0.3
+        },
+        {
+          "text": "No",
+          "score": 0
+        }
+      ],
+      "scoringLogic": {
+        "traits": {
+          "analytical": 0.36,
+          "creativity": 0.89,
+          "leadership": 0.37,
+          "communication": 0.41
+        }
+      },
+      "difficulty": "hard"
     },
     {
-      id: "h29",
-      category: "healthcare",
-      subcategory: "genetics",
-      difficulty: "hard",
-      question: "Developing customized therapies based on a patient's DNA blueprint is the future of healthcare.",
-      options: ["Strongly Agree","Agree","Neutral","Disagree","Strongly Disagree"],
-      tags: ["healthcare","science"],
-      scoringLogic: {"traits":{"analytical":5},"careers":["genetic_counselor","biotech_researcher"]},
-      malayalamVersion: {"question":"രോഗിയുടെ DNA ഘടന അടിസ്ഥാനമാക്കി ഓരോരുത്തർക്കും പ്രത്യേകം ചികിത്സ രൂപകൽപ്പന ചെയ്യുന്നതാണ് ഭാവിയിലെ ആരോഗ്യരംഗം.","options":["ശക്തമായി യോജിക്കുന്നു","യോജിക്കുന്നു","നിഷ്പക്ഷം","വിയോജിക്കുന്നു","ശക്തമായി വിയോജിക്കുന്നു"]}
+      "id": "q_healthcare_9",
+      "category": "healthcare",
+      "text": "Do you like studying diseases?",
+      "options": [
+        {
+          "text": "Yes, absolutely",
+          "score": 1
+        },
+        {
+          "text": "Sometimes",
+          "score": 0.6
+        },
+        {
+          "text": "Neutral",
+          "score": 0.3
+        },
+        {
+          "text": "No",
+          "score": 0
+        }
+      ],
+      "scoringLogic": {
+        "traits": {
+          "analytical": 0.58,
+          "creativity": 1,
+          "leadership": 0.67,
+          "communication": 0.73
+        }
+      },
+      "difficulty": "hard"
     },
     {
-      id: "h30",
-      category: "healthcare",
-      subcategory: "counseling",
-      difficulty: "medium",
-      question: "I prefer working in psychological therapy counseling over pharmaceutical drug research.",
-      options: ["Strongly Agree","Agree","Neutral","Disagree","Strongly Disagree"],
-      tags: ["healthcare","psychology"],
-      scoringLogic: {"traits":{"communication":4},"careers":["clinical_psychologist","psychiatrist"]},
-      malayalamVersion: {"question":"മരുന്നുകളെക്കുറിച്ചുള്ള ഗവേഷണങ്ങളേക്കാൾ സൈക്കോളജിക്കൽ കൗൺസിലിംഗ് ചെയ്യാനാണ് എനിക്ക് താല്പര്യം.","options":["ശക്തമായി യോജിക്കുന്നു","യോജിക്കുന്നു","നിഷ്പക്ഷം","വിയോജിക്കുന്നു","ശക്തമായി വിയോജിക്കുന്നു"]}
+      "id": "q_healthcare_10",
+      "category": "healthcare",
+      "text": "Are you interested in public health?",
+      "options": [
+        {
+          "text": "Yes, absolutely",
+          "score": 1
+        },
+        {
+          "text": "Sometimes",
+          "score": 0.6
+        },
+        {
+          "text": "Neutral",
+          "score": 0.3
+        },
+        {
+          "text": "No",
+          "score": 0
+        }
+      ],
+      "scoringLogic": {
+        "traits": {
+          "analytical": 0.86,
+          "creativity": 0.65,
+          "leadership": 0.39,
+          "communication": 0.91
+        }
+      },
+      "difficulty": "hard"
     }
   ],
-  psychology: [
-    { id: "ps1", category: "psychology", question: "When a friend is going through a tough emotional time, what do you do?", options: ["Listen patiently without judging or offering unasked advice", "Help them analyze the problem and brainstorm solutions", "Distract them with a fun activity to cheer them up", "Give them space but remind them I'm here if they need me"], tags: ["psychology", "empathy", "communication"] },
-    { id: "ps2", category: "psychology", question: "What catches your attention most about human behavior?", options: ["Why people make irrational decisions under pressure", "How body language and tone reveal hidden thoughts", "How childhood experiences shape adult personalities", "The biochemical chemical triggers behind moods"], tags: ["psychology", "analytical thinking", "science"] },
-    { id: "ps3", category: "psychology", question: "Which psychology career path sounds most fulfilling?", options: ["Clinical Psychologist (Helping clients overcome trauma)", "Organizational Psychologist (Improving office dynamics)", "Neuroscientist (Studying brain structures and behavior)", "Counselor or Therapist (Providing relationship guidance)"], tags: ["psychology", "empathy", "science"] },
-    { id: "ps4", category: "psychology", question: "How do you view the concept of 'personality type' tests?", options: ["A fun and useful framework for self-reflection", "An oversimplified label that ignores human complexity", "A scientifically valid tool if based on proper research", "A useful way to build teams and recruit employees"], tags: ["psychology", "analytical thinking", "work style"] },
-    { id: "ps5", category: "psychology", question: "If you could conduct a psychological study, what would you research?", options: ["How screen time affects attention span in kids", "The relationship between sleep cycles and anxiety", "What makes people follow charismatic leaders blindly", "How music frequencies alter brainwave patterns"], tags: ["psychology", "science", "creativity"] },
-    { id: "ps6", category: "psychology", question: "What is your philosophy on mental health treatment?", options: ["A combination of talking therapy and positive lifestyle changes", "Relying on neuroscience and medication to fix imbalances", "Addressing root childhood trauma through intensive therapy", "Focusing on behavior modification and goal setting"], tags: ["psychology", "science", "empathy"] },
-    { id: "ps7", category: "psychology", question: "How do you handle conflict in your relationships?", options: ["Sit down and discuss feelings openly to reach resolution", "Analyze the situation objectively and propose compromises", "Give it time to cool down before addressing it calmly", "Avoid direct confrontation and let it resolve naturally"], tags: ["psychology", "communication", "emotional intelligence"] },
-    { id: "ps8", category: "psychology", question: "What does emotional intelligence mean to you?", options: ["The ability to regulate my own emotions in stressful times", "Recognizing and validating what others are feeling", "Predicting how people will react in social settings", "Using empathy to resolve disputes and lead groups"], tags: ["psychology", "emotional intelligence", "leadership"] },
-    { id: "ps9", category: "psychology", question: "If you are studying in a library, how do you handle distractions?", options: ["Put on noise-cancelling headphones and focus fully", "Change my seating or environment immediately", "Accept the noise and train my focus to override it", "Take a short break to walk and refresh my mind"], tags: ["psychology", "discipline", "work style"] },
-    { id: "ps10", category: "psychology", question: "How do you view human memory?", options: ["A highly creative reconstruction that is easily altered", "A reliable storage file that fades over time", "A network of associations linked by strong emotions", "A biological pattern of synaptic connections in the brain"], tags: ["psychology", "science", "logical thinking"] },
-    { id: "ps11", category: "psychology", question: "When someone lies to you, how do you usually react?", options: ["Try to understand the underlying reason why they lied", "Feel hurt and call them out on it directly in public", "Observe their body language to see if they lie consistently", "Quietly withdraw my trust without making a scene"], tags: ["psychology", "empathy", "communication"] },
-    { id: "ps12", category: "psychology", question: "Which psychological book would you pick up?", options: ["Thinking, Fast and Slow (Cognitive Biases)", "Man's Search for Meaning (Existential psychology)", "The Blank Slate (Nature vs Nurture debate)", "Emotional Intelligence (Social skills & empathy)"], tags: ["psychology", "analytical thinking", "logical thinking"] },
-    { id: "ps13", category: "psychology", question: "What is the best way to break a bad habit?", options: ["Replace the trigger cue with a healthy alternative", "Use raw willpower and self-discipline", "Create a negative consequence if I break the rule", "Change my environment to make the habit impossible"], tags: ["psychology", "discipline", "work style"] },
-    { id: "ps14", category: "psychology", question: "How do you feel about public speaking anxiety?", options: ["I manage it through preparation and visualization", "I feel terrified and try to avoid it if possible", "I view the nervous adrenaline as fuel to perform", "I practice mindfulness to calm my nervous system"], tags: ["psychology", "social confidence", "discipline"] },
-    { id: "ps15", category: "psychology", question: "What is the key to motivating a team?", options: ["Understanding what each individual values personally", "Setting clear financial rewards and competitive targets", "Creating a shared, inspiring group vision", "Providing regular, positive verbal reinforcement"], tags: ["psychology", "leadership", "emotional intelligence"] },
-    { id: "ps16", category: "psychology", question: "Which psychological phenomenon fascinates you?", options: ["The Placebo Effect (Mind healing the physical body)", "Lucid Dreaming (Controlling dreams consciously)", "Cognitive Dissonance (Holding conflicting beliefs)", "Deindividuation (How crowds alter personal morals)"], tags: ["psychology", "science", "creativity"] },
-    { id: "ps17", category: "psychology", question: "How do you view the impact of social media on mental health?", options: ["It isolates people and drives comparison and anxiety", "It provides vital community networks for lonely groups", "It depends entirely on the user's conscious digital habits", "It alters brain dopamine systems and needs regulation"], tags: ["psychology", "empathy", "science"] },
-    { id: "ps18", category: "psychology", question: "When you analyze yourself, you focus most on...", options: ["My behavioral patterns and daily habits", "My emotional reactions and inner feelings", "My future goals, ambitions, and plans", "How my thoughts influence my physical energy"], tags: ["psychology", "discipline", "ambition"] },
-    { id: "ps19", category: "psychology", question: "Why do you think art therapy is effective?", options: ["It bypasses verbal language to express deep emotions", "It calms the brain's stress center (amygdala)", "It builds visual problem-solving skills", "It builds self-esteem through creative achievement"], tags: ["psychology", "creativity", "empathy"] },
-    { id: "ps20", category: "psychology", question: "What is your view on the nature vs. nurture debate?", options: ["Genes set the boundaries, but environment shapes the path", "Environment and choices are the only things that define us", "Our genetic code determines our core personality", "It is an outdated debate; they are completely intertwined"], tags: ["psychology", "science", "logical thinking"] }
-  ,
+  "psychology": [
     {
-      id: "ps21",
-      category: "psychology",
-      subcategory: "listening",
-      difficulty: "easy",
-      question: "When friends are upset, do they often come to you to share their problems?",
-      options: ["Yes, very often","Sometimes","No, rarely"],
-      tags: ["psychology","empathy"],
-      scoringLogic: {"traits":{"communication":5,"leadership":2},"careers":["counselor","therapist"]},
-      malayalamVersion: {"question":"സുഹൃത്തുക്കൾക്ക് വിഷമങ്ങളുണ്ടാകുമ്പോൾ അവർ അത് പങ്കിടാൻ നിങ്ങളെ സമീപിക്കാറുണ്ടോ?","options":["അതെ, പലപ്പോഴും","ചിലപ്പോൾ","ഇല്ല, വളരെ കുറവാണ്"]}
+      "id": "q_psychology_1",
+      "category": "psychology",
+      "text": "Are you interested in how the human mind works?",
+      "options": [
+        {
+          "text": "Yes, absolutely",
+          "score": 1
+        },
+        {
+          "text": "Sometimes",
+          "score": 0.6
+        },
+        {
+          "text": "Neutral",
+          "score": 0.3
+        },
+        {
+          "text": "No",
+          "score": 0
+        }
+      ],
+      "scoringLogic": {
+        "traits": {
+          "analytical": 0.84,
+          "creativity": 0.28,
+          "leadership": 0.88,
+          "communication": 0.55
+        }
+      },
+      "difficulty": "easy"
     },
     {
-      id: "ps22",
-      category: "psychology",
-      subcategory: "body_language",
-      difficulty: "easy",
-      question: "I notice subtle shifts in people's tone, body language, or facial expressions easily.",
-      options: ["Strongly Agree","Agree","Neutral","Disagree","Strongly Disagree"],
-      tags: ["psychology","communication"],
-      scoringLogic: {"traits":{"communication":4,"analytical":3},"careers":["clinical_psychologist","hr_manager"]},
-      malayalamVersion: {"question":"മറ്റുള്ളവരുടെ സംസാരരീതിയിലോ, ശരീരഭാഷയിലോ, മുഖഭാവത്തിലോ ഉണ്ടാകുന്ന ചെറിയ മാറ്റങ്ങൾ ഞാൻ പെട്ടെന്ന് ശ്രദ്ധിക്കാറുണ്ട്.","options":["ശക്തമായി യോജിക്കുന്നു","യോജിക്കുന്നു","നിഷ്പക്ഷം","വിയോജിക്കുന്നു","ശക്തമായി വിയോജിക്കുന്നു"]}
+      "id": "q_psychology_2",
+      "category": "psychology",
+      "text": "Do you enjoy listening to people's problems?",
+      "options": [
+        {
+          "text": "Yes, absolutely",
+          "score": 1
+        },
+        {
+          "text": "Sometimes",
+          "score": 0.6
+        },
+        {
+          "text": "Neutral",
+          "score": 0.3
+        },
+        {
+          "text": "No",
+          "score": 0
+        }
+      ],
+      "scoringLogic": {
+        "traits": {
+          "analytical": 0.81,
+          "creativity": 0.98,
+          "leadership": 0.41,
+          "communication": 0.71
+        }
+      },
+      "difficulty": "easy"
     },
     {
-      id: "ps23",
-      category: "psychology",
-      subcategory: "brain_science",
-      difficulty: "medium",
-      question: "Understanding how brain chemicals and hormones shape human behavior sounds interesting.",
-      options: ["Strongly Agree","Agree","Neutral","Disagree","Strongly Disagree"],
-      tags: ["psychology","science"],
-      scoringLogic: {"traits":{"analytical":5},"careers":["neuroscientist","psychiatrist"]},
-      malayalamVersion: {"question":"തലച്ചോറിലെ രാസപ്രവർത്തനങ്ങളും ഹോർമോണുകളും മനുഷ്യൻ്റെ പെരുമാറ്റത്തെ എങ്ങനെ സ്വാധീനിക്കുന്നു എന്ന് പഠിക്കുന്നത് താല്പര്യമുള്ള കാര്യമാണ്.","options":["ശക്തമായി യോജിക്കുന്നു","യോജിക്കുന്നു","നിഷ്പക്ഷം","വിയോജിക്കുന്നു","ശക്തമായി വിയോജിക്കുന്നു"]}
+      "id": "q_psychology_3",
+      "category": "psychology",
+      "text": "Do you want to be a counselor?",
+      "options": [
+        {
+          "text": "Yes, absolutely",
+          "score": 1
+        },
+        {
+          "text": "Sometimes",
+          "score": 0.6
+        },
+        {
+          "text": "Neutral",
+          "score": 0.3
+        },
+        {
+          "text": "No",
+          "score": 0
+        }
+      ],
+      "scoringLogic": {
+        "traits": {
+          "analytical": 0.35,
+          "creativity": 0.98,
+          "leadership": 0.68,
+          "communication": 0.91
+        }
+      },
+      "difficulty": "easy"
     },
     {
-      id: "ps24",
-      category: "psychology",
-      subcategory: "counseling",
-      difficulty: "medium",
-      question: "Which career environment in psychology sounds most fulfilling?",
-      options: ["Working in a school/college helping students manage exam stress","Working in hospitals counseling clients recovering from trauma","Analyzing employee behavior patterns to improve office workspace dynamics","Doing lab research on human memory and sleep cycles"],
-      tags: ["psychology","science"],
-      scoringLogic: {"traits":{"communication":4,"leadership":3},"careers":["school_counselor","industrial_psychologist"]},
-      malayalamVersion: {"question":"സൈക്കോളജിയിലെ ഏത് ജോലി സാഹചര്യമാണ് നിങ്ങൾക്ക് കൂടുതൽ താല്പര്യമുള്ളത്?","options":["സ്കൂളുകളിലോ കോളേജുകളിലോ വിദ്യാർത്ഥികളെ പരീക്ഷാ സമ്മർദ്ദം നിയന്ത്രിക്കാൻ സഹായിക്കുന്നത്","ആശുപത്രികളിൽ ചികിത്സയിലുള്ളവർക്ക് ആവശ്യമായ കൗൺസിലിംഗ് നൽകുന്നത്","സ്ഥാപനങ്ങളിൽ ജീവനക്കാരുടെ പെരുമാറ്റരീതികൾ മെച്ചപ്പെടുത്താൻ സഹായിക്കുന്നത്","മനുഷ്യന്റെ ഓർമ്മശക്തിയെയും ഉറക്കചക്രത്തെയും കുറിച്ച് ഗവേഷണങ്ങൾ നടത്തുന്നത്"]}
+      "id": "q_psychology_4",
+      "category": "psychology",
+      "text": "Are you good at understanding emotions?",
+      "options": [
+        {
+          "text": "Yes, absolutely",
+          "score": 1
+        },
+        {
+          "text": "Sometimes",
+          "score": 0.6
+        },
+        {
+          "text": "Neutral",
+          "score": 0.3
+        },
+        {
+          "text": "No",
+          "score": 0
+        }
+      ],
+      "scoringLogic": {
+        "traits": {
+          "analytical": 0.9,
+          "creativity": 0.42,
+          "leadership": 0.37,
+          "communication": 0.29
+        }
+      },
+      "difficulty": "medium"
     },
     {
-      id: "ps25",
-      category: "psychology",
-      subcategory: "conflict",
-      difficulty: "hard",
-      question: "How do you respond when someone gets angry at you in a conversation?",
-      options: ["Listen calmly, let them vent, then speak softly","Present objective logical facts to clear misconceptions","Walk away to avoid heated arguments","Confront them with equal energy to state my point"],
-      tags: ["psychology","communication"],
-      scoringLogic: {"traits":{"communication":5},"careers":["relationship_counselor","mediator"]},
-      malayalamVersion: {"question":"സംസാരിക്കുമ്പോൾ ആരെങ്കിലും നിങ്ങളോട് കോപിച്ചാൽ നിങ്ങൾ എങ്ങനെ പ്രതികരിക്കും?","options":["അവർ ശാന്തരാകുന്നതുവരെ കേട്ടു നിൽക്കും, അതിനുശേഷം പതുക്കെ സംസാരിക്കും","തെറ്റിദ്ധാരണകൾ മാറ്റാൻ വസ്തുനിഷ്ഠമായ വിവരങ്ങൾ വ്യക്തമാക്കും","തർക്കങ്ങൾ ഒഴിവാക്കാൻ അവിടുന്ന് മാറിപ്പോകും","എൻ്റെ ഭാഗം വ്യക്തമാക്കാൻ അതേ രീതിയിൽ തന്നെ സംസാരിക്കും"]}
+      "id": "q_psychology_5",
+      "category": "psychology",
+      "text": "Do you like analyzing human behavior?",
+      "options": [
+        {
+          "text": "Yes, absolutely",
+          "score": 1
+        },
+        {
+          "text": "Sometimes",
+          "score": 0.6
+        },
+        {
+          "text": "Neutral",
+          "score": 0.3
+        },
+        {
+          "text": "No",
+          "score": 0
+        }
+      ],
+      "scoringLogic": {
+        "traits": {
+          "analytical": 0.79,
+          "creativity": 0.43,
+          "leadership": 0.43,
+          "communication": 0.97
+        }
+      },
+      "difficulty": "medium"
     },
     {
-      id: "ps26",
-      category: "psychology",
-      subcategory: "mental_health",
-      difficulty: "medium",
-      question: "Destigmatizing mental health therapy sessions in society should be our top priority.",
-      options: ["Strongly Agree","Agree","Neutral","Disagree","Strongly Disagree"],
-      tags: ["psychology","empathy"],
-      scoringLogic: {"traits":{"communication":4},"careers":["mental_health_advocate","counselor"]},
-      malayalamVersion: {"question":"മാനസികാരോഗ്യ ചികിത്സകളെക്കുറിച്ചുള്ള സമൂഹത്തിലെ തെറ്റായ ധാരണകൾ ഇല്ലാതാക്കുന്നതിനാണ് നമ്മൾ മുൻഗണന നൽകേണ്ടത്.","options":["ശക്തമായി യോജിക്കുന്നു","യോജിക്കുന്നു","നിഷ്പക്ഷം","വിയോജിക്കുന്നു","ശക്തമായി വിയോജിക്കുന്നു"]}
+      "id": "q_psychology_6",
+      "category": "psychology",
+      "text": "Are you interested in child development?",
+      "options": [
+        {
+          "text": "Yes, absolutely",
+          "score": 1
+        },
+        {
+          "text": "Sometimes",
+          "score": 0.6
+        },
+        {
+          "text": "Neutral",
+          "score": 0.3
+        },
+        {
+          "text": "No",
+          "score": 0
+        }
+      ],
+      "scoringLogic": {
+        "traits": {
+          "analytical": 0.37,
+          "creativity": 0.5,
+          "leadership": 0.94,
+          "communication": 0.51
+        }
+      },
+      "difficulty": "medium"
     },
     {
-      id: "ps27",
-      category: "psychology",
-      subcategory: "addiction",
-      difficulty: "hard",
-      question: "Helping individuals overcome digital device or mobile screen addictions sounds inspiring.",
-      options: ["Strongly Agree","Agree","Neutral","Disagree","Strongly Disagree"],
-      tags: ["psychology","communication"],
-      scoringLogic: {"traits":{"communication":4,"analytical":3},"careers":["addiction_counselor","behavioral_therapist"]},
-      malayalamVersion: {"question":"ഫോൺ അല്ലെങ്കിൽ ഡിജിറ്റൽ സ്ക്രീൻ ഉപയോഗിക്കുന്നതിനുള്ള അഡിക്ഷൻ മാറ്റാൻ ആളുകളെ സഹായിക്കുന്നത് നല്ലൊരു കാര്യമാണ്.","options":["ശക്തമായി യോജിക്കുന്നു","യോജിക്കുന്നു","നിഷ്പക്ഷം","വിയോജിക്കുന്നു","ശക്തമായി വിയോജിക്കുന്നു"]}
+      "id": "q_psychology_7",
+      "category": "psychology",
+      "text": "Do you want to study mental illnesses?",
+      "options": [
+        {
+          "text": "Yes, absolutely",
+          "score": 1
+        },
+        {
+          "text": "Sometimes",
+          "score": 0.6
+        },
+        {
+          "text": "Neutral",
+          "score": 0.3
+        },
+        {
+          "text": "No",
+          "score": 0
+        }
+      ],
+      "scoringLogic": {
+        "traits": {
+          "analytical": 0.85,
+          "creativity": 0.32,
+          "leadership": 0.48,
+          "communication": 0.34
+        }
+      },
+      "difficulty": "medium"
     },
     {
-      id: "ps28",
-      category: "psychology",
-      subcategory: "marketing",
-      difficulty: "medium",
-      question: "Using consumer behavioral data to design addictive app interfaces is ethically wrong.",
-      options: ["Strongly Agree","Agree","Neutral","Disagree","Strongly Disagree"],
-      tags: ["psychology","law"],
-      scoringLogic: {"traits":{"analytical":4},"careers":["ux_researcher","ai_ethicist"]},
-      malayalamVersion: {"question":"ഉപഭോക്താക്കളുടെ വിവരങ്ങൾ അടിസ്ഥാനമാക്കി ആപ്പുകൾ നിരന്തരം ഉപയോഗിക്കാൻ അവരെ പ്രേരിപ്പിക്കുന്ന തരത്തിൽ അപ്ലിക്കേഷനുകൾ നിർമ്മിക്കുന്നത് തെറ്റാണ്.","options":["ശക്തമായി യോജിക്കുന്നു","യോജിക്കുന്നു","നിഷ്പക്ഷം","വിയോജിക്കുന്നു","ശക്തമായി വിയോജിക്കുന്നു"]}
+      "id": "q_psychology_8",
+      "category": "psychology",
+      "text": "Are you good at reading body language?",
+      "options": [
+        {
+          "text": "Yes, absolutely",
+          "score": 1
+        },
+        {
+          "text": "Sometimes",
+          "score": 0.6
+        },
+        {
+          "text": "Neutral",
+          "score": 0.3
+        },
+        {
+          "text": "No",
+          "score": 0
+        }
+      ],
+      "scoringLogic": {
+        "traits": {
+          "analytical": 0.6,
+          "creativity": 0.77,
+          "leadership": 0.51,
+          "communication": 0.54
+        }
+      },
+      "difficulty": "hard"
     },
     {
-      id: "ps29",
-      category: "psychology",
-      subcategory: "childhood",
-      difficulty: "hard",
-      question: "Understanding how parenting patterns shape adult relationship choices is the key to therapy.",
-      options: ["Strongly Agree","Agree","Neutral","Disagree","Strongly Disagree"],
-      tags: ["psychology","empathy"],
-      scoringLogic: {"traits":{"analytical":4,"communication":3},"careers":["family_therapist","developmental_psychologist"]},
-      malayalamVersion: {"question":"കുട്ടിക്കാലത്തെ വളർത്തുരീതികൾ മുതിർന്നവരാകുമ്പോഴുള്ള ബന്ധങ്ങളെ എങ്ങനെ ബാധിക്കുന്നു എന്ന് മനസ്സിലാക്കുകയാണ് തെറാപ്പിയുടെ വിജയം.","options":["ശക്തമായി യോജിക്കുന്നു","യോജിക്കുന്നു","നിഷ്പക്ഷം","വിയോജിക്കുന്നു","ശക്തമായി വിയോജിക്കുന്നു"]}
+      "id": "q_psychology_9",
+      "category": "psychology",
+      "text": "Do you enjoy psychology books?",
+      "options": [
+        {
+          "text": "Yes, absolutely",
+          "score": 1
+        },
+        {
+          "text": "Sometimes",
+          "score": 0.6
+        },
+        {
+          "text": "Neutral",
+          "score": 0.3
+        },
+        {
+          "text": "No",
+          "score": 0
+        }
+      ],
+      "scoringLogic": {
+        "traits": {
+          "analytical": 0.31,
+          "creativity": 0.8,
+          "leadership": 0.8,
+          "communication": 0.41
+        }
+      },
+      "difficulty": "hard"
     },
     {
-      id: "ps30",
-      category: "psychology",
-      subcategory: "testing",
-      difficulty: "medium",
-      question: "I prefer conducting standard aptitude tests over talking to patients about their emotions.",
-      options: ["Strongly Agree","Agree","Neutral","Disagree","Strongly Disagree"],
-      tags: ["psychology","science"],
-      scoringLogic: {"traits":{"analytical":5},"careers":["psychometrician","organizational_psychologist"]},
-      malayalamVersion: {"question":"രോഗികളുടെ വികാരങ്ങളെക്കുറിച്ച് സംസാരിക്കുന്നതിനേക്കാൾ അവരുടെ അഭിരുചികൾ വിലയിരുത്താനുള്ള ടെസ്റ്റുകൾ നടത്താനാണ് എനിക്ക് താല്പര്യം.","options":["ശക്തമായി യോജിക്കുന്നു","യോജിക്കുന്നു","നിഷ്പക്ഷം","വിയോജിക്കുന്നു","ശക്തമായി വിയോജിക്കുന്നു"]}
+      "id": "q_psychology_10",
+      "category": "psychology",
+      "text": "Are you interested in cognitive science?",
+      "options": [
+        {
+          "text": "Yes, absolutely",
+          "score": 1
+        },
+        {
+          "text": "Sometimes",
+          "score": 0.6
+        },
+        {
+          "text": "Neutral",
+          "score": 0.3
+        },
+        {
+          "text": "No",
+          "score": 0
+        }
+      ],
+      "scoringLogic": {
+        "traits": {
+          "analytical": 0.24,
+          "creativity": 0.6,
+          "leadership": 0.35,
+          "communication": 0.85
+        }
+      },
+      "difficulty": "hard"
     }
   ],
-  media: [
-    { id: "me1", category: "media", question: "What kind of media content do you consume the most?", options: ["In-depth investigative articles and news", "Creative podcasts, video essays, and documentaries", "Short-form viral videos and entertainment clips", "Cinematic movies and narrative TV shows"], tags: ["media", "communication", "creativity"] },
-    { id: "me2", category: "media", question: "Which role in a film crew sounds most interesting?", options: ["Director (Shaping the creative vision and story)", "Screenwriter (Writing scripts and dialogues)", "Cinematographer (Managing camera angles and lighting)", "Video Editor (Piecing the footage together logically)"], tags: ["media", "creativity", "design"] },
-    { id: "me3", category: "media", question: "How do you verify the credibility of a news article?", options: ["Cross-check the facts with multiple independent sources", "Look for biased wording or sensational headlines", "Research the author's credentials and history", "I rarely check unless the news sounds suspicious"], tags: ["media", "analytical thinking", "logical thinking"] },
-    { id: "me4", category: "media", question: "If you had to launch a podcast, what would it be about?", options: ["Interviews with experts in tech, science, or business", "True crime stories or historical documentaries", "Pop culture, movie reviews, and comedy chat", "Personal development, philosophy, and wellness"], tags: ["media", "communication", "social confidence"] },
-    { id: "me5", category: "media", question: "What makes a video essay engaging in your view?", options: ["A clear, structured argument backed by evidence", "Stunning visual editing, pacing, and music design", "A passionate, charismatic narrator voice", "A controversial, fresh angle on a known topic"], tags: ["media", "communication", "creativity"] },
-    { id: "me6", category: "media", question: "How do you feel about the influence of algorithms on news feeds?", options: ["It creates echo chambers that polarize society", "It makes it easier to find topics I actually enjoy", "It should be regulated to ensure neutral news distribution", "I ignore it by using RSS feeds and direct sites"], tags: ["media", "analytical thinking", "risk tolerance"] },
-    { id: "me7", category: "media", question: "Which media career path sounds most exciting?", options: ["Investigative Journalist (Exposing corruption)", "Creative Director (Leading advertising or show brands)", "Digital Content Creator (Building a personal channel)", "Public Relations (PR) Specialist (Managing brand image)"], tags: ["media", "communication", "leadership"] },
-    { id: "me8", category: "media", question: "How would you handle a stressful deadline on a media project?", options: ["Make a strict timeline, prioritize, and work late", "Collaborate closely with my team to share the load", "Focus on the core message and simplify complex parts", "Ask for an extension to ensure maximum quality"], tags: ["media", "discipline", "teamwork"] },
-    { id: "me9", category: "media", question: "What is your stance on citizen journalism (social media news)?", options: ["Great; it bypasses central media censorship and biases", "Risky; it spreads fake news and lacks professional standards", "Excellent for fast updates, but needs professional auditing", "It has replaced traditional news networks completely"], tags: ["media", "analytical thinking", "communication"] },
-    { id: "me10", category: "media", question: "When you watch a movie, what do you analyze the most?", options: ["The depth of character growth and screenwriting", "The visual frame composition and camera movements", "The musical score and sound design atmosphere", "The pacing, plot twists, and overall logic of the story"], tags: ["media", "creativity", "design"] },
-    { id: "me11", category: "media", question: "If you were to write a headline for a massive discovery, you...", options: ["Make it simple, clear, and direct: 'Life Found on Mars'", "Focus on the mystery: 'Are We Alone? Bold Discovery Says No'", "Create an emotional spark: 'The Day the Universe Got Bigger'", "Present the scientific metric: 'NASA Confirms Organic Molecules'"], tags: ["media", "communication", "creativity"] },
-    { id: "me12", category: "media", question: "What is the key to a great interview in your view?", options: ["Asking unusual questions that catch the guest off guard", "Active listening and following up on details they mention", "Preparing extensive research on their background first", "Creating a comfortable, informal atmosphere to chat"], tags: ["media", "communication", "emotional intelligence"] },
-    { id: "me13", category: "media", question: "How do you view public relations (PR) work?", options: ["An essential strategy to protect and build brand image", "A corporate spin system that hides negative truths", "A creative way to tell a brand's story to the public", "A fast-paced networking career for social butterflies"], tags: ["media", "business", "social confidence"] },
-    { id: "me14", category: "media", question: "Which digital media trend interests you most?", options: ["Interactive documentaries where viewers choose the path", "Vlog-style documentary channels (e.g. Johnny Harris)", "Live streaming events and interactive chat communities", "AI-assisted video editing and CGI automation"], tags: ["media", "creativity", "technology"] },
-    { id: "me15", category: "media", question: "What makes a story 'newsworthy' in your opinion?", options: ["Its direct impact on the daily lives of the public", "Its novelty, uniqueness, and human interest element", "Its timeliness and relevance to current political debates", "Its potential to trigger debate and change public policy"], tags: ["media", "communication", "analytical thinking"] },
-    { id: "me16", category: "media", question: "How do you handle negative criticism on your public creative work?", options: ["Read all comments objectively to find valid feedback", "Ignore the comments and trust my creative process", "Discuss it with a close peer to process my feelings", "Respond politely to clarify my intent and view"], tags: ["media", "emotional intelligence", "social confidence"] },
-    { id: "me17", category: "media", question: "What is your stance on media censorship by governments?", options: ["Censorship should never exist; free speech is absolute", "Minor censorship is needed to prevent hate speech and panic", "Censorship should be handled by independent ethics bodies", "Governments should only flag fake news, not block content"], tags: ["media", "law", "analytical thinking"] },
-    { id: "me18", category: "media", question: "Which medium of storytelling is most powerful?", options: ["Audio (Podcasts, radio drama) — sparks imagination", "Video (Cinema, TV) — immersive visual and audio world", "Text (Books, long-read articles) — deepest thoughts", "Interactive (Games, web designs) — active user choice"], tags: ["media", "creativity", "communication"] },
-    { id: "me19", category: "media", question: "If you had to film a documentary, where would you start?", options: ["Find a fascinating human character and follow their daily life", "Research database archives and historical facts first", "Outline a storyboard of all the visual scenes I need", "Conduct preliminary interviews with subject experts"], tags: ["media", "creativity", "discipline"] },
-    { id: "me20", category: "media", question: "What is your ultimate goal in working with media?", options: ["To inform and educate society about crucial issues", "To create breathtaking, memorable creative cinema", "To build an independent digital media business brand", "To capture raw human moments and tell stories"], tags: ["media", "ambition", "creativity"] }
-  ,
+  "media": [
     {
-      id: "me21",
-      category: "media",
-      subcategory: "content_creation",
-      difficulty: "easy",
-      question: "Do you enjoy writing essays, scripting videos, or recording stories for school activities?",
-      options: ["Yes, very much","Sometimes","No, I don't write or record"],
-      tags: ["media","creativity"],
-      scoringLogic: {"traits":{"creativity":5},"careers":["journalist","scriptwriter"]},
-      malayalamVersion: {"question":"ലേഖനങ്ങൾ എഴുതാനോ, വീഡിയോകൾക്ക് തിരക്കഥ തയ്യാറാക്കാനോ, സ്റ്റോറികൾ റെക്കോർഡ് ചെയ്യാനോ നിങ്ങൾക്ക് താല്പര്യമുണ്ടോ?","options":["അതെ, വളരെ താല്പര്യമുണ്ട്","ചിലപ്പോൾ","ഇല്ല, എനിക്ക് എഴുതാനോ റെക്കോർഡ് ചെയ്യാനോ താല്പര്യമില്ല"]}
+      "id": "q_media_1",
+      "category": "media",
+      "text": "Do you enjoy writing articles or blogs?",
+      "options": [
+        {
+          "text": "Yes, absolutely",
+          "score": 1
+        },
+        {
+          "text": "Sometimes",
+          "score": 0.6
+        },
+        {
+          "text": "Neutral",
+          "score": 0.3
+        },
+        {
+          "text": "No",
+          "score": 0
+        }
+      ],
+      "scoringLogic": {
+        "traits": {
+          "analytical": 0.46,
+          "creativity": 0.63,
+          "leadership": 0.96,
+          "communication": 0.6
+        }
+      },
+      "difficulty": "easy"
     },
     {
-      id: "me22",
-      category: "media",
-      subcategory: "camera",
-      difficulty: "easy",
-      question: "I notice video angles, color grading, and editing styles when watching movies or videos.",
-      options: ["Strongly Agree","Agree","Neutral","Disagree","Strongly Disagree"],
-      tags: ["media","design"],
-      scoringLogic: {"traits":{"creativity":5},"careers":["cinematographer","video_editor"]},
-      malayalamVersion: {"question":"സിനിമകളോ വീഡിയോകളോ കാണുമ്പോൾ അതിൻ്റെ ക്യാമറ കോണുകളും, കളർ ഗ്രേഡിംഗും, എഡിറ്റിംഗ് രീതികളും ഞാൻ ശ്രദ്ധിക്കാറുണ്ട്.","options":["ശക്തമായി യോജിക്കുന്നു","യോജിക്കുന്നു","നിഷ്പക്ഷം","വിയോജിക്കുന്നു","ശക്തമായി വിയോജിക്കുന്നു"]}
+      "id": "q_media_2",
+      "category": "media",
+      "text": "Are you interested in journalism?",
+      "options": [
+        {
+          "text": "Yes, absolutely",
+          "score": 1
+        },
+        {
+          "text": "Sometimes",
+          "score": 0.6
+        },
+        {
+          "text": "Neutral",
+          "score": 0.3
+        },
+        {
+          "text": "No",
+          "score": 0
+        }
+      ],
+      "scoringLogic": {
+        "traits": {
+          "analytical": 0.37,
+          "creativity": 0.41,
+          "leadership": 0.44,
+          "communication": 0.9
+        }
+      },
+      "difficulty": "easy"
     },
     {
-      id: "me23",
-      category: "media",
-      subcategory: "journalism",
-      difficulty: "medium",
-      question: "I would enjoy researching background details to write a factual news story on social issues.",
-      options: ["Strongly Agree","Agree","Neutral","Disagree","Strongly Disagree"],
-      tags: ["media","communication"],
-      scoringLogic: {"traits":{"analytical":4,"communication":4},"careers":["investigative_journalist","reporter"]},
-      malayalamVersion: {"question":"സാമൂഹിക പ്രശ്നങ്ങളെക്കുറിച്ച് വസ്തുതാപരമായ വാർത്തകൾ എഴുതാൻ വിവരങ്ങൾ ശേഖരിക്കുന്നത് ഞാൻ ഇഷ്ടപ്പെടുന്നു.","options":["ശക്തമായി യോജിക്കുന്നു","യോജിക്കുന്നു","നിഷ്പക്ഷം","വിയോജിക്കുന്നു","ശക്തമായി വിയോജിക്കുന്നു"]}
+      "id": "q_media_3",
+      "category": "media",
+      "text": "Do you like video editing?",
+      "options": [
+        {
+          "text": "Yes, absolutely",
+          "score": 1
+        },
+        {
+          "text": "Sometimes",
+          "score": 0.6
+        },
+        {
+          "text": "Neutral",
+          "score": 0.3
+        },
+        {
+          "text": "No",
+          "score": 0
+        }
+      ],
+      "scoringLogic": {
+        "traits": {
+          "analytical": 0.35,
+          "creativity": 0.76,
+          "leadership": 0.95,
+          "communication": 0.32
+        }
+      },
+      "difficulty": "easy"
     },
     {
-      id: "me24",
-      category: "media",
-      subcategory: "careers",
-      difficulty: "medium",
-      question: "Which role in a video production crew sounds most appealing?",
-      options: ["Director (Leading the creative story flow)","Screenwriter (Writing scripts and dialogues)","Video Editor (Synthesizing raw footage on software)","PR Spokesperson (Presenting updates to the press)"],
-      tags: ["media","creativity"],
-      scoringLogic: {"traits":{"creativity":5},"careers":["film_director","video_editor"]},
-      malayalamVersion: {"question":"വീഡിയോ നിർമ്മാണത്തിൽ ഏത് ജോലിയാണ് നിങ്ങൾക്ക് ഏറ്റവും കൂടുതൽ ആകർഷകമായി തോന്നുന്നത്?","options":["ഡയറക്ടർ (കഥയുടെയും ദൃശ്യങ്ങളുടെയും ചുക്കാൻ പിടിക്കുന്നു)","തിരക്കഥാകൃത്ത് (തിരക്കഥയും സംഭാഷണങ്ങളും എഴുതുന്നു)","വീഡിയോ എഡിറ്റർ (ദൃശ്യങ്ങൾ കോർത്തിണക്കി ഭംഗിയാക്കുന്നു)","പി.ആർ വക്താവ് (വാർത്തകൾ മാധ്യമങ്ങൾക്ക് മുന്നിൽ അവതരിപ്പിക്കുന്നു)"]}
+      "id": "q_media_4",
+      "category": "media",
+      "text": "Do you want to be a news anchor?",
+      "options": [
+        {
+          "text": "Yes, absolutely",
+          "score": 1
+        },
+        {
+          "text": "Sometimes",
+          "score": 0.6
+        },
+        {
+          "text": "Neutral",
+          "score": 0.3
+        },
+        {
+          "text": "No",
+          "score": 0
+        }
+      ],
+      "scoringLogic": {
+        "traits": {
+          "analytical": 0.43,
+          "creativity": 0.86,
+          "leadership": 0.86,
+          "communication": 0.6
+        }
+      },
+      "difficulty": "medium"
     },
     {
-      id: "me25",
-      category: "media",
-      subcategory: "ethics",
-      difficulty: "hard",
-      question: "How do you verify the validity of a shocking news report on social media?",
-      options: ["Check multiple established news sites before sharing","Check comments to see what other people say","Share it if it seems to align with my values","Ignore it entirely as internet rumors"],
-      tags: ["media","analytical"],
-      scoringLogic: {"traits":{"analytical":5},"careers":["fact_checker","news_editor"]},
-      malayalamVersion: {"question":"സോഷ്യൽ മീഡിയയിൽ പ്രചരിക്കുന്ന ഞെട്ടിക്കുന്ന ഒരു വാർത്തയുടെ സത്യാവസ്ഥ നിങ്ങൾ എങ്ങനെ പരിശോധിക്കും?","options":["മറ്റ് പ്രമുഖ വാർത്താ വെബ്സൈറ്റുകളിൽ കൂടി ഇത് വന്നിട്ടുണ്ടോ എന്ന് പരിശോധിക്കും","മറ്റുള്ളവർ ഇതിനെക്കുറിച്ച് എഴുതിയ കമന്റുകൾ വായിച്ചു നോക്കും","എൻ്റെ അഭിപ്രായങ്ങളുമായി യോജിക്കുന്നതാണെങ്കിൽ ഷെയർ ചെയ്യും","ഇന്റർനെറ്റിലെ വെറും കിംവദന്തിയായി കണ്ട് തള്ളിക്കളയും"]}
+      "id": "q_media_5",
+      "category": "media",
+      "text": "Are you interested in mass communication?",
+      "options": [
+        {
+          "text": "Yes, absolutely",
+          "score": 1
+        },
+        {
+          "text": "Sometimes",
+          "score": 0.6
+        },
+        {
+          "text": "Neutral",
+          "score": 0.3
+        },
+        {
+          "text": "No",
+          "score": 0
+        }
+      ],
+      "scoringLogic": {
+        "traits": {
+          "analytical": 0.74,
+          "creativity": 0.59,
+          "leadership": 0.39,
+          "communication": 0.71
+        }
+      },
+      "difficulty": "medium"
     },
     {
-      id: "me26",
-      category: "media",
-      subcategory: "pr",
-      difficulty: "medium",
-      question: "I would enjoy coordinating press meets and managing media relations for public figures.",
-      options: ["Strongly Agree","Agree","Neutral","Disagree","Strongly Disagree"],
-      tags: ["media","communication"],
-      scoringLogic: {"traits":{"communication":5,"leadership":3},"careers":["pr_specialist","media_relations_manager"]},
-      malayalamVersion: {"question":"പ്രമുഖ വ്യക്തികൾക്കായി വാർത്താസമ്മേളനങ്ങൾ സംഘടിപ്പിക്കുന്നതും മാധ്യമങ്ങളുമായുള്ള ബന്ധം കൈകാര്യം ചെയ്യുന്നതും ഞാൻ ഇഷ്ടപ്പെടുന്നു.","options":["ശക്തമായി യോജിക്കുന്നു","യോജിക്കുന്നു","നിഷ്പക്ഷം","വിയോജിക്കുന്നു","ശക്തമായി വിയോജിക്കുന്നു"]}
+      "id": "q_media_6",
+      "category": "media",
+      "text": "Do you enjoy podcasting?",
+      "options": [
+        {
+          "text": "Yes, absolutely",
+          "score": 1
+        },
+        {
+          "text": "Sometimes",
+          "score": 0.6
+        },
+        {
+          "text": "Neutral",
+          "score": 0.3
+        },
+        {
+          "text": "No",
+          "score": 0
+        }
+      ],
+      "scoringLogic": {
+        "traits": {
+          "analytical": 0.94,
+          "creativity": 0.5,
+          "leadership": 0.49,
+          "communication": 0.8
+        }
+      },
+      "difficulty": "medium"
     },
     {
-      id: "me27",
-      category: "media",
-      subcategory: "podcasting",
-      difficulty: "medium",
-      question: "Hosting audio talk shows or interviewing interesting guests sounds fun.",
-      options: ["Strongly Agree","Agree","Neutral","Disagree","Strongly Disagree"],
-      tags: ["media","communication"],
-      scoringLogic: {"traits":{"communication":5},"careers":["podcast_host","radio_jockey"]},
-      malayalamVersion: {"question":"ശ്രദ്ധേയരായ വ്യക്തികളുമായി അഭിമുഖങ്ങൾ നടത്തുന്നതോ ടോക്ക് ഷോകൾ ഹോസ്റ്റ് ചെയ്യുന്നതോ രസകരമായിരിക്കും.","options":["ശക്തമായി യോജിക്കുന്നു","യോജിക്കുന്നു","നിഷ്പക്ഷം","വിയോജിക്കുന്നു","ശക്തമായി വിയോജിക്കുന്നു"]}
+      "id": "q_media_7",
+      "category": "media",
+      "text": "Do you want to direct films?",
+      "options": [
+        {
+          "text": "Yes, absolutely",
+          "score": 1
+        },
+        {
+          "text": "Sometimes",
+          "score": 0.6
+        },
+        {
+          "text": "Neutral",
+          "score": 0.3
+        },
+        {
+          "text": "No",
+          "score": 0
+        }
+      ],
+      "scoringLogic": {
+        "traits": {
+          "analytical": 0.98,
+          "creativity": 0.54,
+          "leadership": 0.75,
+          "communication": 0.29
+        }
+      },
+      "difficulty": "medium"
     },
     {
-      id: "me28",
-      category: "media",
-      subcategory: "animation",
-      difficulty: "hard",
-      question: "Creating 3D models and digital lighting effects for gaming or CGI animation sounds exciting.",
-      options: ["Strongly Agree","Agree","Neutral","Disagree","Strongly Disagree"],
-      tags: ["media","design"],
-      scoringLogic: {"traits":{"creativity":5},"careers":["vfx_artist","3d_animator"]},
-      malayalamVersion: {"question":"ഗെയിമുകൾക്കോ സിനിമകൾക്കോ വേണ്ടി 3D മോഡലുകളും ലൈറ്റിംഗ് ഇഫക്റ്റുകളും നിർമ്മിക്കുന്നത് ആവേശകരമായിരിക്കും.","options":["ശക്തമായി യോജിക്കുന്നു","യോജിക്കുന്നു","നിഷ്പക്ഷം","വിയോജിക്കുന്നു","ശക്തമായി വിയോജിക്കുന്നു"]}
+      "id": "q_media_8",
+      "category": "media",
+      "text": "Are you interested in photography?",
+      "options": [
+        {
+          "text": "Yes, absolutely",
+          "score": 1
+        },
+        {
+          "text": "Sometimes",
+          "score": 0.6
+        },
+        {
+          "text": "Neutral",
+          "score": 0.3
+        },
+        {
+          "text": "No",
+          "score": 0
+        }
+      ],
+      "scoringLogic": {
+        "traits": {
+          "analytical": 0.36,
+          "creativity": 0.25,
+          "leadership": 0.59,
+          "communication": 0.42
+        }
+      },
+      "difficulty": "hard"
     },
     {
-      id: "me29",
-      category: "media",
-      subcategory: "advertising",
-      difficulty: "medium",
-      question: "I prefer designing the visual advertisements over writing news articles.",
-      options: ["Strongly Agree","Agree","Neutral","Disagree","Strongly Disagree"],
-      tags: ["media","design"],
-      scoringLogic: {"traits":{"creativity":5},"careers":["art_director","advertising_designer"]},
-      malayalamVersion: {"question":"വാർത്തകൾ എഴുതുന്നതിനേക്കാൾ ആകർഷകമായ പരസ്യങ്ങൾ ഡിസൈൻ ചെയ്യാനാണ് എനിക്ക് താല്പര്യം.","options":["ശക്തമായി യോജിക്കുന്നു","യോജിക്കുന്നു","നിഷ്പക്ഷം","വിയോജിക്കുന്നു","ശക്തമായി വിയോജിക്കുന്നു"]}
+      "id": "q_media_9",
+      "category": "media",
+      "text": "Do you like following the news?",
+      "options": [
+        {
+          "text": "Yes, absolutely",
+          "score": 1
+        },
+        {
+          "text": "Sometimes",
+          "score": 0.6
+        },
+        {
+          "text": "Neutral",
+          "score": 0.3
+        },
+        {
+          "text": "No",
+          "score": 0
+        }
+      ],
+      "scoringLogic": {
+        "traits": {
+          "analytical": 0.23,
+          "creativity": 0.51,
+          "leadership": 0.51,
+          "communication": 0.74
+        }
+      },
+      "difficulty": "hard"
     },
     {
-      id: "me30",
-      category: "media",
-      subcategory: "journalism",
-      difficulty: "hard",
-      question: "A journalist's primary job is to challenge power structures and tell untold truths.",
-      options: ["Strongly Agree","Agree","Neutral","Disagree","Strongly Disagree"],
-      tags: ["media","empathy"],
-      scoringLogic: {"traits":{"communication":4},"careers":["investigative_journalist","news_editor"]},
-      malayalamVersion: {"question":"അധികാരികളെ ചോദ്യം ചെയ്യുകയും വിളിച്ചുപറയാത്ത സത്യങ്ങൾ വെളിപ്പെടുത്തുകയുമാണ് ഒരു മാധ്യമപ്രവർത്തകന്റെ പ്രധാന ജോലി.","options":["ശക്തമായി യോജിക്കുന്നു","യോജിക്കുന്നു","നിഷ്പക്ഷം","വിയോജിക്കുന്നു","ശക്തമായി വിയോജിക്കുന്നു"]}
+      "id": "q_media_10",
+      "category": "media",
+      "text": "Are you interested in media ethics?",
+      "options": [
+        {
+          "text": "Yes, absolutely",
+          "score": 1
+        },
+        {
+          "text": "Sometimes",
+          "score": 0.6
+        },
+        {
+          "text": "Neutral",
+          "score": 0.3
+        },
+        {
+          "text": "No",
+          "score": 0
+        }
+      ],
+      "scoringLogic": {
+        "traits": {
+          "analytical": 0.62,
+          "creativity": 0.47,
+          "leadership": 0.34,
+          "communication": 0.81
+        }
+      },
+      "difficulty": "hard"
     }
   ],
-  law: [
-    { id: "l1", category: "law", question: "What is your main motivation for studying law?", options: ["To defend justice, human rights, and the vulnerable", "To engage in high-stakes intellectual arguments and logic", "To build a highly respected career in corporate advisory", "To understand and shape government policies and rules"], tags: ["law", "empathy", "logical thinking"] },
-    { id: "l2", category: "law", question: "How do you react to a rule or regulation you disagree with?", options: ["Analyze its legal basis and look for ways to change it", "Follow it anyway to maintain social order and harmony", "Find legal loopholes that bypass it without breaking it", "Complain about it but ignore it if it doesn't affect me"], tags: ["law", "logical thinking", "risk tolerance"] },
-    { id: "l3", category: "law", question: "Which legal field sounds most interesting to you?", options: ["Criminal Law (Trial, defense, and prosecution)", "Corporate Law (Contracts, mergers, and business)", "Constitutional / Human Rights Law (Public policy)", "Intellectual Property Law (Patents, copyright, tech)"], tags: ["law", "analytical thinking", "business"] },
-    { id: "l4", category: "law", question: "How do you prepare for an argument or debate?", options: ["Conduct extensive research to find facts, dates, and precedents", "Focus on finding logical flaws in the opponent's strategy", "Structure an emotional, persuasive story to win the jury", "Rely on my public speaking confidence and adapt live"], tags: ["law", "logical thinking", "communication"] },
-    { id: "l5", category: "law", question: "If your client confesses in private that they are guilty, what do you do?", options: ["Ensure they get a fair trial and protect their constitutional rights", "Advise them to plead guilty and seek a lighter sentence", "Withdraw from the case to maintain my personal ethics", "Focus on identifying flaws in the prosecution's evidence"], tags: ["law", "discipline", "emotional intelligence"] },
-    { id: "l6", category: "law", question: "What is the primary purpose of the prison system?", options: ["Rehabilitation: teaching offenders skills to rejoin society", "Deterrence: warning others of the consequences of crime", "Retribution: delivering justice and punishment for victims", "Public Safety: removing dangerous elements from society"], tags: ["law", "empathy", "analytical thinking"] },
-    { id: "l7", category: "law", question: "Which legal book or case study interests you the most?", options: ["A landmark supreme court decision on free speech", "The details of a complex corporate fraud trial", "A biography of a famous criminal defense lawyer", "An analysis of international environmental treaties"], tags: ["law", "analytical thinking", "logical thinking"] },
-    { id: "l8", category: "law", question: "How do you handle reading hundreds of pages of legal text?", options: ["Read selectively, highlighting key arguments and terms", "Take detailed notes and summarize each section in a brief", "Discuss the text with a study group to share insights", "Read start to finish with high concentration and focus"], tags: ["law", "discipline", "work style"] },
-    { id: "l9", category: "law", question: "What is your stance on capital punishment (death penalty)?", options: ["Oppose it: the justice system can make irreversible errors", "Support it: only for the most extreme, heinous crimes", "Oppose it: life imprisonment is a worse punishment", "Support it: it is a necessary deterrent for criminals"], tags: ["law", "empathy", "analytical thinking"] },
-    { id: "l10", category: "law", question: "If you could change one law in India, what area would you focus on?", options: ["Simplifying and speeding up the judicial court systems", "Strengthening environmental laws and animal protection", "Updating digital privacy and cyber-harassment laws", "Protecting labor rights and local small business laws"], tags: ["law", "analytical thinking", "empathy"] },
-    { id: "l11", category: "law", question: "What is the key to negotiating a contract?", options: ["Identifying and minimizing risks for my side", "Creating a fair compromise that both sides accept", "Looking for vague wording that could be used as leverage", "Building a strong personal relationship with the other party"], tags: ["law", "business", "communication"] },
-    { id: "l12", category: "law", question: "How do you view AI legal assistants that scan contracts?", options: ["Excellent; it automates boring paperwork and cuts costs", "Risky; AI might miss complex loopholes or contexts", "A useful secondary review tool for junior lawyers", "The future of standard legal documentation"], tags: ["law", "technology", "analytical thinking"] },
-    { id: "l13", category: "law", question: "Which legal role fits your personality best?", options: ["Litigator (Arguing cases actively in courtroom trials)", "Corporate Advisor (Drafting contracts and business strategy)", "Judge / Arbitrator (Hearing both sides and deciding fairly)", "Legal Researcher / Academic (Writing articles and teaching)"], tags: ["law", "social confidence", "logical thinking"] },
-    { id: "l14", category: "law", question: "How do you handle a highly emotional client who is crying?", options: ["Validate their stress, calm them down, then focus on facts", "Listen patiently and offer tissues, prioritizing empathy", "Politely ask them to pause so we can focus on legal steps", "Explain the legal strengths of our case to reassure them"], tags: ["law", "empathy", "emotional intelligence"] },
-    { id: "l15", category: "law", question: "What does 'justice' mean to you?", options: ["Fairness and equality under the law for everyone", "Protecting individual freedom and property rights", "Restoring harmony and correcting societal imbalances", "Holding wrongdoers accountable for their actions"], tags: ["law", "empathy", "analytical thinking"] },
-    { id: "l16", category: "law", question: "How do you view the Constitution?", options: ["A living document that must adapt to modern society", "A sacred contract that must be read exactly as written", "A framework of compromise that needs periodic amendment", "A set of principles that overrides local political decisions"], tags: ["law", "logical thinking", "analytical thinking"] },
-    { id: "l17", category: "law", question: "If you observe a colleague acting unethically in a case, you...", options: ["Report them to the bar association or management", "Confront them directly and ask them to correct it", "Stay silent if it doesn't affect my clients directly", "Consult a trusted mentor for advice before acting"], tags: ["law", "discipline", "communication"] },
-    { id: "l18", category: "law", question: "What mathematical skill is most useful in corporate law?", options: ["Basic accounting and arithmetic (calculating damages)", "Logical deduction and set theory (structuring arguments)", "Probability and risk modeling (valuing settlements)", "I think coding algorithms help map contract flows"], tags: ["law", "logical thinking", "finance"] },
-    { id: "l19", category: "law", question: "Which courtroom drama element do you like?", options: ["The cross-examination that reveals a hidden truth", "The closing statement that moves the jury to tears", "The calm, objective arguments on technical guidelines", "The strategic filing of motions to block evidence"], tags: ["law", "communication", "analytical thinking"] },
-    { id: "l20", category: "law", question: "What is your ultimate career goal in law?", options: ["To become a respected judge deciding landmark disputes", "To run a successful, high-earning corporate law firm", "To advocate for marginalized groups and change public laws", "To master legal theory and write authoritative books"], tags: ["law", "ambition", "leadership"] }
-  ,
+  "law": [
     {
-      id: "l21",
-      category: "law",
-      subcategory: "argument",
-      difficulty: "easy",
-      question: "Do you enjoy debating, arguing logically, and defending points with rules/facts?",
-      options: ["Yes, very much","Sometimes","No, I prefer to avoid arguments"],
-      tags: ["law","logical thinking"],
-      scoringLogic: {"traits":{"analytical":5,"communication":3},"careers":["litigation_lawyer","advocate"]},
-      malayalamVersion: {"question":"ചർച്ചകളിലും സംവാദങ്ങളിലും വസ്തുതകൾ വെച്ച് തർക്കിക്കാനും സ്വന്തം ഭാഗം ന്യായീകരിക്കാനും നിങ്ങൾക്ക് ഇഷ്ടമാണോ?","options":["അതെ, വളരെ ഇഷ്ടമാണ്","ചിലപ്പോൾ","ഇല്ല, ഞാൻ തർക്കങ്ങളിൽ നിന്ന് പരമാവധി ഒഴിഞ്ഞു നിൽക്കും"]}
+      "id": "q_law_1",
+      "category": "law",
+      "text": "Are you interested in justice and rules?",
+      "options": [
+        {
+          "text": "Yes, absolutely",
+          "score": 1
+        },
+        {
+          "text": "Sometimes",
+          "score": 0.6
+        },
+        {
+          "text": "Neutral",
+          "score": 0.3
+        },
+        {
+          "text": "No",
+          "score": 0
+        }
+      ],
+      "scoringLogic": {
+        "traits": {
+          "analytical": 0.26,
+          "creativity": 0.6,
+          "leadership": 0.7,
+          "communication": 0.38
+        }
+      },
+      "difficulty": "easy"
     },
     {
-      id: "l22",
-      category: "law",
-      subcategory: "reading",
-      difficulty: "easy",
-      question: "Reading long articles, documents, or books to find specific facts sounds manageable to me.",
-      options: ["Strongly Agree","Agree","Neutral","Disagree","Strongly Disagree"],
-      tags: ["law","discipline"],
-      scoringLogic: {"traits":{"discipline":5},"careers":["legal_researcher","judge"]},
-      malayalamVersion: {"question":"ഒരു പ്രത്യേക വിവരത്തിനായി വലിയ പുസ്തകങ്ങളോ രേഖകളോ വായിച്ചു നോക്കുന്നത് എനിക്ക് ബുദ്ധിമുട്ടുള്ള കാര്യമല്ല.","options":["ശക്തമായി യോജിക്കുന്നു","യോജിക്കുന്നു","നിഷ്പക്ഷം","വിയോജിക്കുന്നു","ശക്തമായി വിയോജിക്കുന്നു"]}
+      "id": "q_law_2",
+      "category": "law",
+      "text": "Do you enjoy debating?",
+      "options": [
+        {
+          "text": "Yes, absolutely",
+          "score": 1
+        },
+        {
+          "text": "Sometimes",
+          "score": 0.6
+        },
+        {
+          "text": "Neutral",
+          "score": 0.3
+        },
+        {
+          "text": "No",
+          "score": 0
+        }
+      ],
+      "scoringLogic": {
+        "traits": {
+          "analytical": 0.67,
+          "creativity": 0.24,
+          "leadership": 0.82,
+          "communication": 0.34
+        }
+      },
+      "difficulty": "easy"
     },
     {
-      id: "l23",
-      category: "law",
-      subcategory: "ethics",
-      difficulty: "medium",
-      question: "Helping poor citizens navigate legal pathways to defend their rights is highly inspiring.",
-      options: ["Strongly Agree","Agree","Neutral","Disagree","Strongly Disagree"],
-      tags: ["law","empathy"],
-      scoringLogic: {"traits":{"communication":4,"empathy":4},"careers":["human_rights_lawyer","legal_aid_counsel"]},
-      malayalamVersion: {"question":"പാവപ്പെട്ട ജനങ്ങളെ അവരുടെ അവകാശങ്ങൾ സംരക്ഷിക്കാൻ നിയമപരമായി സഹായിക്കുന്നത് വളരെ നല്ലൊരു കാര്യമാണ്.","options":["ശക്തമായി യോജിക്കുന്നു","യോജിക്കുന്നു","നിഷ്പക്ഷം","വിയോജിക്കുന്നു","ശക്തമായി വിയോജിക്കുന്നു"]}
+      "id": "q_law_3",
+      "category": "law",
+      "text": "Do you like analyzing arguments?",
+      "options": [
+        {
+          "text": "Yes, absolutely",
+          "score": 1
+        },
+        {
+          "text": "Sometimes",
+          "score": 0.6
+        },
+        {
+          "text": "Neutral",
+          "score": 0.3
+        },
+        {
+          "text": "No",
+          "score": 0
+        }
+      ],
+      "scoringLogic": {
+        "traits": {
+          "analytical": 0.85,
+          "creativity": 0.6,
+          "leadership": 0.26,
+          "communication": 0.45
+        }
+      },
+      "difficulty": "easy"
     },
     {
-      id: "l24",
-      category: "law",
-      subcategory: "careers",
-      difficulty: "medium",
-      question: "Which branch of law sounds most interesting to practice?",
-      options: ["Criminal Law (Defending or prosecuting crimes in court)","Corporate Law (Drafting business contracts and merger deals)","Cyber Law (Handling internet privacy and online fraud cases)","Environmental Law (Protecting nature against polluting projects)"],
-      tags: ["law","analytical thinking"],
-      scoringLogic: {"traits":{"analytical":5},"careers":["corporate_lawyer","cyber_lawyer"]},
-      malayalamVersion: {"question":"നിയമത്തിലെ ഏത് ശാഖയിലാണ് നിങ്ങൾക്ക് കൂടുതൽ താല്പര്യം?","options":["ക്രിമിനൽ നിയമം (കോടതിയിലെ കുറ്റകൃത്യങ്ങൾ കൈകാര്യം ചെയ്യുന്നത്)","കോർപ്പറേറ്റ് നിയമം (ബിസിനസ്സ് കരാറുകൾ തയ്യാറാക്കുന്നത്)","സൈബർ നിയമം (ഓൺലൈൻ തട്ടിപ്പുകളും സ്വകാര്യതയും കൈകാര്യം ചെയ്യുന്നത്)","പരിസ്ഥിതി നിയമം (പരിസ്ഥിതി മലിനീകരണത്തിനെതിരെ പ്രവർത്തിക്കുന്നത്)"]}
+      "id": "q_law_4",
+      "category": "law",
+      "text": "Are you interested in corporate law?",
+      "options": [
+        {
+          "text": "Yes, absolutely",
+          "score": 1
+        },
+        {
+          "text": "Sometimes",
+          "score": 0.6
+        },
+        {
+          "text": "Neutral",
+          "score": 0.3
+        },
+        {
+          "text": "No",
+          "score": 0
+        }
+      ],
+      "scoringLogic": {
+        "traits": {
+          "analytical": 0.83,
+          "creativity": 0.7,
+          "leadership": 0.6,
+          "communication": 0.91
+        }
+      },
+      "difficulty": "medium"
     },
     {
-      id: "l25",
-      category: "law",
-      subcategory: "analysis",
-      difficulty: "hard",
-      question: "How do you evaluate which side is right during a complex legal dispute?",
-      options: ["Review written statutes and past court judgment records","Analyze the human intentions and ethics of both sides","Look for procedural errors in how the contract was signed","Listen to public consensus and social media reports"],
-      tags: ["law","analytical"],
-      scoringLogic: {"traits":{"analytical":5},"careers":["judge","arbitrator"]},
-      malayalamVersion: {"question":"സങ്കീർണ്ണമായ ഒരു തർക്കത്തിൽ ഏത് ഭാഗമാണ് ശരിയെന്ന് നിങ്ങൾ എങ്ങനെ വിലയിരുത്തും?","options":["നിയമപുസ്തകങ്ങളും പഴയ കോടതി വിധിപ്പകർപ്പുകളും പരിശോധിക്കും","ഇരുവിഭാഗത്തിൻ്റെയും ധാർമ്മികതയും ഉദ്ദേശശുദ്ധിയും വിലയിരുത്തും","കരാർ ഒപ്പിട്ടതിൽ വന്നിട്ടുള്ള സാങ്കേതിക പിഴവുകൾ പരിശോധിക്കും","പൊതുജനങ്ങളുടെ അഭിപ്രായങ്ങളും സോഷ്യൽ മീഡിയ പ്രതികരണങ്ങളും നോക്കും"]}
+      "id": "q_law_5",
+      "category": "law",
+      "text": "Do you want to be an advocate or judge?",
+      "options": [
+        {
+          "text": "Yes, absolutely",
+          "score": 1
+        },
+        {
+          "text": "Sometimes",
+          "score": 0.6
+        },
+        {
+          "text": "Neutral",
+          "score": 0.3
+        },
+        {
+          "text": "No",
+          "score": 0
+        }
+      ],
+      "scoringLogic": {
+        "traits": {
+          "analytical": 0.54,
+          "creativity": 0.28,
+          "leadership": 0.48,
+          "communication": 0.28
+        }
+      },
+      "difficulty": "medium"
     },
     {
-      id: "l26",
-      category: "law",
-      subcategory: "drafting",
-      difficulty: "medium",
-      question: "I would enjoy drafting long legal agreements with specific rules and zero-loophole grammar.",
-      options: ["Strongly Agree","Agree","Neutral","Disagree","Strongly Disagree"],
-      tags: ["law","discipline"],
-      scoringLogic: {"traits":{"analytical":4,"discipline":4},"careers":["legal_drafting_expert","corporate_secretary"]},
-      malayalamVersion: {"question":"തെറ്റുകളൊന്നുമില്ലാത്ത കൃത്യമായ നിയമ കരാറുകൾ തയ്യാറാക്കുന്നത് ഞാൻ ആസ്വദിക്കും.","options":["ശക്തമായി യോജിക്കുന്നു","യോജിക്കുന്നു","നിഷ്പക്ഷം","വിയോജിക്കുന്നു","ശക്തമായി വിയോജിക്കുന്നു"]}
+      "id": "q_law_6",
+      "category": "law",
+      "text": "Are you good at public speaking?",
+      "options": [
+        {
+          "text": "Yes, absolutely",
+          "score": 1
+        },
+        {
+          "text": "Sometimes",
+          "score": 0.6
+        },
+        {
+          "text": "Neutral",
+          "score": 0.3
+        },
+        {
+          "text": "No",
+          "score": 0
+        }
+      ],
+      "scoringLogic": {
+        "traits": {
+          "analytical": 0.64,
+          "creativity": 0.86,
+          "leadership": 0.53,
+          "communication": 0.95
+        }
+      },
+      "difficulty": "medium"
     },
     {
-      id: "l27",
-      category: "law",
-      subcategory: "cyber",
-      difficulty: "hard",
-      question: "Internet fraud and copyright violations in the AI age need completely new legal frameworks.",
-      options: ["Strongly Agree","Agree","Neutral","Disagree","Strongly Disagree"],
-      tags: ["law","ai"],
-      scoringLogic: {"traits":{"analytical":5},"careers":["cyber_lawyer","intellectual_property_attorney"]},
-      malayalamVersion: {"question":"AI യുഗത്തിലെ ഇന്റർനെറ്റ് തട്ടിപ്പുകൾക്കും പകർപ്പവകാശ ലംഘനങ്ങൾക്കും പുതിയ നിയമസംവിധാനങ്ങൾ ആവശ്യമാണ്.","options":["ശക്തമായി യോജിക്കുന്നു","യോജിക്കുന്നു","നിഷ്പക്ഷം","വിയോജിക്കുന്നു","ശക്തമായി വിയോജിക്കുന്നു"]}
+      "id": "q_law_7",
+      "category": "law",
+      "text": "Do you enjoy reading legal documents?",
+      "options": [
+        {
+          "text": "Yes, absolutely",
+          "score": 1
+        },
+        {
+          "text": "Sometimes",
+          "score": 0.6
+        },
+        {
+          "text": "Neutral",
+          "score": 0.3
+        },
+        {
+          "text": "No",
+          "score": 0
+        }
+      ],
+      "scoringLogic": {
+        "traits": {
+          "analytical": 0.27,
+          "creativity": 0.44,
+          "leadership": 0.67,
+          "communication": 0.5
+        }
+      },
+      "difficulty": "medium"
     },
     {
-      id: "l28",
-      category: "law",
-      subcategory: "mediation",
-      difficulty: "medium",
-      question: "I prefer helping families settle disputes out of court over fighting in courtrooms.",
-      options: ["Strongly Agree","Agree","Neutral","Disagree","Strongly Disagree"],
-      tags: ["law","communication"],
-      scoringLogic: {"traits":{"communication":5},"careers":["mediator","family_lawyer"]},
-      malayalamVersion: {"question":"കോടതികളിൽ പോയി കേസ് നടത്തുന്നതിനേക്കാൾ കോടതിക്ക് പുറത്ത് വച്ച് തർക്കങ്ങൾ പരിഹരിക്കാൻ സഹായിക്കാനാണ് എനിക്ക് താല്പര്യം.","options":["ശക്തമായി യോജിക്കുന്നു","യോജിക്കുന്നു","നിഷ്പക്ഷം","വിയോജിക്കുന്നു","ശക്തമായി വിയോജിക്കുന്നു"]}
+      "id": "q_law_8",
+      "category": "law",
+      "text": "Are you interested in human rights?",
+      "options": [
+        {
+          "text": "Yes, absolutely",
+          "score": 1
+        },
+        {
+          "text": "Sometimes",
+          "score": 0.6
+        },
+        {
+          "text": "Neutral",
+          "score": 0.3
+        },
+        {
+          "text": "No",
+          "score": 0
+        }
+      ],
+      "scoringLogic": {
+        "traits": {
+          "analytical": 0.33,
+          "creativity": 0.79,
+          "leadership": 0.5,
+          "communication": 0.74
+        }
+      },
+      "difficulty": "hard"
     },
     {
-      id: "l29",
-      category: "law",
-      subcategory: "investigation",
-      difficulty: "hard",
-      question: "Gathering forensic details and auditing finance receipts to uncover fraud sounds exciting.",
-      options: ["Strongly Agree","Agree","Neutral","Disagree","Strongly Disagree"],
-      tags: ["law","finance"],
-      scoringLogic: {"traits":{"analytical":5},"careers":["forensic_auditor","investigative_lawyer"]},
-      malayalamVersion: {"question":"തട്ടിപ്പുകൾ കണ്ടെത്താൻ ഫോറൻസിക് വിവരങ്ങളും ധനകാര്യ രേഖകളും പരിശോധിക്കുന്നത് ആവേശകരമാണ്.","options":["ശക്തമായി യോജിക്കുന്നു","യോജിക്കുന്നു","നിഷ്പക്ഷം","വിയോജിക്കുന്നു","ശക്തമായി വിയോജിക്കുന്നു"]}
+      "id": "q_law_9",
+      "category": "law",
+      "text": "Do you want to study the constitution?",
+      "options": [
+        {
+          "text": "Yes, absolutely",
+          "score": 1
+        },
+        {
+          "text": "Sometimes",
+          "score": 0.6
+        },
+        {
+          "text": "Neutral",
+          "score": 0.3
+        },
+        {
+          "text": "No",
+          "score": 0
+        }
+      ],
+      "scoringLogic": {
+        "traits": {
+          "analytical": 0.65,
+          "creativity": 0.43,
+          "leadership": 0.41,
+          "communication": 0.24
+        }
+      },
+      "difficulty": "hard"
     },
     {
-      id: "l30",
-      category: "law",
-      subcategory: "government",
-      difficulty: "medium",
-      question: "Drafting policies and constitution rules for local state governments sounds fulfilling.",
-      options: ["Strongly Agree","Agree","Neutral","Disagree","Strongly Disagree"],
-      tags: ["law","government_jobs"],
-      scoringLogic: {"traits":{"analytical":4,"leadership":3},"careers":["policy_analyst","legislative_counsel"]},
-      malayalamVersion: {"question":"സർക്കാരിനായി നയരൂപീകരണങ്ങൾ നടത്തുന്നതും ഭരണഘടനാ നിയമങ്ങൾ തയ്യാറാക്കുന്നതും താല്പര്യമുള്ള കാര്യമാണ്.","options":["ശക്തമായി യോജിക്കുന്നു","യോജിക്കുന്നു","നിഷ്പക്ഷം","വിയോജിക്കുന്നു","ശക്തമായി വിയോജിക്കുന്നു"]}
+      "id": "q_law_10",
+      "category": "law",
+      "text": "Are you interested in criminal law?",
+      "options": [
+        {
+          "text": "Yes, absolutely",
+          "score": 1
+        },
+        {
+          "text": "Sometimes",
+          "score": 0.6
+        },
+        {
+          "text": "Neutral",
+          "score": 0.3
+        },
+        {
+          "text": "No",
+          "score": 0
+        }
+      ],
+      "scoringLogic": {
+        "traits": {
+          "analytical": 0.39,
+          "creativity": 0.7,
+          "leadership": 0.94,
+          "communication": 0.58
+        }
+      },
+      "difficulty": "hard"
     }
   ],
-  fashion: [
-    { id: "fa1", category: "fashion", question: "How would you describe your personal dressing style?", options: ["Trendy, bold, and experimental with colors and shapes", "Classic, clean, and minimalist with neutral tones", "Comfortable, functional, and sporty for daily use", "Artistic and vintage, combining thrifted pieces"], tags: ["fashion", "creativity", "work style"] },
-    { id: "fa2", category: "fashion", question: "What catches your attention first in a clothing store?", options: ["The visual silhouette, print pattern, and colors", "The quality of the fabric texture and stitching", "The price tag and brand reputation value", "How the clothes are styled on the display mannequins"], tags: ["fashion", "creativity", "design"] },
-    { id: "fa3", category: "fashion", question: "Which fashion career path sounds most appealing?", options: ["Fashion Designer (Sketching and creating collections)", "Fashion Stylist (Dressing models, actors, and shoots)", "Fashion Merchandiser (Handling buying and retail sales)", "Textile Designer (Developing fabric patterns and weaves)"], tags: ["fashion", "creativity", "business"] },
-    { id: "fa4", category: "fashion", question: "What is your stance on the 'Fast Fashion' industry?", options: ["Highly unsustainable; we must move to ethical, slow fashion", "Great; it makes trendy clothing affordable to everyone", "Needs strict regulation on worker pay and recycling", "I prefer buying classic quality clothes that last years"], tags: ["fashion", "empathy", "discipline"] },
-    { id: "fa5", category: "fashion", question: "If you had to design a collection, what would inspire you?", options: ["Traditional Indian heritage, weaves, and embroidery", "Futuristic urban architecture and high-tech fabrics", "Natural organic textures, leaves, and earthy tones", "90s retro streetwear, skate culture, and music"], tags: ["fashion", "creativity", "innovation mindset"] },
-    { id: "fa6", category: "fashion", question: "How do you feel about sewing or garment construction?", options: ["I love drafting patterns and sewing fabrics by hand", "I prefer sketching the design and let others sew", "I am interested in fabric tech (waterproof, smart threads)", "I focus on the business styling, not manufacturing"], tags: ["fashion", "discipline", "technical interest"] },
-    { id: "fa7", category: "fashion", question: "Which fashion designer do you admire most?", options: ["Sabyasachi (Heritage Indian luxury and craft)", "Alexander McQueen (Dramatic, artistic, and avant-garde)", "Coco Chanel (Classic, comfortable elegance)", "Virgil Abloh (Streetwear and modern brand disruption)"], tags: ["fashion", "creativity", "leadership"] },
-    { id: "fa8", category: "fashion", question: "What makes a clothing item 'premium' in your opinion?", options: ["Exquisite craftsmanship, stitching, and high-end fabrics", "The uniqueness and limited availability of the design", "The prestige and heritage of the brand logo", "The celebrity endorsements and social media trend value"], tags: ["fashion", "design", "business"] },
-    { id: "fa9", category: "fashion", question: "How do you select your outfit for a major event?", options: ["Plan weeks in advance, matching accessories and styling", "Choose a classic, elegant option that looks respectable", "Prioritize comfort while looking clean and neat", "Wait for the last day and style something creative dynamically"], tags: ["fashion", "discipline", "creativity"] },
-    { id: "fa10", category: "fashion", question: "What is your view on gender-neutral fashion collections?", options: ["The future of design; clothing has no gender labels", "A fun design trend but traditional wear remains dominant", "Acceptable but hard to execute well for all body shapes", "Good for casual wear but not for formal or bridal wear"], tags: ["fashion", "creativity", "empathy"] },
-    { id: "fa11", category: "fashion", question: "What textile tech excites you the most?", options: ["Biodegradable fabrics made from mushroom or pineapple fiber", "Smart garments that change color or heat based on temperature", "Recycled ocean plastic threads woven into performance sportswear", "3D-printed custom garments tailored to body scans"], tags: ["fashion", "technology", "technical interest"] },
-    { id: "fa12", category: "fashion", question: "How do you view fashion runways (like Paris Fashion Week)?", options: ["High artistic expression that inspires mainstream trends", "Out-of-touch, unwearable designs for the ultra-wealthy", "A vital business PR showcase for luxury brands", "A fun spectacle of celebrity culture and styling"], tags: ["fashion", "creativity", "business"] },
-    { id: "fa13", category: "fashion", question: "If you had to market a new clothing brand, what is your move?", options: ["Build a strong aesthetic Instagram page and partner with creators", "Host a launch pop-up show in a major metropolitan mall", "Send free gift packages to key targeted fashion influencers", "Run localized search and video ads showing the fit"], tags: ["fashion", "marketing", "social confidence"] },
-    { id: "fa14", category: "fashion", question: "What does 'sustainable fashion' mean to you?", options: ["Using organic, locally sourced dyes and heritage handlooms", "Buying second-hand clothes and upcycling old outfits", "Brands paying fair living wages to factory workers", "Manufacturing zero-waste clothing with minimal carbon footprint"], tags: ["fashion", "empathy", "design"] },
-    { id: "fa15", category: "fashion", question: "Which aspect of fashion retail interests you?", options: ["Visual merchandising (Designing store displays and themes)", "E-commerce strategy and digital user purchase flow", "Predicting future fabric and color trends for next season", "Managing store operations, customer service, and staff"], tags: ["fashion", "design", "business"] },
-    { id: "fa16", category: "fashion", question: "How do you feel about wearing bold, bright colors?", options: ["I love standing out and matching energetic tones", "I prefer neutral tones and look for small color accents", "I avoid them; I feel comfortable in black, blue, and grey", "I wear them only on special festive occasions"], tags: ["fashion", "creativity", "social confidence"] },
-    { id: "fa17", category: "fashion", question: "What is the key to styling a client?", options: ["Understanding their body shape and personal comfort level", "Dressing them in the latest, trendiest collections", "Creating a high-end look that matches the event theme", "Building their confidence by pushing their style limits"], tags: ["fashion", "empathy", "communication"] },
-    { id: "fa18", category: "fashion", question: "If your designed dress receives negative reviews online, you...", options: ["Analyze the criticisms to see if fabric fit or quality failed", "Trust my creative statement and ignore public comments", "Pivot the styling for the next collection to be more classic", "Offer refunds or alterations to key customers directly"], tags: ["fashion", "discipline", "emotional intelligence"] },
-    { id: "fa19", category: "fashion", question: "Which fashion sub-culture do you identify with?", options: ["Streetwear (Sneakers, hoodies, graffiti influences)", "Boho-Chic (Flowy, organic patterns, layered jewelry)", "Preppy (Clean collars, blazers, classic styling)", "Minimalist (Neutral colors, solid basics, structured fits)"], tags: ["fashion", "creativity", "work style"] },
-    { id: "fa20", category: "fashion", question: "What is your ultimate dream in the fashion world?", options: ["To showcase my own label at major global fashion weeks", "To style major celebrities for red carpet movie events", "To build a highly profitable online apparel startup brand", "To revive dying traditional Indian artisan handloom crafts"], tags: ["fashion", "ambition", "creativity"] }
-  ,
+  "fashion": [
     {
-      id: "fa21",
-      category: "fashion",
-      subcategory: "style",
-      difficulty: "easy",
-      question: "Do you enjoy planning outfits, mixing styles, or following clothing trends?",
-      options: ["Yes, regular hobby","Sometimes","No, I just wear whatever is comfortable"],
-      tags: ["fashion","creativity"],
-      scoringLogic: {"traits":{"creativity":5},"careers":["fashion_stylist","fashion_designer"]},
-      malayalamVersion: {"question":"വസ്ത്രങ്ങൾ തിരഞ്ഞെടുക്കാനും, പുതിയ സ്റ്റൈലുകൾ പരീക്ഷിക്കാനും, ഫാഷൻ ട്രെൻഡുകൾ പിന്തുടരാനും നിങ്ങൾക്ക് ഇഷ്ടമാണോ?","options":["അതെ, എൻ്റെ പ്രധാന ഹോബിയാണ്","ചിലപ്പോൾ ചെയ്യാറുണ്ട്","ഇല്ല, എനിക്ക് കംഫർട്ടബിൾ ആയ വസ്ത്രങ്ങൾ ധരിക്കാനേ താല്പര്യംയുള്ളൂ"]}
+      "id": "q_fashion_1",
+      "category": "fashion",
+      "text": "Are you passionate about clothes and trends?",
+      "options": [
+        {
+          "text": "Yes, absolutely",
+          "score": 1
+        },
+        {
+          "text": "Sometimes",
+          "score": 0.6
+        },
+        {
+          "text": "Neutral",
+          "score": 0.3
+        },
+        {
+          "text": "No",
+          "score": 0
+        }
+      ],
+      "scoringLogic": {
+        "traits": {
+          "analytical": 0.67,
+          "creativity": 0.49,
+          "leadership": 0.57,
+          "communication": 0.92
+        }
+      },
+      "difficulty": "easy"
     },
     {
-      id: "fa22",
-      category: "fashion",
-      subcategory: "sketching",
-      difficulty: "easy",
-      question: "I enjoy sketching garment designs, playing with fabrics, or matching color tones.",
-      options: ["Strongly Agree","Agree","Neutral","Disagree","Strongly Disagree"],
-      tags: ["fashion","creativity"],
-      scoringLogic: {"traits":{"creativity":5},"careers":["fashion_designer","textile_designer"]},
-      malayalamVersion: {"question":"വസ്ത്രങ്ങളുടെ ഡിസൈൻ വരയ്ക്കാനോ, തുണിത്തരങ്ങൾ പരിശോധിക്കാനോ, നിറങ്ങൾ പൊരുത്തപ്പെടുത്താനോ ഞാൻ ഇഷ്ടപ്പെടുന്നു.","options":["ശക്തമായി യോജിക്കുന്നു","യോജിക്കുന്നു","നിഷ്പക്ഷം","വിയോജിക്കുന്നു","ശക്തമായി വിയോജിക്കുന്നു"]}
+      "id": "q_fashion_2",
+      "category": "fashion",
+      "text": "Do you enjoy designing garments?",
+      "options": [
+        {
+          "text": "Yes, absolutely",
+          "score": 1
+        },
+        {
+          "text": "Sometimes",
+          "score": 0.6
+        },
+        {
+          "text": "Neutral",
+          "score": 0.3
+        },
+        {
+          "text": "No",
+          "score": 0
+        }
+      ],
+      "scoringLogic": {
+        "traits": {
+          "analytical": 0.43,
+          "creativity": 0.36,
+          "leadership": 0.71,
+          "communication": 0.83
+        }
+      },
+      "difficulty": "easy"
     },
     {
-      id: "fa23",
-      category: "fashion",
-      subcategory: "textiles",
-      difficulty: "medium",
-      question: "Understanding raw materials like fibers, organic dyes, and weaving machinery sounds interesting.",
-      options: ["Strongly Agree","Agree","Neutral","Disagree","Strongly Disagree"],
-      tags: ["fashion","science"],
-      scoringLogic: {"traits":{"analytical":4},"careers":["textile_technologist","material_scientist"]},
-      malayalamVersion: {"question":"നൂലുകൾ, ഓർഗാനിക് ചായങ്ങൾ, നെയ്ത്തുയന്ത്രങ്ങൾ എന്നിവയെക്കുറിച്ച് പഠിക്കുന്നത് താല്പര്യമുള്ള കാര്യമാണ്.","options":["ശക്തമായി യോജിക്കുന്നു","യോജിക്കുന്നു","നിഷ്പക്ഷം","വിയോജിക്കുന്നു","ശക്തമായി വിയോജിക്കുന്നു"]}
+      "id": "q_fashion_3",
+      "category": "fashion",
+      "text": "Are you interested in the fashion industry?",
+      "options": [
+        {
+          "text": "Yes, absolutely",
+          "score": 1
+        },
+        {
+          "text": "Sometimes",
+          "score": 0.6
+        },
+        {
+          "text": "Neutral",
+          "score": 0.3
+        },
+        {
+          "text": "No",
+          "score": 0
+        }
+      ],
+      "scoringLogic": {
+        "traits": {
+          "analytical": 0.86,
+          "creativity": 0.38,
+          "leadership": 0.47,
+          "communication": 0.5
+        }
+      },
+      "difficulty": "easy"
     },
     {
-      id: "fa24",
-      category: "fashion",
-      subcategory: "careers",
-      difficulty: "medium",
-      question: "Which fashion industry career path sounds most exciting?",
-      options: ["Designing original luxury collections for runway shows","Styling wardrobes for celebrity shoots and films","Managing sales trends and budgets for international retail stores","Writing fashion reviews and analysis for digital magazines"],
-      tags: ["fashion","creativity"],
-      scoringLogic: {"traits":{"creativity":5},"careers":["fashion_designer","fashion_stylist"]},
-      malayalamVersion: {"question":"ഫാഷൻ രംഗത്തെ ഏത് കരിക്കുലം പാതയാണ് നിങ്ങൾക്ക് കൂടുതൽ ആകർഷകമായി തോന്നുന്നത്?","options":["വലിയ ഫാഷൻ ഷോകൾക്കായി വസ്ത്രങ്ങൾ രൂപകൽപ്പന ചെയ്യുന്നത്","സിനിമകൾക്കും സെലിബ്രിറ്റികൾക്കുമായി സ്റ്റൈലിംഗ് ചെയ്യുന്നത്","വലിയ തുണിക്കടകളിലെ സെയിൽസ് ട്രെൻഡുകൾ വിലയിരുത്തുന്നത്","ഫാഷൻ മാഗസിനുകൾക്കായി അവലോകനങ്ങളും ലേഖനങ്ങളും എഴുതുന്നത്"]}
+      "id": "q_fashion_4",
+      "category": "fashion",
+      "text": "Do you like styling outfits?",
+      "options": [
+        {
+          "text": "Yes, absolutely",
+          "score": 1
+        },
+        {
+          "text": "Sometimes",
+          "score": 0.6
+        },
+        {
+          "text": "Neutral",
+          "score": 0.3
+        },
+        {
+          "text": "No",
+          "score": 0
+        }
+      ],
+      "scoringLogic": {
+        "traits": {
+          "analytical": 0.53,
+          "creativity": 0.24,
+          "leadership": 0.39,
+          "communication": 0.8
+        }
+      },
+      "difficulty": "medium"
     },
     {
-      id: "fa25",
-      category: "fashion",
-      subcategory: "sustainability",
-      difficulty: "hard",
-      question: "How do you view fast-fashion retail brands that change catalogs weekly?",
-      options: ["Highly polluting and unethical; we need slow sustainable fashion","Excellent business efficiency providing low-cost style choice","Needs strict regulation on worker safety and green materials","Useful options for budget buyers, but quality is low"],
-      tags: ["fashion","empathy"],
-      scoringLogic: {"traits":{"analytical":4},"careers":["sustainable_fashion_consultant","ethical_brand_manager"]},
-      malayalamVersion: {"question":"ഓരോ ആഴ്ചയും വസ്ത്രങ്ങളുടെ കളക്ഷൻ മാറ്റുന്ന ഫാസ്റ്റ് ഫാഷൻ ബ്രാൻഡുകളെ നിങ്ങൾ എങ്ങനെ കാണുന്നു?","options":["പരിസ്ഥിതി മലിനീകരണമുണ്ടാക്കുന്നതാണ്; ജൈവവസ്ത്രങ്ങളാണ് നല്ലത്","കുറഞ്ഞ ചിലവിൽ വസ്ത്രങ്ങൾ നൽകുന്ന മികച്ച ബിസിനസ്സ് രീതിയാണിത്","തൊഴിലാളികളുടെ സുരക്ഷയ്ക്കും പരിസ്ഥിതി സൗഹൃദ മെറ്റീരിയലുകൾക്കും കർശന നിയമങ്ങൾ വേണം","വിലക്കുറവിൽ വാങ്ങാൻ നല്ലതാണെങ്കിലും ഇവയുടെ ഗുണനിലവാരം കുറവാണ്"]}
+      "id": "q_fashion_5",
+      "category": "fashion",
+      "text": "Are you interested in textile design?",
+      "options": [
+        {
+          "text": "Yes, absolutely",
+          "score": 1
+        },
+        {
+          "text": "Sometimes",
+          "score": 0.6
+        },
+        {
+          "text": "Neutral",
+          "score": 0.3
+        },
+        {
+          "text": "No",
+          "score": 0
+        }
+      ],
+      "scoringLogic": {
+        "traits": {
+          "analytical": 0.89,
+          "creativity": 0.55,
+          "leadership": 0.59,
+          "communication": 0.34
+        }
+      },
+      "difficulty": "medium"
     },
     {
-      id: "fa26",
-      category: "fashion",
-      subcategory: "branding",
-      difficulty: "medium",
-      question: "I would enjoy coordinating visual catalogs and window layouts for luxury fashion brands.",
-      options: ["Strongly Agree","Agree","Neutral","Disagree","Strongly Disagree"],
-      tags: ["fashion","design"],
-      scoringLogic: {"traits":{"creativity":5},"careers":["visual_merchandiser","fashion_marketing_manager"]},
-      malayalamVersion: {"question":"പ്രമുഖ ഫാഷൻ ബ്രാൻഡുകൾക്കായി വസ്ത്രങ്ങളുടെ ക്യാറ്റലോഗുകൾ തയ്യാറാക്കുന്നത് ഞാൻ ആസ്വദിക്കും.","options":["ശക്തമായി യോജിക്കുന്നു","യോജിക്കുന്നു","നിഷ്പക്ഷം","വിയോജിക്കുന്നു","ശക്തമായി വിയോജിക്കുന്നു"]}
+      "id": "q_fashion_6",
+      "category": "fashion",
+      "text": "Do you want to be a fashion model?",
+      "options": [
+        {
+          "text": "Yes, absolutely",
+          "score": 1
+        },
+        {
+          "text": "Sometimes",
+          "score": 0.6
+        },
+        {
+          "text": "Neutral",
+          "score": 0.3
+        },
+        {
+          "text": "No",
+          "score": 0
+        }
+      ],
+      "scoringLogic": {
+        "traits": {
+          "analytical": 0.24,
+          "creativity": 0.55,
+          "leadership": 0.6,
+          "communication": 0.22
+        }
+      },
+      "difficulty": "medium"
     },
     {
-      id: "fa27",
-      category: "fashion",
-      subcategory: "technology",
-      difficulty: "hard",
-      question: "3D virtual fitting room apps will completely replace physical dress trial spaces in future.",
-      options: ["Strongly Agree","Agree","Neutral","Disagree","Strongly Disagree"],
-      tags: ["fashion","technology"],
-      scoringLogic: {"traits":{"creativity":3,"analytical":3},"careers":["fashion_technology_analyst","uiux_designer"]},
-      malayalamVersion: {"question":"ഭാവിയിൽ വസ്ത്രങ്ങൾ ധരിച്ചു നോക്കാനുള്ള ട്രയൽ റൂമുകൾക്ക് പകരം 3D വെർച്വൽ ട്രയൽ ആപ്പുകൾ വരും.","options":["ശക്തമായി യോജിക്കുന്നു","യോജിക്കുന്നു","നിഷ്പക്ഷം","വിയോജിക്കുന്നു","ശക്തമായി വിയോജിക്കുന്നു"]}
+      "id": "q_fashion_7",
+      "category": "fashion",
+      "text": "Do you enjoy fashion magazines?",
+      "options": [
+        {
+          "text": "Yes, absolutely",
+          "score": 1
+        },
+        {
+          "text": "Sometimes",
+          "score": 0.6
+        },
+        {
+          "text": "Neutral",
+          "score": 0.3
+        },
+        {
+          "text": "No",
+          "score": 0
+        }
+      ],
+      "scoringLogic": {
+        "traits": {
+          "analytical": 0.53,
+          "creativity": 0.31,
+          "leadership": 0.55,
+          "communication": 0.92
+        }
+      },
+      "difficulty": "medium"
     },
     {
-      id: "fa28",
-      category: "fashion",
-      subcategory: "business",
-      difficulty: "medium",
-      question: "Analyzing regional sales metrics and pricing strategies for apparel stores sounds interesting.",
-      options: ["Strongly Agree","Agree","Neutral","Disagree","Strongly Disagree"],
-      tags: ["fashion","business"],
-      scoringLogic: {"traits":{"analytical":5},"careers":["fashion_buyer","retail_merchandiser"]},
-      malayalamVersion: {"question":"വസ്ത്ര വ്യാപാര രംഗത്തെ പ്രാദേശിക വില്പനയുടെ കണക്കുകൾ വിലയിരുത്തുന്നത് താല്പര്യമുള്ള കാര്യമാണ്.","options":["ശക്തമായി യോജിക്കുന്നു","യോജിക്കുന്നു","നിഷ്പക്ഷം","വിയോജിക്കുന്നു","ശക്തമായി വിയോജിക്കുന്നു"]}
+      "id": "q_fashion_8",
+      "category": "fashion",
+      "text": "Are you interested in jewelry design?",
+      "options": [
+        {
+          "text": "Yes, absolutely",
+          "score": 1
+        },
+        {
+          "text": "Sometimes",
+          "score": 0.6
+        },
+        {
+          "text": "Neutral",
+          "score": 0.3
+        },
+        {
+          "text": "No",
+          "score": 0
+        }
+      ],
+      "scoringLogic": {
+        "traits": {
+          "analytical": 0.48,
+          "creativity": 0.33,
+          "leadership": 0.57,
+          "communication": 0.57
+        }
+      },
+      "difficulty": "hard"
     },
     {
-      id: "fa29",
-      category: "fashion",
-      subcategory: "crafts",
-      difficulty: "hard",
-      question: "Preserving traditional regional handloom patterns is more important than adopting western silhouettes.",
-      options: ["Strongly Agree","Agree","Neutral","Disagree","Strongly Disagree"],
-      tags: ["fashion","empathy"],
-      scoringLogic: {"traits":{"creativity":4},"careers":["textile_designer","craft_restorationist"]},
-      malayalamVersion: {"question":"പാശ്ചാത്യ സ്റ്റൈലുകൾ പിന്തുടരുന്നതിനേക്കാൾ പ്രധാനമാണ് നമ്മുടെ തനതായ കൈത്തറി ഡിസൈനുകൾ സംരക്ഷിക്കുന്നത്.","options":["ശക്തമായി യോജിക്കുന്നു","യോജിക്കുന്നു","നിഷ്പക്ഷം","വിയോജിക്കുന്നു","ശക്തമായി വിയോജിക്കുന്നു"]}
+      "id": "q_fashion_9",
+      "category": "fashion",
+      "text": "Do you want to manage a fashion brand?",
+      "options": [
+        {
+          "text": "Yes, absolutely",
+          "score": 1
+        },
+        {
+          "text": "Sometimes",
+          "score": 0.6
+        },
+        {
+          "text": "Neutral",
+          "score": 0.3
+        },
+        {
+          "text": "No",
+          "score": 0
+        }
+      ],
+      "scoringLogic": {
+        "traits": {
+          "analytical": 0.94,
+          "creativity": 0.95,
+          "leadership": 0.54,
+          "communication": 0.28
+        }
+      },
+      "difficulty": "hard"
     },
     {
-      id: "fa30",
-      category: "fashion",
-      subcategory: "media",
-      difficulty: "easy",
-      question: "I prefer working on makeup styling and model photography over pattern cutting or tailoring.",
-      options: ["Strongly Agree","Agree","Neutral","Disagree","Strongly Disagree"],
-      tags: ["fashion","creativity"],
-      scoringLogic: {"traits":{"creativity":5},"careers":["fashion_photographer","makeup_artist"]},
-      malayalamVersion: {"question":"തുണി വെട്ടി തയ്ക്കുന്നതിനേക്കാൾ എനിക്ക് താല്പര്യം മോഡലുകളുടെ ഫോട്ടോഗ്രാഫിയിലും മേക്കപ്പ് സ്റ്റൈലിംഗിലുമാണ്.","options":["ശക്തമായി യോജിക്കുന്നു","യോജിക്കുന്നു","നിഷ്പക്ഷം","വിയോജിക്കുന്നു","ശക്തമായി വിയോജിക്കുന്നു"]}
+      "id": "q_fashion_10",
+      "category": "fashion",
+      "text": "Are you interested in fashion marketing?",
+      "options": [
+        {
+          "text": "Yes, absolutely",
+          "score": 1
+        },
+        {
+          "text": "Sometimes",
+          "score": 0.6
+        },
+        {
+          "text": "Neutral",
+          "score": 0.3
+        },
+        {
+          "text": "No",
+          "score": 0
+        }
+      ],
+      "scoringLogic": {
+        "traits": {
+          "analytical": 0.61,
+          "creativity": 0.5,
+          "leadership": 0.36,
+          "communication": 0.86
+        }
+      },
+      "difficulty": "hard"
     }
   ],
-  entrepreneurship: [
-    { id: "e1", category: "entrepreneurship", question: "If you had a ground-breaking idea, what would you do first?", options: ["Build a minimal prototype to test it with a few users", "Write a 50-page business plan to outline every detail", "Pitch to investors immediately to get pre-seed funding", "Keep it a secret to prevent anyone from stealing it"], tags: ["entrepreneurship", "risk tolerance", "analytical thinking"] },
-    { id: "e2", category: "entrepreneurship", question: "What is the biggest risk of starting a company in your view?", options: ["Losing all the invested personal savings and capital", "Failing publicly and damaging my professional reputation", "Wasting years of effort on a product nobody wants", "Straining relationships with family and co-founders"], tags: ["entrepreneurship", "risk tolerance", "discipline"] },
-    { id: "e3", category: "entrepreneurship", question: "How would you choose your ideal startup co-founder?", options: ["A close friend whom I trust completely", "Someone with skills that complement mine (e.g., tech if I do sales)", "A high-profile expert with a strong industry resume", "I prefer to build alone as a solo founder"], tags: ["entrepreneurship", "teamwork", "leadership"] },
-    { id: "e4", category: "entrepreneurship", question: "What does 'pivoting' mean to you in a business?", options: ["Admitting defeat and changing direction completely", "A smart, data-driven adjustment of the product or market", "An expensive shift that should be a last resort", "A natural step in the iterative process of growth"], tags: ["entrepreneurship", "analytical thinking", "work style"] },
-    { id: "e5", category: "entrepreneurship", question: "How would you handle a competitor launching a similar product for half the price?", options: ["Focus on explaining our premium value and quality features", "Match their price immediately, even if it cuts our profit", "Partner with them or propose a merger/acquisition", "Add unique features that they cannot easily replicate"], tags: ["entrepreneurship", "business", "innovation mindset"] },
-    { id: "e6", category: "entrepreneurship", question: "What is the most crucial skill for a startup founder?", options: ["Unshakeable resilience and grit through hard times", "Charismatic public speaking and storytelling ability", "High technical skill in coding or manufacturing", "Exceptional financial management and budgeting"], tags: ["entrepreneurship", "discipline", "social confidence"] },
-    { id: "e7", category: "entrepreneurship", question: "If an investor offers ₹1 crore but wants 51% control of your company, you...", options: ["Refuse; I must retain majority ownership and vision control", "Accept; the capital and connections are worth giving up control", "Negotiate for a lower amount with less equity dilution", "Walk away and bootstrap the project instead"], tags: ["entrepreneurship", "ambition", "leadership"] },
-    { id: "e8", category: "entrepreneurship", question: "Which startup book would you read?", options: ["The Lean Startup (Build, measure, learn loops)", "The Hard Thing About Hard Things (Managing crises)", "Founder's Dilemmas (Co-founder conflict & equity)", "Zero to One (Creating unique monopolies)"], tags: ["entrepreneurship", "analytical thinking", "logical thinking"] },
-    { id: "e9", category: "entrepreneurship", question: "How do you view working 80-hour weeks for a new venture?", options: ["Excited; I will do whatever it takes to build my dream", "Unacceptable; work-life balance is key to avoiding burnout", "Necessary in the first 6 months, but not sustainable", "I prefer delegating work to smart hires early on"], tags: ["entrepreneurship", "discipline", "work style"] },
-    { id: "e10", category: "entrepreneurship", question: "What is the primary goal of your startup?", options: ["To disrupt an industry and build a household brand", "To achieve financial freedom and high personal wealth", "To create jobs and solve a painful societal problem", "To build a highly optimized, automated cash-flow asset"], tags: ["entrepreneurship", "ambition", "empathy"] },
-    { id: "e11", category: "entrepreneurship", question: "How do you handle negative press or viral criticism of your product?", options: ["Address it transparently, apologize, and outline fixes", "Let our PR team handle it with a formal statement", "Ignore the noise and let the product performance speak", "Confront critics directly on social media to clarify"], tags: ["entrepreneurship", "communication", "emotional intelligence"] },
-    { id: "e12", category: "entrepreneurship", question: "Which business funding model do you prefer?", options: ["Bootstrapping (Reinvesting profit, retaining 100% control)", "Venture Capital (Accelerating growth with external money)", "Crowdfunding (Getting pre-orders from actual users)", "Bank loans and government startup grants"], tags: ["entrepreneurship", "finance", "risk tolerance"] },
-    { id: "e13", category: "entrepreneurship", question: "How do you feel about selling your company (an exit)?", options: ["I want to build a legacy company that I run for life", "I would gladly sell for a high valuation and start the next idea", "I would only sell if the buyer shares my core vision", "I prefer listing on the public stock exchange (IPO)"], tags: ["entrepreneurship", "ambition", "leadership"] },
-    { id: "e14", category: "entrepreneurship", question: "When your team disagrees on the product direction, what is your move?", options: ["Hold a democratic vote and go with the majority choice", "Make the final executive decision myself as founder", "A/B test both directions with real users to get data", "Discuss until we reach a unanimous consensus"], tags: ["entrepreneurship", "leadership", "teamwork"] },
-    { id: "e15", category: "entrepreneurship", question: "What is your stance on failure?", options: ["An expensive setback that should be avoided at all costs", "A badge of honor; it proves I took a bold risk", "A data point that shows what doesn't work", "A painful but necessary step toward ultimate success"], tags: ["entrepreneurship", "risk tolerance", "discipline"] },
-    { id: "e16", category: "entrepreneurship", question: "Which industry represents the biggest startup opportunity today?", options: ["AI software and automation systems", "Sustainable energy and green hardware solutions", "Direct-to-Consumer (D2C) e-commerce brands", "Edtech and digital skill platforms"], tags: ["entrepreneurship", "innovation mindset", "business"] },
-    { id: "e17", category: "entrepreneurship", question: "How do you pitch your idea to a skeptical customer?", options: ["Focus on the immediate money-saving or time-saving value", "Tell the passionate story of why we built this product", "Offer a free, no-risk trial period to let them experience it", "Show them case studies of other customers who love it"], tags: ["entrepreneurship", "communication", "social confidence"] },
-    { id: "e18", category: "entrepreneurship", question: "What makes a great startup office culture in your eyes?", options: ["High autonomy, flexible hours, and focus on output", "Competitive perks, fun team events, and social space", "Clear targets, high pressure, and fast career growth", "A shared mission to solve a major world issue"], tags: ["entrepreneurship", "work style", "empathy"] },
-    { id: "e19", category: "entrepreneurship", question: "If your startup runs out of cash in 30 days, what is your strategy?", options: ["Cut non-essential expenses and lay off some team members", "Take a short-term high-interest loan to bridge the gap", "Pivot to offering freelance agency services for fast cash", "Launch an aggressive pre-sale discount campaign"], tags: ["entrepreneurship", "finance", "analytical thinking"] },
-    { id: "e20", category: "entrepreneurship", question: "What is your ultimate dream as an entrepreneur?", options: ["To build a unicorn company that changes the world", "To have the freedom to work on my own terms and schedule", "To mentor and fund the next generation of founders", "To turn an idea from a sketch into a massive physical reality"], tags: ["entrepreneurship", "ambition", "creativity"] }
-  ,
+  "entrepreneurship": [
     {
-      id: "e21",
-      category: "entrepreneurship",
-      subcategory: "risk",
-      difficulty: "easy",
-      question: "I prefer starting my own small shop/project over working a stable job under a boss.",
-      options: ["Strongly Agree","Agree","Neutral","Disagree","Strongly Disagree"],
-      tags: ["entrepreneurship","risk_tolerance"],
-      scoringLogic: {"traits":{"leadership":5},"careers":["startup_founder","business_owner"]},
-      malayalamVersion: {"question":"ഒരു കമ്പനിയിൽ മറ്റൊരാളുടെ കീഴിൽ ജോലി ചെയ്യുന്നതിനേക്കാൾ സ്വന്തമായി ഒരു ചെറിയ ബിസിനസ്സ് തുടങ്ങാനാണ് ഞാൻ ആഗ്രഹിക്കുന്നത്.","options":["ശക്തമായി യോജിക്കുന്നു","യോജിക്കുന്നു","നിഷ്പക്ഷം","വിയോജിക്കുന്നു","ശക്തമായി വിയോജിക്കുന്നു"]}
+      "id": "q_entrepreneurship_1",
+      "category": "entrepreneurship",
+      "text": "Do you want to start your own business?",
+      "options": [
+        {
+          "text": "Yes, absolutely",
+          "score": 1
+        },
+        {
+          "text": "Sometimes",
+          "score": 0.6
+        },
+        {
+          "text": "Neutral",
+          "score": 0.3
+        },
+        {
+          "text": "No",
+          "score": 0
+        }
+      ],
+      "scoringLogic": {
+        "traits": {
+          "analytical": 0.99,
+          "creativity": 0.8,
+          "leadership": 0.26,
+          "communication": 0.33
+        }
+      },
+      "difficulty": "easy"
     },
     {
-      id: "e22",
-      category: "entrepreneurship",
-      subcategory: "pitching",
-      difficulty: "easy",
-      question: "I feel excited when presenting new concepts or startup ideas to friends or classmates.",
-      options: ["Strongly Agree","Agree","Neutral","Disagree","Strongly Disagree"],
-      tags: ["entrepreneurship","communication"],
-      scoringLogic: {"traits":{"communication":5,"leadership":3},"careers":["startup_founder","venture_consultant"]},
-      malayalamVersion: {"question":"സുഹൃത്തുക്കൾക്കോ സഹപാഠികൾക്കോ മുന്നിൽ പുതിയ ആശയങ്ങൾ അവതരിപ്പിക്കുമ്പോൾ എനിക്ക് വലിയ താല്പര്യം തോന്നാറുണ്ട്.","options":["ശക്തമായി യോജിക്കുന്നു","യോജിക്കുന്നു","നിഷ്പക്ഷം","വിയോജിക്കുന്നു","ശക്തമായി വിയോജിക്കുന്നു"]}
+      "id": "q_entrepreneurship_2",
+      "category": "entrepreneurship",
+      "text": "Do you enjoy pitching new ideas?",
+      "options": [
+        {
+          "text": "Yes, absolutely",
+          "score": 1
+        },
+        {
+          "text": "Sometimes",
+          "score": 0.6
+        },
+        {
+          "text": "Neutral",
+          "score": 0.3
+        },
+        {
+          "text": "No",
+          "score": 0
+        }
+      ],
+      "scoringLogic": {
+        "traits": {
+          "analytical": 0.95,
+          "creativity": 0.37,
+          "leadership": 0.88,
+          "communication": 0.41
+        }
+      },
+      "difficulty": "easy"
     },
     {
-      id: "e23",
-      category: "entrepreneurship",
-      subcategory: "resilience",
-      difficulty: "medium",
-      question: "Failure is just a normal step in learning how to build a successful startup.",
-      options: ["Strongly Agree","Agree","Neutral","Disagree","Strongly Disagree"],
-      tags: ["entrepreneurship","risk_tolerance"],
-      scoringLogic: {"traits":{"leadership":4,"discipline":3},"careers":["startup_founder","venture_capitalist"]},
-      malayalamVersion: {"question":"ഒരു മികച്ച സംരംഭം കെട്ടിപ്പടുക്കാൻ പരാജയങ്ങൾ സാധാരണയായ ഒരു ഘട്ടം മാത്രമാണ്.","options":["ശക്തമായി യോജിക്കുന്നു","യോജിക്കുന്നു","നിഷ്പക്ഷം","വിയോജിക്കുന്നു","ശക്തമായി വിയോജിക്കുന്നു"]}
+      "id": "q_entrepreneurship_3",
+      "category": "entrepreneurship",
+      "text": "Are you a risk-taker?",
+      "options": [
+        {
+          "text": "Yes, absolutely",
+          "score": 1
+        },
+        {
+          "text": "Sometimes",
+          "score": 0.6
+        },
+        {
+          "text": "Neutral",
+          "score": 0.3
+        },
+        {
+          "text": "No",
+          "score": 0
+        }
+      ],
+      "scoringLogic": {
+        "traits": {
+          "analytical": 1,
+          "creativity": 0.4,
+          "leadership": 0.96,
+          "communication": 0.67
+        }
+      },
+      "difficulty": "easy"
     },
     {
-      id: "e24",
-      category: "entrepreneurship",
-      subcategory: "funding",
-      difficulty: "medium",
-      question: "Which business funding route sounds best for long-term growth?",
-      options: ["Bootstrapping (Grow using only sales profit, keep full control)","Venture Capital (Get fast seed cash from rich investors for equity)","Crowdfunding (Pre-sell product directly to thousands of users)","Government grants and bank startup loans"],
-      tags: ["entrepreneurship","finance"],
-      scoringLogic: {"traits":{"analytical":4},"careers":["financial_director","venture_capitalist"]},
-      malayalamVersion: {"question":"ഒരു സംരംഭത്തിൻ്റെ വളർച്ചയ്ക്ക് അനുയോജ്യമായ ഫണ്ടിംഗ് രീതി ഏതാണ്?","options":["ബൂട്ട്സ്ട്രാപ്പിംഗ് (സ്വന്തം വരുമാനത്തിൽ നിന്ന് മാത്രം വളരുക, പൂർണ്ണ നിയന്ത്രണം സൂക്ഷിക്കുക)","വെഞ്ച്വർ ക്യാപിറ്റൽ (നിക്ഷേപകരിൽ നിന്ന് പണം വാങ്ങുക, ഓഹരി നൽകുക)","ക്രൗഡ് ഫണ്ടിംഗ് (ഉപയോക്താക്കളിൽ നിന്ന് മുൻകൂറായി പണം ശേഖരിക്കുക)","ബാങ്ക് വായ്പകളും സർക്കാർ സ്റ്റാർട്ടപ്പ് ഗ്രാൻ്റുകളും"]}
+      "id": "q_entrepreneurship_4",
+      "category": "entrepreneurship",
+      "text": "Do you want to be your own boss?",
+      "options": [
+        {
+          "text": "Yes, absolutely",
+          "score": 1
+        },
+        {
+          "text": "Sometimes",
+          "score": 0.6
+        },
+        {
+          "text": "Neutral",
+          "score": 0.3
+        },
+        {
+          "text": "No",
+          "score": 0
+        }
+      ],
+      "scoringLogic": {
+        "traits": {
+          "analytical": 0.38,
+          "creativity": 0.83,
+          "leadership": 0.52,
+          "communication": 0.94
+        }
+      },
+      "difficulty": "medium"
     },
     {
-      id: "e25",
-      category: "entrepreneurship",
-      subcategory: "problem_solving",
-      difficulty: "hard",
-      question: "How do you validate if a business idea is worth building?",
-      options: ["Build a basic mock prototype and ask 20 target users","Write a 50-page detailed business plan spreadsheet first","Check if competitor brands are making money with same model","Launch search ads and check if visitors click sign-up"],
-      tags: ["entrepreneurship","analytical"],
-      scoringLogic: {"traits":{"analytical":5,"creativity":3},"careers":["product_manager","startup_founder"]},
-      malayalamVersion: {"question":"ഒരു ബിസിനസ്സ് ആശയം മുന്നോട്ട് കൊണ്ടുപോകാൻ യോഗ്യമാണോ എന്ന് നിങ്ങൾ എങ്ങനെ ഉറപ്പാക്കും?","options":["ഒരു ചെറിയ മാതൃക തയ്യാറാക്കി 20 ഉപഭോക്താക്കളോട് അഭിപ്രായം ചോദിക്കും","ആദ്യം 50 പേജുള്ള ഒരു വിശദമായ ബിസിനസ് പ്ലാൻ തയ്യാറാക്കും","മറ്റ് എതിരാളികൾ ഈ രീതിയിലൂടെ വിജയിക്കുന്നുണ്ടോ എന്ന് പരിശോധിക്കും","പരസ്യങ്ങൾ നൽകി എത്രപേർ ഇതിൽ താല്പര്യം കാണിക്കുന്നു എന്ന് നോക്കും"]}
+      "id": "q_entrepreneurship_5",
+      "category": "entrepreneurship",
+      "text": "Are you interested in startups?",
+      "options": [
+        {
+          "text": "Yes, absolutely",
+          "score": 1
+        },
+        {
+          "text": "Sometimes",
+          "score": 0.6
+        },
+        {
+          "text": "Neutral",
+          "score": 0.3
+        },
+        {
+          "text": "No",
+          "score": 0
+        }
+      ],
+      "scoringLogic": {
+        "traits": {
+          "analytical": 0.94,
+          "creativity": 0.75,
+          "leadership": 0.56,
+          "communication": 0.42
+        }
+      },
+      "difficulty": "medium"
     },
     {
-      id: "e26",
-      category: "entrepreneurship",
-      subcategory: "teamwork",
-      difficulty: "medium",
-      question: "Building a startup requires finding co-founders whose skills balance my own.",
-      options: ["Strongly Agree","Agree","Neutral","Disagree","Strongly Disagree"],
-      tags: ["entrepreneurship","teamwork"],
-      scoringLogic: {"traits":{"leadership":4,"communication":3},"careers":["startup_founder","operations_manager"]},
-      malayalamVersion: {"question":"ഒരു സംരംഭം കെട്ടിപ്പടുക്കാൻ എൻ്റേതിൽ നിന്നും വ്യത്യസ്തമായ കഴിവുകളുള്ള സഹസ്ഥാപകരെ കണ്ടെത്തേണ്ടതുണ്ട്.","options":["ശക്തമായി യോജിക്കുന്നു","യോജിക്കുന്നു","നിഷ്പക്ഷം","വിയോജിക്കുന്നു","ശക്തമായി വിയോജിക്കുന്നു"]}
+      "id": "q_entrepreneurship_6",
+      "category": "entrepreneurship",
+      "text": "Do you like solving everyday problems?",
+      "options": [
+        {
+          "text": "Yes, absolutely",
+          "score": 1
+        },
+        {
+          "text": "Sometimes",
+          "score": 0.6
+        },
+        {
+          "text": "Neutral",
+          "score": 0.3
+        },
+        {
+          "text": "No",
+          "score": 0
+        }
+      ],
+      "scoringLogic": {
+        "traits": {
+          "analytical": 0.97,
+          "creativity": 0.49,
+          "leadership": 0.96,
+          "communication": 0.48
+        }
+      },
+      "difficulty": "medium"
     },
     {
-      id: "e27",
-      category: "entrepreneurship",
-      subcategory: "innovation",
-      difficulty: "hard",
-      question: "I would enjoy designing the subscription pricing models and cash flow metrics for a software service.",
-      options: ["Strongly Agree","Agree","Neutral","Disagree","Strongly Disagree"],
-      tags: ["entrepreneurship","finance"],
-      scoringLogic: {"traits":{"analytical":5},"careers":["saas_founder","financial_analyst"]},
-      malayalamVersion: {"question":"ഒരു സോഫ്റ്റ്‌വെയർ സർവീസിനായി സബ്‌സ്‌ക്രിപ്ഷൻ മോഡലുകളും ക്യാഷ് ഫ്ലോയും രൂപകൽപ്പന ചെയ്യുന്നത് ഞാൻ ആസ്വദിക്കും.","options":["ശക്തമായി യോജിക്കുന്നു","യോജിക്കുന്നു","നിഷ്പക്ഷം","വിയോജിക്കുന്നു","ശക്തമായി വിയോജിക്കുന്നു"]}
+      "id": "q_entrepreneurship_7",
+      "category": "entrepreneurship",
+      "text": "Are you good at networking?",
+      "options": [
+        {
+          "text": "Yes, absolutely",
+          "score": 1
+        },
+        {
+          "text": "Sometimes",
+          "score": 0.6
+        },
+        {
+          "text": "Neutral",
+          "score": 0.3
+        },
+        {
+          "text": "No",
+          "score": 0
+        }
+      ],
+      "scoringLogic": {
+        "traits": {
+          "analytical": 0.46,
+          "creativity": 0.45,
+          "leadership": 0.36,
+          "communication": 0.2
+        }
+      },
+      "difficulty": "medium"
     },
     {
-      id: "e28",
-      category: "entrepreneurship",
-      subcategory: "sales",
-      difficulty: "medium",
-      question: "Selling the vision to first hire is harder than selling the product to first customer.",
-      options: ["Strongly Agree","Agree","Neutral","Disagree","Strongly Disagree"],
-      tags: ["entrepreneurship","communication"],
-      scoringLogic: {"traits":{"communication":5,"leadership":4},"careers":["startup_founder","hr_director"]},
-      malayalamVersion: {"question":"ആദ്യ കസ്റ്റമർക്ക് ഉൽപ്പന്നം വിൽക്കുന്നതിനേക്കാൾ ബുദ്ധിമുട്ടാണ് എൻ്റെ കാഴ്ചപ്പാട് ആദ്യത്തെ ജീവനക്കാരനെ ബോധ്യപ്പെടുത്തുന്നത്.","options":["ശക്തമായി യോജിക്കുന്നു","യോജിക്കുന്നു","നിഷ്പക്ഷം","വിയോജിക്കുന്നു","ശക്തമായി വിയോജിക്കുന്നു"]}
+      "id": "q_entrepreneurship_8",
+      "category": "entrepreneurship",
+      "text": "Do you want to disrupt an industry?",
+      "options": [
+        {
+          "text": "Yes, absolutely",
+          "score": 1
+        },
+        {
+          "text": "Sometimes",
+          "score": 0.6
+        },
+        {
+          "text": "Neutral",
+          "score": 0.3
+        },
+        {
+          "text": "No",
+          "score": 0
+        }
+      ],
+      "scoringLogic": {
+        "traits": {
+          "analytical": 0.88,
+          "creativity": 0.88,
+          "leadership": 0.9,
+          "communication": 0.69
+        }
+      },
+      "difficulty": "hard"
     },
     {
-      id: "e29",
-      category: "entrepreneurship",
-      subcategory: "pivot",
-      difficulty: "hard",
-      question: "How do you respond when target users refuse to buy your launched product?",
-      options: ["Change key product features based on customer interview feedbacks","Double marketing spending to find other buyers","Shut down the startup immediately to prevent debt","Lower price point and run discounts to sell inventory"],
-      tags: ["entrepreneurship","risk_tolerance"],
-      scoringLogic: {"traits":{"analytical":4,"leadership":3},"careers":["startup_founder","product_manager"]},
-      malayalamVersion: {"question":"നിങ്ങൾ ഇറക്കിയ ഉൽപ്പന്നം ഉപഭോക്താക്കൾ വാങ്ങാൻ വിസമ്മതിച്ചാൽ നിങ്ങൾ എന്തു ചെയ്യും?","options":["ഉപഭോക്താക്കളുടെ അഭിപ്രായങ്ങൾ അടിസ്ഥാനമാക്കി ഉൽപ്പന്നത്തിൻ്റെ പ്രധാന സവിശേഷതകളിൽ മാറ്റം വരുത്തും","മറ്റ് ഉപഭോക്താക്കളെ കണ്ടെത്താൻ പരസ്യങ്ങൾ ഇരട്ടിയാക്കും","കൂടുതൽ നഷ്ടം വരാതിരിക്കാൻ സംരംഭം ഉടൻ തന്നെ നിർത്തലാക്കും","വില കുറയ്ക്കുകയും ഡിസ്കൗണ്ടുകൾ നൽകുകയും ചെയ്യും"]}
+      "id": "q_entrepreneurship_9",
+      "category": "entrepreneurship",
+      "text": "Are you resilient against failure?",
+      "options": [
+        {
+          "text": "Yes, absolutely",
+          "score": 1
+        },
+        {
+          "text": "Sometimes",
+          "score": 0.6
+        },
+        {
+          "text": "Neutral",
+          "score": 0.3
+        },
+        {
+          "text": "No",
+          "score": 0
+        }
+      ],
+      "scoringLogic": {
+        "traits": {
+          "analytical": 0.43,
+          "creativity": 0.33,
+          "leadership": 0.66,
+          "communication": 0.22
+        }
+      },
+      "difficulty": "hard"
     },
     {
-      id: "e30",
-      category: "entrepreneurship",
-      subcategory: "ethics",
-      difficulty: "easy",
-      question: "Solving a social problem (like rural pollution) is more important for a startup than maximizing valuation.",
-      options: ["Strongly Agree","Agree","Neutral","Disagree","Strongly Disagree"],
-      tags: ["entrepreneurship","empathy"],
-      scoringLogic: {"traits":{"empathy":5,"communication":3},"careers":["social_entrepreneur","nonprofit_director"]},
-      malayalamVersion: {"question":"ഒരു സംരംഭത്തിൽ നിന്ന് ലാഭം നേടുന്നതിനേക്കാൾ പ്രാധാന്യം ഒരു സാമൂഹിക പ്രശ്നം (മലിനീകരണം പോലുള്ളവ) പരിഹരിക്കുന്നതിനാണ്.","options":["ശക്തമായി യോജിക്കുന്നു","യോജിക്കുന്നു","നിഷ്പക്ഷം","വിയോജിക്കുന്നു","ശക്തമായി വിയോജിക്കുന്നു"]}
+      "id": "q_entrepreneurship_10",
+      "category": "entrepreneurship",
+      "text": "Do you enjoy creating business plans?",
+      "options": [
+        {
+          "text": "Yes, absolutely",
+          "score": 1
+        },
+        {
+          "text": "Sometimes",
+          "score": 0.6
+        },
+        {
+          "text": "Neutral",
+          "score": 0.3
+        },
+        {
+          "text": "No",
+          "score": 0
+        }
+      ],
+      "scoringLogic": {
+        "traits": {
+          "analytical": 0.81,
+          "creativity": 0.71,
+          "leadership": 0.51,
+          "communication": 0.69
+        }
+      },
+      "difficulty": "hard"
     }
   ],
-  government_jobs: [
-    { id: "g1", category: "government_jobs", question: "What is your main reason for considering a government job?", options: ["The unmatched job security and pension stability", "The power to implement public policy and serve society", "The prestigious social status and family respect", "The fixed working hours and healthy work-life balance"], tags: ["government_jobs", "discipline", "empathy"] },
-    { id: "g2", category: "government_jobs", question: "How do you feel about preparing for competitive exams (like UPSC, SSC)?", options: ["I am prepared for years of dedicated, highly disciplined study", "I prefer exams that focus on practical skills, not rote learning", "I find the competition level highly stressful to think about", "I view it as a test of my academic intelligence and focus"], tags: ["government_jobs", "discipline", "analytical thinking"] },
-    { id: "g3", category: "government_jobs", question: "Which government sector interests you most?", options: ["Administrative Services (IAS, State Civil Services)", "Police and Law Enforcement (IPS, State Police)", "Defense and Armed Forces (Army, Navy, Air Force)", "Public Sector Banking and Financial Regulation (RBI, SBI)"], tags: ["government_jobs", "leadership", "discipline"] },
-    { id: "g4", category: "government_jobs", question: "How would you handle political pressure to bypass a minor guideline?", options: ["Politely but firmly document the rules and decline to bypass", "Consult my senior officers to share the responsibility", "Find a legal compromise that satisfies both sides safely", "Comply if it prevents a major conflict or delay"], tags: ["government_jobs", "law", "communication"] },
-    { id: "g5", category: "government_jobs", question: "What is your view on the efficiency of government offices?", options: ["Highly bureaucratic and needs digital modernization", "Necessary checks and balances that prevent corruption", "Improving rapidly with smart e-governance systems", "Frustratingly slow, but stable and reliable"], tags: ["government_jobs", "analytical thinking", "technology"] },
-    { id: "g6", category: "government_jobs", question: "If you are posted to a remote rural village for 3 years, you...", options: ["Welcome it as a chance to understand real ground-level issues", "Accept it as a duty, but look for a transfer to a city fast", "Request a posting change immediately on personal grounds", "Focus on digital work to minimize physical rural stays"], tags: ["government_jobs", "empathy", "work style"] },
-    { id: "g7", category: "government_jobs", question: "What does 'public service' mean to you?", options: ["Helping the poorest citizen navigate government systems", "Protecting national security and maintaining local law and order", "Using power responsibly to build public infrastructure", "Ensuring government schemes reach target users without leakages"], tags: ["government_jobs", "empathy", "discipline"] },
-    { id: "g8", category: "government_jobs", question: "How do you handle working in a strict hierarchy where your ideas are ignored?", options: ["Follow instructions respectfully and wait for my turn to lead", "Present data-backed suggestions to my seniors in private", "Focus on executing my specific tasks to the highest standard", "Find like-minded colleagues to pitch improvements together"], tags: ["government_jobs", "discipline", "communication"] },
-    { id: "g9", category: "government_jobs", question: "Which policy issue is most critical for India to solve?", options: ["Improving quality education and health in rural sectors", "Strengthening defense and cyber-warfare systems", "Simplifying business regulations and tax systems", "Modernizing public transport and infrastructure"], tags: ["government_jobs", "analytical thinking", "empathy"] },
-    { id: "g10", category: "government_jobs", question: "How do you prepare for interviews with senior bureaucrats?", options: ["Master current national affairs and policy statistics", "Practice presenting my views with extreme calm and politeness", "Focus on showing integrity and strong ethical values", "Anticipate logical trick questions on state governance"], tags: ["government_jobs", "social confidence", "communication"] },
-    { id: "g11", category: "government_jobs", question: "What is your stance on the digitalization of identity (e.g. Aadhaar)?", options: ["Brilliant; it reduces leakages and speeds up services", "Risky; it raises major data privacy and surveillance concerns", "Essential but needs stronger legal security frameworks", "Good for banking but should not be mandatory for basic aid"], tags: ["government_jobs", "technology", "law"] },
-    { id: "g12", category: "government_jobs", question: "If you uncover minor corruption in your department, what is your move?", options: ["Report it immediately to the internal vigilance officer", "Gather hard evidence in secret before filing a case", "Confront the person directly and ask them to stop", "Keep quiet to avoid getting targeted by colleagues"], tags: ["government_jobs", "discipline", "law"] },
-    { id: "g13", category: "government_jobs", question: "Which government career path sounds most fulfilling?", options: ["A diplomat representing India at the United Nations (IFS)", "A district magistrate managing administrative development", "A research scientist in space and defense labs (ISRO, DRDO)", "A police commissioner managing law and order in a metro city"], tags: ["government_jobs", "leadership", "communication"] },
-    { id: "g14", category: "government_jobs", question: "How do you handle a crisis (like a sudden flood in your district)?", options: ["Coordinate rescue teams, medical aid, and control rooms immediately", "Consult emergency guidelines to follow standard protocol", "Partner with local NGOs and volunteers to expand support", "Communicate calm updates to the media and public frequently"], tags: ["government_jobs", "leadership", "discipline"] },
-    { id: "g15", category: "government_jobs", question: "What is your view on public protests and rallies?", options: ["A fundamental democratic right that should be protected", "A public nuisance that disrupt daily traffic and business", "Acceptable only if they have strict police permission", "A way for citizens to hold policies accountable"], tags: ["government_jobs", "law", "empathy"] },
-    { id: "g16", category: "government_jobs", question: "What skill from school is most useful in administration?", options: ["Writing clean, structured official letters and briefs", "Analyzing data, charts, and public budgets", "Public speaking and addressing large assemblies", "Working in teams to organize events and festivals"], tags: ["government_jobs", "communication", "analytical thinking"] },
-    { id: "g17", category: "government_jobs", question: "How do you view government subsidies for farmers?", options: ["Essential to protect the food security of the nation", "A financial burden that should be replaced with tech training", "Prone to leakages and needs direct cash transfers instead", "A temporary measure; we must build sustainable farm prices"], tags: ["government_jobs", "empathy", "finance"] },
-    { id: "g18", category: "government_jobs", question: "What represents the highest honor in a government career?", options: ["A national award for honest public service from the President", "Implementing a scheme that pulls lakhs of families out of poverty", "Reaching the absolute top rank (e.g. Cabinet Secretary)", "Protecting the borders or managing internal peace during a crisis"], tags: ["government_jobs", "ambition", "empathy"] },
-    { id: "g19", category: "government_jobs", question: "What is your attitude toward transfers across states/districts?", options: ["I enjoy moving, seeing new cultures, and taking challenges", "I prefer a stable posting in my home state/city", "I accept transfers as part of the job without complaints", "I will lobby for a posting that fits my family convenience"], tags: ["government_jobs", "work style", "discipline"] },
-    { id: "g20", category: "government_jobs", question: "Why do you think civil service exams have such a low success rate?", options: ["They test deep grit, knowledge, and mental resilience", "They use outdated patterns that filter out creative minds", "The massive population makes any competitive exam tough", "They look for a specific administrative temperament"], tags: ["government_jobs", "analytical thinking", "discipline"] }
-  ,
+  "government_jobs": [
     {
-      id: "g21",
-      category: "government_jobs",
-      subcategory: "security",
-      difficulty: "easy",
-      question: "I value job security and fixed working schedules over highly variable startup opportunities.",
-      options: ["Strongly Agree","Agree","Neutral","Disagree","Strongly Disagree"],
-      tags: ["government_jobs","discipline"],
-      scoringLogic: {"traits":{"discipline":5},"careers":["civil_servant","public_sector_employee"]},
-      malayalamVersion: {"question":"പെട്ടെന്ന് മാറ്റങ്ങളുണ്ടാകുന്ന ബിസിനസ്സ് ജോലികളേക്കാൾ സുരക്ഷിതത്വവും കൃത്യമായ സമയവുമുള്ള സർക്കാർ ജോലികളാണ് ഞാൻ തിരഞ്ഞെടുക്കുന്നത്.","options":["ശക്തമായി യോജിക്കുന്നു","യോജിക്കുന്നു","നിഷ്പക്ഷം","വിയോജിക്കുന്നു","ശക്തമായി വിയോജിക്കുന്നു"]}
+      "id": "q_government_jobs_1",
+      "category": "government_jobs",
+      "text": "Are you interested in public administration?",
+      "options": [
+        {
+          "text": "Yes, absolutely",
+          "score": 1
+        },
+        {
+          "text": "Sometimes",
+          "score": 0.6
+        },
+        {
+          "text": "Neutral",
+          "score": 0.3
+        },
+        {
+          "text": "No",
+          "score": 0
+        }
+      ],
+      "scoringLogic": {
+        "traits": {
+          "analytical": 0.81,
+          "creativity": 0.57,
+          "leadership": 0.85,
+          "communication": 0.7
+        }
+      },
+      "difficulty": "easy"
     },
     {
-      id: "g22",
-      category: "government_jobs",
-      subcategory: "exams",
-      difficulty: "easy",
-      question: "Do you feel prepared to spend months/years studying competitive syllabus books systematically?",
-      options: ["Yes, I have the grit","Only for a limited period","No, I find competitive exams stressful"],
-      tags: ["government_jobs","discipline"],
-      scoringLogic: {"traits":{"discipline":5},"careers":["civil_servant","administrative_officer"]},
-      malayalamVersion: {"question":"സർക്കാർ പരീക്ഷകൾക്കായി മാസങ്ങളോളം സിസ്റ്റമാറ്റിക്കായി പഠിക്കാൻ നിങ്ങൾ തയ്യാറാണോ?","options":["അതെ, എനിക്കതിന് കഴിയും","കുറച്ചുകാലത്തേക്ക് മാത്രം ചെയ്യാം","ഇല്ല, മത്സരപ്പരീക്ഷകൾ എനിക്ക് വലിയ സമ്മർദ്ദം ഉണ്ടാക്കാറുണ്ട്"]}
+      "id": "q_government_jobs_2",
+      "category": "government_jobs",
+      "text": "Do you want to serve the country?",
+      "options": [
+        {
+          "text": "Yes, absolutely",
+          "score": 1
+        },
+        {
+          "text": "Sometimes",
+          "score": 0.6
+        },
+        {
+          "text": "Neutral",
+          "score": 0.3
+        },
+        {
+          "text": "No",
+          "score": 0
+        }
+      ],
+      "scoringLogic": {
+        "traits": {
+          "analytical": 0.53,
+          "creativity": 0.42,
+          "leadership": 0.76,
+          "communication": 0.53
+        }
+      },
+      "difficulty": "easy"
     },
     {
-      id: "g23",
-      category: "government_jobs",
-      subcategory: "policy",
-      difficulty: "medium",
-      question: "I would enjoy translating legislative rules into practical development projects for rural areas.",
-      options: ["Strongly Agree","Agree","Neutral","Disagree","Strongly Disagree"],
-      tags: ["government_jobs","empathy"],
-      scoringLogic: {"traits":{"analytical":4,"empathy":4},"careers":["block_development_officer","ias_officer"]},
-      malayalamVersion: {"question":"സർക്കാർ നിയമങ്ങളെ ഗ്രാമങ്ങളിലെ വികസന പദ്ധതികളാക്കി മാറ്റുന്നത് ഞാൻ ആസ്വദിക്കും.","options":["ശക്തമായി യോജിക്കുന്നു","യോജിക്കുന്നു","നിഷ്പക്ഷം","വിയോജിക്കുന്നു","ശക്തമായി വിയോജിക്കുന്നു"]}
+      "id": "q_government_jobs_3",
+      "category": "government_jobs",
+      "text": "Are you preparing for UPSC or state exams?",
+      "options": [
+        {
+          "text": "Yes, absolutely",
+          "score": 1
+        },
+        {
+          "text": "Sometimes",
+          "score": 0.6
+        },
+        {
+          "text": "Neutral",
+          "score": 0.3
+        },
+        {
+          "text": "No",
+          "score": 0
+        }
+      ],
+      "scoringLogic": {
+        "traits": {
+          "analytical": 0.87,
+          "creativity": 0.28,
+          "leadership": 0.65,
+          "communication": 0.7
+        }
+      },
+      "difficulty": "easy"
     },
     {
-      id: "g24",
-      category: "government_jobs",
-      subcategory: "careers",
-      difficulty: "medium",
-      question: "Which government sector would you prefer to serve in?",
-      options: ["Administrative Services (IAS/State Civil Services managing districts)","Law Enforcement & Police (IPS managing security)","Defense forces (Army/Navy protecting national borders)","Public Sector Banking or Finance regulatory bodies (RBI/SBI)"],
-      tags: ["government_jobs","leadership"],
-      scoringLogic: {"traits":{"leadership":5,"discipline":4},"careers":["ias_officer","ips_officer"]},
-      malayalamVersion: {"question":"സർക്കാരിൻ്റെ ഏത് മേഖലയിലാണ് നിങ്ങൾക്ക് സേവനം ചെയ്യാൻ താല്പര്യം?","options":["അഡ്മിനിസ്ട്രേറ്റീവ് സർവീസസ് (IAS/സ്റ്റേറ്റ് സിവിൽ സർവീസ്)","ക്രമസമാധാനപാലനവും പോലീസ് സേനയും (IPS)","പ്രതിരോധ സേനകൾ (ആർമി/നേവി)","ബാങ്കിംഗ് അല്ലെങ്കിൽ ധനകാര്യ സ്ഥാപനങ്ങൾ (RBI/SBI)"]}
+      "id": "q_government_jobs_4",
+      "category": "government_jobs",
+      "text": "Do you want a stable, secure career?",
+      "options": [
+        {
+          "text": "Yes, absolutely",
+          "score": 1
+        },
+        {
+          "text": "Sometimes",
+          "score": 0.6
+        },
+        {
+          "text": "Neutral",
+          "score": 0.3
+        },
+        {
+          "text": "No",
+          "score": 0
+        }
+      ],
+      "scoringLogic": {
+        "traits": {
+          "analytical": 0.21,
+          "creativity": 0.59,
+          "leadership": 0.47,
+          "communication": 0.65
+        }
+      },
+      "difficulty": "medium"
     },
     {
-      id: "g25",
-      category: "government_jobs",
-      subcategory: "ethics",
-      difficulty: "hard",
-      question: "How would you handle local political pressure to fast-track an unchecked infrastructure project?",
-      options: ["Document rules clearly and decline checking without audit validation","Consult senior officers to share responsibility and guidelines","Seek legal compromises that satisfy rules safely","Follow instruction if it prevents public delays"],
-      tags: ["government_jobs","law"],
-      scoringLogic: {"traits":{"analytical":4,"discipline":4},"careers":["ias_officer","administrative_officer"]},
-      malayalamVersion: {"question":"പരിശോധന നടത്താത്ത ഒരു നിർമ്മാണ പദ്ധതിക്ക് അനുമതി നൽകാൻ രാഷ്ട്രീയ സമ്മർദ്ദമുണ്ടായാൽ നിങ്ങൾ എന്തു ചെയ്യും?","options":["നിയമങ്ങൾ വ്യക്തമായി രേഖപ്പെടുത്തി കൃത്യമായ പരിശോധന കൂടാതെയുള്ള അനുമതി നിഷേധിക്കും","സീനിയർ ഓഫീസർമാരുമായി ചർച്ച ചെയ്ത് നിയമങ്ങൾക്കനുസരിച്ച് മാത്രം ചെയ്യും","നിയമപരമായി സുരക്ഷിതമായ പരിഹാരങ്ങൾ കണ്ടെത്തും","പദ്ധതികൾ വൈകാതിരിക്കാൻ നിർദ്ദേശങ്ങൾ അനുസരിക്കും"]}
+      "id": "q_government_jobs_5",
+      "category": "government_jobs",
+      "text": "Are you interested in policy making?",
+      "options": [
+        {
+          "text": "Yes, absolutely",
+          "score": 1
+        },
+        {
+          "text": "Sometimes",
+          "score": 0.6
+        },
+        {
+          "text": "Neutral",
+          "score": 0.3
+        },
+        {
+          "text": "No",
+          "score": 0
+        }
+      ],
+      "scoringLogic": {
+        "traits": {
+          "analytical": 0.21,
+          "creativity": 0.63,
+          "leadership": 0.43,
+          "communication": 0.23
+        }
+      },
+      "difficulty": "medium"
     },
     {
-      id: "g26",
-      category: "government_jobs",
-      subcategory: "bureaucracy",
-      difficulty: "medium",
-      question: "Following hierarchical protocol steps is necessary to ensure corrupt practices are prevented.",
-      options: ["Strongly Agree","Agree","Neutral","Disagree","Strongly Disagree"],
-      tags: ["government_jobs","discipline"],
-      scoringLogic: {"traits":{"discipline":5},"careers":["audit_officer","revenue_officer"]},
-      malayalamVersion: {"question":"ക്രമക്കേടുകൾ തടയാൻ ഔദ്യോഗിക നടപടിക്രമങ്ങളും പ്രോട്ടോക്കോളും കൃത്യമായി പാലിക്കേണ്ടതുണ്ട്.","options":["ശക്തമായി യോജിക്കുന്നു","യോജിക്കുന്നു","നിഷ്പക്ഷം","വിയോജിക്കുന്നു","ശക്തമായി വിയോജിക്കുന്നു"]}
+      "id": "q_government_jobs_6",
+      "category": "government_jobs",
+      "text": "Do you want to work in a government office?",
+      "options": [
+        {
+          "text": "Yes, absolutely",
+          "score": 1
+        },
+        {
+          "text": "Sometimes",
+          "score": 0.6
+        },
+        {
+          "text": "Neutral",
+          "score": 0.3
+        },
+        {
+          "text": "No",
+          "score": 0
+        }
+      ],
+      "scoringLogic": {
+        "traits": {
+          "analytical": 0.85,
+          "creativity": 0.89,
+          "leadership": 0.21,
+          "communication": 0.94
+        }
+      },
+      "difficulty": "medium"
     },
     {
-      id: "g27",
-      category: "government_jobs",
-      subcategory: "crisis",
-      difficulty: "hard",
-      question: "During a natural emergency disaster, I can stay calm and coordinate rescue teams systematically.",
-      options: ["Strongly Agree","Agree","Neutral","Disagree","Strongly Disagree"],
-      tags: ["government_jobs","leadership"],
-      scoringLogic: {"traits":{"leadership":5,"discipline":3},"careers":["disaster_management_officer","ias_officer"]},
-      malayalamVersion: {"question":"ഒരു പ്രകൃതിദുരന്തം ഉണ്ടാകുമ്പോൾ, ശാന്തമായി രക്ഷാപ്രവർത്തനം ഏകോപിപ്പിക്കാൻ എനിക്ക് സാധിക്കും.","options":["ശക്തമായി യോജിക്കുന്നു","യോജിക്കുന്നു","നിഷ്പക്ഷം","വിയോജിക്കുന്നു","ശക്തമായി വിയോജിക്കുന്നു"]}
+      "id": "q_government_jobs_7",
+      "category": "government_jobs",
+      "text": "Are you interested in diplomacy?",
+      "options": [
+        {
+          "text": "Yes, absolutely",
+          "score": 1
+        },
+        {
+          "text": "Sometimes",
+          "score": 0.6
+        },
+        {
+          "text": "Neutral",
+          "score": 0.3
+        },
+        {
+          "text": "No",
+          "score": 0
+        }
+      ],
+      "scoringLogic": {
+        "traits": {
+          "analytical": 0.99,
+          "creativity": 0.24,
+          "leadership": 0.97,
+          "communication": 0.89
+        }
+      },
+      "difficulty": "medium"
     },
     {
-      id: "g28",
-      category: "government_jobs",
-      subcategory: "digitization",
-      difficulty: "medium",
-      question: "Moving all citizen services online will completely eliminate ground-level office corruption.",
-      options: ["Strongly Agree","Agree","Neutral","Disagree","Strongly Disagree"],
-      tags: ["government_jobs","technology"],
-      scoringLogic: {"traits":{"analytical":4},"careers":["e_governance_director","it_consultant"]},
-      malayalamVersion: {"question":"എല്ലാ ജനസേവനങ്ങളും ഓൺലൈൻ വഴിയാക്കുന്നത് താഴേത്തട്ടിലുള്ള അഴിമതി പൂർണ്ണമായും ഇല്ലാതാക്കും.","options":["ശക്തമായി യോജിക്കുന്നു","യോജിക്കുന്നു","നിഷ്പക്ഷം","വിയോജിക്കുന്നു","ശക്തമായി വിയോജിക്കുന്നു"]}
+      "id": "q_government_jobs_8",
+      "category": "government_jobs",
+      "text": "Do you want to work in defense or police?",
+      "options": [
+        {
+          "text": "Yes, absolutely",
+          "score": 1
+        },
+        {
+          "text": "Sometimes",
+          "score": 0.6
+        },
+        {
+          "text": "Neutral",
+          "score": 0.3
+        },
+        {
+          "text": "No",
+          "score": 0
+        }
+      ],
+      "scoringLogic": {
+        "traits": {
+          "analytical": 0.61,
+          "creativity": 0.41,
+          "leadership": 0.5,
+          "communication": 0.47
+        }
+      },
+      "difficulty": "hard"
     },
     {
-      id: "g29",
-      category: "government_jobs",
-      subcategory: "rural",
-      difficulty: "hard",
-      question: "I am ready to live in a remote village for 3 years to supervise basic development schemes.",
-      options: ["Strongly Agree","Agree","Neutral","Disagree","Strongly Disagree"],
-      tags: ["government_jobs","empathy"],
-      scoringLogic: {"traits":{"empathy":5,"discipline":3},"careers":["ias_officer","rural_development_specialist"]},
-      malayalamVersion: {"question":"പദ്ധതികൾ ഏകോപിപ്പിക്കുന്നതിനായി ഒരു ഉൾനാടൻ ഗ്രാമത്തിൽ 3 വർഷം താമസിച്ചു ജോലി ചെയ്യാൻ ഞാൻ തയ്യാറാണ്.","options":["ശക്തമായി യോജിക്കുന്നു","യോജിക്കുന്നു","നിഷ്പക്ഷം","വിയോജിക്കുന്നു","ശക്തമായി വിയോജിക്കുന്നു"]}
+      "id": "q_government_jobs_9",
+      "category": "government_jobs",
+      "text": "Are you interested in the IRS or IAS?",
+      "options": [
+        {
+          "text": "Yes, absolutely",
+          "score": 1
+        },
+        {
+          "text": "Sometimes",
+          "score": 0.6
+        },
+        {
+          "text": "Neutral",
+          "score": 0.3
+        },
+        {
+          "text": "No",
+          "score": 0
+        }
+      ],
+      "scoringLogic": {
+        "traits": {
+          "analytical": 0.67,
+          "creativity": 0.41,
+          "leadership": 0.86,
+          "communication": 0.82
+        }
+      },
+      "difficulty": "hard"
     },
     {
-      id: "g30",
-      category: "government_jobs",
-      subcategory: "diplomacy",
-      difficulty: "hard",
-      question: "Representing my nation in global summits and negotiating bilateral trade deals sounds exciting.",
-      options: ["Strongly Agree","Agree","Neutral","Disagree","Strongly Disagree"],
-      tags: ["government_jobs","communication"],
-      scoringLogic: {"traits":{"communication":5,"leadership":4},"careers":["ifs_officer","diplomat"]},
-      malayalamVersion: {"question":"ആഗോള തലത്തിൽ രാജ്യത്തെ പ്രതിനിധീകരിക്കുന്നതും വ്യാപാര ചർച്ചകൾ നടത്തുന്നതും ആവേശകരമാണ്.","options":["ശക്തമായി യോജിക്കുന്നു","യോജിക്കുന്നു","നിഷ്പക്ഷം","വിയോജിക്കുന്നു","ശക്തമായി വിയോജിക്കുന്നു"]}
+      "id": "q_government_jobs_10",
+      "category": "government_jobs",
+      "text": "Do you want to work in public welfare?",
+      "options": [
+        {
+          "text": "Yes, absolutely",
+          "score": 1
+        },
+        {
+          "text": "Sometimes",
+          "score": 0.6
+        },
+        {
+          "text": "Neutral",
+          "score": 0.3
+        },
+        {
+          "text": "No",
+          "score": 0
+        }
+      ],
+      "scoringLogic": {
+        "traits": {
+          "analytical": 0.46,
+          "creativity": 0.92,
+          "leadership": 0.96,
+          "communication": 0.9
+        }
+      },
+      "difficulty": "hard"
     }
   ],
-  education: [
-    { id: "ed1", category: "education", question: "What is the primary role of a teacher in your eyes?", options: ["To spark curiosity and guide students to explore", "To explain complex concepts in simple, clear language", "To build character, morals, and discipline in students", "To prepare students to excel in competitive careers"], tags: ["education", "empathy", "communication"] },
-    { id: "ed2", category: "education", question: "If a student is consistently failing your subject, what do you do?", options: ["Schedule 1-on-1 sessions to understand their learning block", "Try a different visual or interactive teaching method", "Talk to their parents to check their home study habits", "Encourage them to work harder and assign practice tests"], tags: ["education", "empathy", "discipline"] },
-    { id: "ed3", category: "education", question: "Which educational career path sounds most fulfilling?", options: ["School or College Teacher (Direct classroom interaction)", "Curriculum Designer (Developing books and study materials)", "Edtech Product Creator (Designing educational apps)", "Academic Researcher / Professor (Writing papers and teaching)"], tags: ["education", "creativity", "science"] },
-    { id: "ed4", category: "education", question: "What is your view on standardized board exams?", options: ["An outdated system that promotes rote learning", "A necessary benchmark to measure academic standard", "A highly stressful filter that ignores creative talent", "Useful if combined with continuous classroom projects"], tags: ["education", "analytical thinking", "logical thinking"] },
-    { id: "ed5", category: "education", question: "If you had to teach a complex topic (like gravity), where do you start?", options: ["With a live hands-on experiment (dropping items)", "With a fascinating story about Isaac Newton and the apple", "With the mathematical formula and definitions on board", "With a video animation showing planets and orbits"], tags: ["education", "creativity", "communication"] },
-    { id: "ed6", category: "education", question: "What makes a great educational book or guide?", options: ["Simple layman language with funny illustrations", "Strict structure, key points, and past exam questions", "In-depth explanations of the history and logic behind ideas", "Interactive quizzes and QR codes to watch video clips"], tags: ["education", "creativity", "design"] },
-    { id: "ed7", category: "education", question: "How do you handle a disruptive student in class?", options: ["Ask them to stay back after class and discuss the issue calmly", "Give them a warnings and follow standard disciplinary rules", "Engage them by asking them to help write on the board", "Ignore minor disruptions to focus on teaching the class"], tags: ["education", "discipline", "emotional intelligence"] },
-    { id: "ed8", category: "education", question: "What is your stance on online self-learning vs. classroom learning?", options: ["Classrooms build critical social confidence and networking", "Online platforms give students the freedom to learn at their own pace", "A hybrid model (flipped classroom) is the future of study", "Online learning lacks discipline and real teacher feedback"], tags: ["education", "communication", "work style"] },
-    { id: "ed9", category: "education", question: "If you were to design a school, what would you prioritize?", options: ["Large libraries, science labs, and creative design spaces", "Sports grounds, gymnasium, and outdoor activity spaces", "Modern digital classrooms, tablet setups, and VR kits", "A calm, natural campus focused on focus and meditation"], tags: ["education", "design", "creativity"] },
-    { id: "ed10", category: "education", question: "How do you view AI grading essays or exams?", options: ["Excellent; it saves teachers hours of repetitive grading work", "Risky; AI cannot understand creative writing or nuance", "Good for objective multiple-choice tests but not essays", "The future of instant feedback for student practice"], tags: ["education", "technology", "analytical thinking"] },
-    { id: "ed11", category: "education", question: "What is the key to motivating an unmotivated student?", options: ["Connecting the subject topic to their personal hobbies", "Praising their small improvements to build confidence", "Explaining how the knowledge helps their future career goals", "Setting clear, structured milestones and tracking them"], tags: ["education", "empathy", "communication"] },
-    { id: "ed12", category: "education", question: "Which pedagogical theory interests you most?", options: ["Montessori (Child-led, hands-on learning)", "Project-Based Learning (Learning by solving real issues)", "Traditional Classical Education (Socratic debates)", "STEM/STEAM Education (Integrating science and art)"], tags: ["education", "science", "design"] },
-    { id: "ed13", category: "education", question: "How do you handle parent-teacher meetings?", options: ["Focus on highlighting the student's strengths before concerns", "Present clear data on marks, attendance, and behavior metrics", "Listen to parent perspectives on their child's home life", "Provide a clear study guide and checklist for home practice"], tags: ["education", "communication", "emotional intelligence"] },
-    { id: "ed14", category: "education", question: "What makes someone a life-long learner?", options: ["An insatiable curiosity about how things work", "A habit of reading books and news articles daily", "The humility to admit they don't know everything", "A career path that requires constant upskilling"], tags: ["education", "analytical thinking", "discipline"] },
-    { id: "ed15", category: "education", question: "If you were to launch an educational youtube channel, what is your niche?", options: ["Animated explainers of complex science topics", "Career guidance and competitive exam preparation advice", "Book summaries, study tips, and speed reading hacks", "Story-driven historical documentaries for kids"], tags: ["education", "creativity", "communication"] },
-    { id: "ed16", category: "education", question: "How do you view school uniforms?", options: ["Excellent; they promote equality and reduce peer pressure", "Outdated; they restrict individual student self-expression", "Acceptable but they should be comfortable and functional", "Boring; we should let kids dress in clean casual wear"], tags: ["education", "discipline", "empathy"] },
-    { id: "ed17", category: "education", question: "What is the best way to teach moral values to children?", options: ["Through storytelling, literature, and role models", "By reward schemes for helpful behaviors in school", "By discussions on ethical dilemmas and real situations", "It should be taught by parents, not by schools"], tags: ["education", "empathy", "communication"] },
-    { id: "ed18", category: "education", question: "What mathematical skill is most useful to an educator?", options: ["Basic statistics to analyze class performance averages", "Logical sets to organize syllabus modules", "Simple math for marks calculation", "I think coding helps create neat learning games"], tags: ["education", "logical thinking", "finance"] },
-    { id: "ed19", category: "education", question: "If you could change one thing about the Indian syllabus, it would be...", options: ["Adding mandatory vocational and practical skills classes", "Reducing the volume of homework to allow creative play", "Integrating financial literacy and emotional intelligence", "Allowing kids to select subjects based on interest early"], tags: ["education", "analytical thinking", "empathy"] },
-    { id: "ed20", category: "education", question: "What is your ultimate goal in entering the field of education?", options: ["To inspire thousands of students to achieve their dreams", "To design educational tools that reach millions of kids", "To build a successful, high-quality private school brand", "To master a subject and share that deep knowledge"], tags: ["education", "ambition", "leadership"] }
-  ,
+  "education": [
     {
-      id: "ed21",
-      category: "education",
-      subcategory: "teaching",
-      difficulty: "easy",
-      question: "Do you enjoy explaining complex lessons or homework to your friends or siblings?",
-      options: ["Yes, very much","Sometimes","No, I find it difficult"],
-      tags: ["education","communication"],
-      scoringLogic: {"traits":{"communication":5},"careers":["school_teacher","tutor"]},
-      malayalamVersion: {"question":"ബുദ്ധിമുട്ടുള്ള പാഠഭാഗങ്ങൾ സുഹൃത്തുക്കൾക്കോ സഹോദരങ്ങൾക്കോ പറഞ്ഞു കൊടുക്കുന്നത് നിങ്ങൾക്ക് ഇഷ്ടമാണോ?","options":["അതെ, വളരെ ഇഷ്ടമാണ്","ചിലപ്പോൾ","ഇല്ല, എനിക്കത് ബുദ്ധിമുട്ടായി തോന്നാറുണ്ട്"]}
+      "id": "q_education_1",
+      "category": "education",
+      "text": "Do you enjoy teaching others?",
+      "options": [
+        {
+          "text": "Yes, absolutely",
+          "score": 1
+        },
+        {
+          "text": "Sometimes",
+          "score": 0.6
+        },
+        {
+          "text": "Neutral",
+          "score": 0.3
+        },
+        {
+          "text": "No",
+          "score": 0
+        }
+      ],
+      "scoringLogic": {
+        "traits": {
+          "analytical": 0.44,
+          "creativity": 0.85,
+          "leadership": 0.71,
+          "communication": 0.7
+        }
+      },
+      "difficulty": "easy"
     },
     {
-      id: "ed22",
-      category: "education",
-      subcategory: "empathy",
-      difficulty: "easy",
-      question: "I feel patient when helping someone learn a task they fail to understand at first.",
-      options: ["Strongly Agree","Agree","Neutral","Disagree","Strongly Disagree"],
-      tags: ["education","empathy"],
-      scoringLogic: {"traits":{"empathy":5,"communication":3},"careers":["special_education_teacher","primary_teacher"]},
-      malayalamVersion: {"question":"പെട്ടെന്ന് കാര്യങ്ങൾ മനസ്സിലാകാത്ത കുട്ടികളെ പഠിപ്പിക്കുമ്പോൾ എനിക്ക് ആവശ്യത്തിന് ക്ഷമയുണ്ട്.","options":["ശക്തമായി യോജിക്കുന്നു","യോജിക്കുന്നു","നിഷ്പക്ഷം","വിയോജിക്കുന്നു","ശക്തമായി വിയോജിക്കുന്നു"]}
+      "id": "q_education_2",
+      "category": "education",
+      "text": "Are you interested in pedagogy?",
+      "options": [
+        {
+          "text": "Yes, absolutely",
+          "score": 1
+        },
+        {
+          "text": "Sometimes",
+          "score": 0.6
+        },
+        {
+          "text": "Neutral",
+          "score": 0.3
+        },
+        {
+          "text": "No",
+          "score": 0
+        }
+      ],
+      "scoringLogic": {
+        "traits": {
+          "analytical": 0.48,
+          "creativity": 0.68,
+          "leadership": 0.7,
+          "communication": 0.7
+        }
+      },
+      "difficulty": "easy"
     },
     {
-      id: "ed23",
-      category: "education",
-      subcategory: "curriculum",
-      difficulty: "medium",
-      question: "Designing interactive quizzes, stories, or activities for classroom studies sounds interesting.",
-      options: ["Strongly Agree","Agree","Neutral","Disagree","Strongly Disagree"],
-      tags: ["education","creativity"],
-      scoringLogic: {"traits":{"creativity":5},"careers":["curriculum_developer","instructional_designer"]},
-      malayalamVersion: {"question":"പഠനത്തിനായി വ്യത്യസ്തമായ ക്വിസുകളും കഥകളും പ്രവർത്തനങ്ങളും തയ്യാറാക്കുന്നത് താല്പര്യമുള്ള കാര്യമാണ്.","options":["ശക്തമായി യോജിക്കുന്നു","യോജിക്കുന്നു","നിഷ്പക്ഷം","വിയോജിക്കുന്നു","ശക്തമായി വിയോജിക്കുന്നു"]}
+      "id": "q_education_3",
+      "category": "education",
+      "text": "Do you want to be a professor?",
+      "options": [
+        {
+          "text": "Yes, absolutely",
+          "score": 1
+        },
+        {
+          "text": "Sometimes",
+          "score": 0.6
+        },
+        {
+          "text": "Neutral",
+          "score": 0.3
+        },
+        {
+          "text": "No",
+          "score": 0
+        }
+      ],
+      "scoringLogic": {
+        "traits": {
+          "analytical": 0.49,
+          "creativity": 0.58,
+          "leadership": 0.77,
+          "communication": 0.51
+        }
+      },
+      "difficulty": "easy"
     },
     {
-      id: "ed24",
-      category: "education",
-      subcategory: "careers",
-      difficulty: "medium",
-      question: "Which education sector role would you prefer to practice?",
-      options: ["Classroom teacher explaining subjects directly to students","Curriculum planner writing textbooks and exam guides","Edtech product creator designing mobile study applications","University research professor writing academic papers"],
-      tags: ["education","science"],
-      scoringLogic: {"traits":{"analytical":4,"communication":3},"careers":["edtech_product_manager","professor"]},
-      malayalamVersion: {"question":"വിദ്യഭ്യാസ മേഖലയിലെ ഏത് ജോലിയാണ് നിങ്ങൾ ചെയ്യാൻ ആഗ്രഹിക്കുന്നത്?","options":["വിദ്യാർത്ഥികളെ നേരിട്ട് പഠിപ്പിക്കുന്ന ക്ലാസ്റൂം ടീച്ചർ","ടെക്സ്റ്റ്ബുക്കുകളും ഗൈഡുകളും തയ്യാറാക്കുന്ന കരിക്കുലം പ്ലാനർ","പഠനത്തിനായുള്ള മൊബൈൽ ആപ്പുകൾ നിർമ്മിക്കുന്ന എഡ്-ടെക് ഡിസൈനർ","ഗവേഷണങ്ങൾ നടത്തുന്ന യൂണിവേഴ്സിറ്റി പ്രൊഫസർ"]}
+      "id": "q_education_4",
+      "category": "education",
+      "text": "Are you patient with learners?",
+      "options": [
+        {
+          "text": "Yes, absolutely",
+          "score": 1
+        },
+        {
+          "text": "Sometimes",
+          "score": 0.6
+        },
+        {
+          "text": "Neutral",
+          "score": 0.3
+        },
+        {
+          "text": "No",
+          "score": 0
+        }
+      ],
+      "scoringLogic": {
+        "traits": {
+          "analytical": 0.29,
+          "creativity": 0.26,
+          "leadership": 0.87,
+          "communication": 0.43
+        }
+      },
+      "difficulty": "medium"
     },
     {
-      id: "ed25",
-      category: "education",
-      subcategory: "discipline",
-      difficulty: "hard",
-      question: "How do you handle a student who consistently refuses to submit homework assignments?",
-      options: ["Talk in private to understand if there is a problem at home","Apply standard grade penalties according to school rules","Engage them by assigning interactive team tasks in class","Consult their parents for a collaborative study plan"],
-      tags: ["education","communication"],
-      scoringLogic: {"traits":{"communication":5,"empathy":3},"careers":["school_counselor","school_teacher"]},
-      malayalamVersion: {"question":"ഹോംവർക്കുകൾ കൃത്യമായി ചെയ്യാത്ത ഒരു കുട്ടിയെ നിങ്ങൾ എങ്ങനെയാണ് കൈകാര്യം ചെയ്യുക?","options":["കുട്ടിക്ക് വീട്ടിൽ എന്തെങ്കിലും ബുദ്ധിമുട്ടുകൾ ഉണ്ടോ എന്ന് സ്വകാര്യമായി ചോദിച്ചറിയും","സ്കൂൾ നിയമപ്രകാരമുള്ള നടപടികൾ സ്വീകരിക്കും","ക്ലാസ്സിലെ ഗ്രൂപ്പ് പ്രവർത്തനങ്ങളിൽ പങ്കാളിയാക്കി താല്പര്യം ഉണ്ടാക്കും","മാതാപിതാക്കളുമായി ചർച്ച ചെയ്ത് പഠനരീതി തയാറാക്കും"]}
+      "id": "q_education_5",
+      "category": "education",
+      "text": "Do you enjoy creating lesson plans?",
+      "options": [
+        {
+          "text": "Yes, absolutely",
+          "score": 1
+        },
+        {
+          "text": "Sometimes",
+          "score": 0.6
+        },
+        {
+          "text": "Neutral",
+          "score": 0.3
+        },
+        {
+          "text": "No",
+          "score": 0
+        }
+      ],
+      "scoringLogic": {
+        "traits": {
+          "analytical": 0.91,
+          "creativity": 0.72,
+          "leadership": 0.75,
+          "communication": 0.35
+        }
+      },
+      "difficulty": "medium"
     },
     {
-      id: "ed26",
-      category: "education",
-      subcategory: "standardized_tests",
-      difficulty: "medium",
-      question: "Standardized final board exams are an inefficient way to measure a student's real skills.",
-      options: ["Strongly Agree","Agree","Neutral","Disagree","Strongly Disagree"],
-      tags: ["education","analytical"],
-      scoringLogic: {"traits":{"analytical":4},"careers":["educational_policy_analyst","curriculum_developer"]},
-      malayalamVersion: {"question":"ഒരു കുട്ടിയുടെ യഥാർത്ഥ കഴിവുകൾ വിലയിരുത്താൻ പരീക്ഷകൾ മാത്രം നടത്തുന്നത് ശരിയായ രീതിയല്ല.","options":["ശക്തമായി യോജിക്കുന്നു","യോജിക്കുന്നു","നിഷ്പക്ഷം","വിയോജിക്കുന്നു","ശക്തമായി വിയോജിക്കുന്നു"]}
+      "id": "q_education_6",
+      "category": "education",
+      "text": "Are you interested in educational technology?",
+      "options": [
+        {
+          "text": "Yes, absolutely",
+          "score": 1
+        },
+        {
+          "text": "Sometimes",
+          "score": 0.6
+        },
+        {
+          "text": "Neutral",
+          "score": 0.3
+        },
+        {
+          "text": "No",
+          "score": 0
+        }
+      ],
+      "scoringLogic": {
+        "traits": {
+          "analytical": 0.38,
+          "creativity": 0.32,
+          "leadership": 0.47,
+          "communication": 0.76
+        }
+      },
+      "difficulty": "medium"
     },
     {
-      id: "ed27",
-      category: "education",
-      subcategory: "online_education",
-      difficulty: "hard",
-      question: "Designing customized online learning paths using AI algorithms will replace general textbooks.",
-      options: ["Strongly Agree","Agree","Neutral","Disagree","Strongly Disagree"],
-      tags: ["education","technology"],
-      scoringLogic: {"traits":{"analytical":4,"creativity":3},"careers":["instructional_designer","edtech_developer"]},
-      malayalamVersion: {"question":"AI ഉപയോഗിച്ച് കുട്ടികൾക്ക് അനുയോജ്യമായ രീതിയിൽ ഓൺലൈൻ പഠനം രൂപകൽപ്പന ചെയ്യുന്നത് ഭാവിയിൽ പുസ്തകങ്ങൾക്ക് പകരമാകും.","options":["ശക്തമായി യോజിക്കുന്നു","യോജിക്കുന്നു","നിഷ്പക്ഷം","വിയോജിക്കുന്നു","ശക്തമായി വിയോജിക്കുന്നു"]}
+      "id": "q_education_7",
+      "category": "education",
+      "text": "Do you want to shape the future of students?",
+      "options": [
+        {
+          "text": "Yes, absolutely",
+          "score": 1
+        },
+        {
+          "text": "Sometimes",
+          "score": 0.6
+        },
+        {
+          "text": "Neutral",
+          "score": 0.3
+        },
+        {
+          "text": "No",
+          "score": 0
+        }
+      ],
+      "scoringLogic": {
+        "traits": {
+          "analytical": 0.88,
+          "creativity": 0.63,
+          "leadership": 0.43,
+          "communication": 0.78
+        }
+      },
+      "difficulty": "medium"
     },
     {
-      id: "ed28",
-      category: "education",
-      subcategory: "adult_education",
-      difficulty: "medium",
-      question: "I would enjoy training corporate employees or adult professionals in new industry skills.",
-      options: ["Strongly Agree","Agree","Neutral","Disagree","Strongly Disagree"],
-      tags: ["education","business"],
-      scoringLogic: {"traits":{"communication":5,"leadership":3},"careers":["corporate_trainer","hr_development_specialist"]},
-      malayalamVersion: {"question":"സ്ഥാപനങ്ങളിലെ ഉദ്യോഗസ്ഥർക്കോ മുതിർന്നവർക്കോ പുതിയ തൊഴിൽ പരിശീലനങ്ങൾ നൽകുന്നത് ഞാൻ ആസ്വദിക്കും.","options":["ശക്തമായി യോജിക്കുന്നു","യോജിക്കുന്നു","നിഷ്പക്ഷം","വിയോജിക്കുന്നു","ശക്തമായി വിയോജിക്കുന്നു"]}
+      "id": "q_education_8",
+      "category": "education",
+      "text": "Are you interested in special education?",
+      "options": [
+        {
+          "text": "Yes, absolutely",
+          "score": 1
+        },
+        {
+          "text": "Sometimes",
+          "score": 0.6
+        },
+        {
+          "text": "Neutral",
+          "score": 0.3
+        },
+        {
+          "text": "No",
+          "score": 0
+        }
+      ],
+      "scoringLogic": {
+        "traits": {
+          "analytical": 0.22,
+          "creativity": 0.6,
+          "leadership": 0.75,
+          "communication": 0.65
+        }
+      },
+      "difficulty": "hard"
     },
     {
-      id: "ed29",
-      category: "education",
-      subcategory: "policy",
-      difficulty: "hard",
-      question: "Which educational challenge is most critical to address in government schools?",
-      options: ["Upgrading digital infrastructure and computer labs","Improving teacher training and pedagogical methods","Providing free high-quality study materials and meals","Integrating vocational skill training classes early"],
-      tags: ["education","government_jobs"],
-      scoringLogic: {"traits":{"analytical":5},"careers":["educational_policy_analyst","school_administrator"]},
-      malayalamVersion: {"question":"സർക്കാർ സ്കൂളുകളിൽ പരിഹരിക്കേണ്ട ഏറ്റവും പ്രധാനപ്പെട്ട പ്രശ്നം ഏതാണ്?","options":["ഡിജിറ്റൽ സംവിധാനങ്ങളും കമ്പ്യൂട്ടർ ലാബുകളും മെച്ചപ്പെടുത്തുക","അധ്യാപകർക്ക് മികച്ച പരിശീലനങ്ങളും അധ്യാപന രീതികളും നൽകുക","സൗജന്യ ഗുണനിലവാരമുള്ള പഠന സാമഗ്രികളും ഭക്ഷണവും നൽകുക","തൊഴിലധിഷ്ഠിത കോഴ്സുകൾ ചെറുപ്പത്തിലേ തന്നെ പഠിപ്പിക്കുക"]}
+      "id": "q_education_9",
+      "category": "education",
+      "text": "Do you like explaining complex concepts?",
+      "options": [
+        {
+          "text": "Yes, absolutely",
+          "score": 1
+        },
+        {
+          "text": "Sometimes",
+          "score": 0.6
+        },
+        {
+          "text": "Neutral",
+          "score": 0.3
+        },
+        {
+          "text": "No",
+          "score": 0
+        }
+      ],
+      "scoringLogic": {
+        "traits": {
+          "analytical": 0.73,
+          "creativity": 0.42,
+          "leadership": 0.41,
+          "communication": 0.84
+        }
+      },
+      "difficulty": "hard"
     },
     {
-      id: "ed30",
-      category: "education",
-      subcategory: "special_needs",
-      difficulty: "hard",
-      question: "Developing customized learning tools for children with learning difficulties (like dyslexia) is inspiring.",
-      options: ["Strongly Agree","Agree","Neutral","Disagree","Strongly Disagree"],
-      tags: ["education","empathy"],
-      scoringLogic: {"traits":{"empathy":5,"creativity":3},"careers":["special_education_specialist","child_psychologist"]},
-      malayalamVersion: {"question":"പഠന വൈകല്യമുള്ള കുട്ടികൾക്കായി പ്രത്യേക പഠന സഹായികൾ രൂപകൽപ്പന ചെയ്യുന്നത് നല്ലൊരു കാര്യമാണ്.","options":["ശക്തമായി യോജിക്കുന്നു","യോജിക്കുന്നു","നിഷ്പക്ഷം","വിയോജിക്കുന്നു","ശക്തമായി വിയോജിക്കുന്നു"]}
+      "id": "q_education_10",
+      "category": "education",
+      "text": "Are you interested in curriculum design?",
+      "options": [
+        {
+          "text": "Yes, absolutely",
+          "score": 1
+        },
+        {
+          "text": "Sometimes",
+          "score": 0.6
+        },
+        {
+          "text": "Neutral",
+          "score": 0.3
+        },
+        {
+          "text": "No",
+          "score": 0
+        }
+      ],
+      "scoringLogic": {
+        "traits": {
+          "analytical": 0.93,
+          "creativity": 0.81,
+          "leadership": 0.41,
+          "communication": 0.81
+        }
+      },
+      "difficulty": "hard"
     }
   ],
-  hospitality: [
-    { id: "ho1", category: "hospitality", question: "What makes a hotel stay memorable for you?", options: ["The warm, personalized service from the hotel staff", "The clean, luxurious, and aesthetic room design", "The high-quality culinary experience at the buffet", "The smooth, high-tech check-in and check-out process"], tags: ["hospitality", "empathy", "design"] },
-    { id: "ho2", category: "hospitality", question: "How do you react to a customer complaining about food quality?", options: ["Apologize immediately, replace the dish, and offer a discount", "Listen to their feedback and inform the kitchen chef", "Audit the dish ingredients to verify if there is an error", "Explain the cooking standard politely to defend the menu"], tags: ["hospitality", "communication", "emotional intelligence"] },
-    { id: "ho3", category: "hospitality", question: "Which hospitality career path sounds most interesting?", options: ["Hotel General Manager (Operations and leadership)", "Executive Chef / F&B Manager (Culinary and kitchen)", "Event Planner (Managing weddings, summits, and parties)", "Travel & Tourism Guide (Showing cultures and destinations)"], tags: ["hospitality", "leadership", "creativity"] },
-    { id: "ho4", category: "hospitality", question: "What does 'service excellence' mean to you?", options: ["Anticipating customer needs before they ask", "Executing service quickly with zero technical errors", "Being warm, smiling, and polite to everyone", "Offering custom luxury touches to VIP guests"], tags: ["hospitality", "empathy", "discipline"] },
-    { id: "ho5", category: "hospitality", question: "If you had to plan a high-profile corporate event, what is your first step?", options: ["Create a detailed timeline, guest list, and budget sheet", "Select a stunning, premium venue with great food", "Collaborate with suppliers, decors, and tech teams", "Pitch a unique, creative theme for the event to clients"], tags: ["hospitality", "discipline", "business"] },
-    { id: "ho6", category: "hospitality", question: "How do you handle working on holidays, weekends, or late nights?", options: ["I accept it; the hospitality industry never sleeps", "I prefer fixed office hours in corporate hotel management", "I look for event projects that have flexible schedules", "I find it exhausting and would need a compensatory break"], tags: ["hospitality", "work style", "discipline"] },
-    { id: "ho7", category: "hospitality", question: "What is your stance on food waste in hotels?", options: ["Should be strictly measured, tracked, and donated to NGOs", "A normal cost of doing luxury buffet business", "Can be minimized by smart kitchen cooking analytics", "I prefer a-la-carte menus to prevent buffet waste entirely"], tags: ["hospitality", "empathy", "science"] },
-    { id: "ho8", category: "hospitality", question: "Which hospitality environment do you prefer?", options: ["A bustling, high-stakes 5-star luxury city hotel", "A calm, peaceful eco-resort in the hills or beach", "A creative bakery, cafe, or theme restaurant", "A global travel agency coordinating cruises and tours"], tags: ["hospitality", "work style", "creativity"] },
-    { id: "ho9", category: "hospitality", question: "What is the key to handling an angry guest who is shouting?", options: ["Keep eye contact, listen calmly, and validate their anger", "Explain the facts and rules of the hotel policies politely", "Call a senior manager immediately to handle the dispute", "Offer an instant upgrade or coupon to resolve it fast"], tags: ["hospitality", "communication", "emotional intelligence"] },
-    { id: "ho10", category: "hospitality", question: "How do you view AI in hotel operations (like robot check-ins)?", options: ["Great; it speeds up check-in and cuts operation costs", "Poor; hospitality needs genuine human warmth and smiles", "A useful tool for basic tasks, but humans must lead service", "Excellent for luxury smart-room automation systems"], tags: ["hospitality", "technology", "analytical thinking"] },
-    { id: "ho11", category: "hospitality", question: "What is the most important skill for a restaurant manager?", options: ["Ensuring high food safety standards and staff discipline", "Great customer relationship management (CRM) and warmth", "Optimizing menu pricing, cost of goods, and labor budgets", "Fast coordination of waitstaff during busy dinner rushes"], tags: ["hospitality", "leadership", "finance"] },
-    { id: "ho12", category: "hospitality", question: "If you had to launch a boutique homestay (Airbnb), what is your USP?", options: ["Exquisite, local heritage design and vintage furniture", "Free organic farm-to-table breakfast and cooking classes", "A highly scenic view, balcony, and campfire setup", "High-speed internet, smart workspace, and central location"], tags: ["hospitality", "creativity", "marketing"] },
-    { id: "ho13", category: "hospitality", question: "How do you feel about cooking or culinary arts?", options: ["I love experimenting with spices, plating, and recipes", "I prefer baking pastries, cakes, and dessert design", "I am interested in managing food business, not cooking", "I have zero interest in kitchen work; I prefer management"], tags: ["hospitality", "creativity", "technical interest"] },
-    { id: "ho14", category: "hospitality", question: "What makes a great travel itinerary?", options: ["A balanced mix of sightseeing, local food, and rest", "A packed schedule that covers maximum spots in 3 days", "A customized plan based on the traveler's personal interest", "A luxury tour with private cabs and 5-star stays"], tags: ["hospitality", "analytical thinking", "empathy"] },
-    { id: "ho15", category: "hospitality", question: "If you observe a teammate ignoring a guest request, what do you do?", options: ["Fulfill the guest request myself immediately, then talk to my teammate", "Report the teammate to the supervisor for neglect", "Confront them politely and ask if they need help", "Ignore it; I have enough tasks on my own schedule"], tags: ["hospitality", "discipline", "teamwork"] },
-    { id: "ho16", category: "hospitality", question: "What is the key to training new service staff?", options: ["Standard operating procedures (SOPs) and mock practice", "Teaching them empathy and active listening skills first", "Giving them live experience on the floor with a mentor", "Testing them on menu ingredients and safety guidelines"], tags: ["hospitality", "discipline", "communication"] },
-    { id: "ho17", category: "hospitality", question: "What culinary trend interests you most?", options: ["Plant-based vegan meat and dairy alternatives", "Traditional regional heritage recipes cooked in modern styles", "Molecular gastronomy (food science, gels, and foams)", "Zero-waste kitchens that recycle all scraps"], tags: ["hospitality", "science", "creativity"] },
-    { id: "ho18", category: "hospitality", question: "How do you handle a massive group of 100 tourists arriving at once?", options: ["Organize pre-printed check-in forms and welcome drinks", "Delegate specific staff to handle luggage, keys, and questions", "Keep calm, greet the leader, and handle check-ins sequentially", "Automate check-in through mobile app scans beforehand"], tags: ["hospitality", "leadership", "discipline"] },
-    { id: "ho19", category: "hospitality", question: "Which travel destination type appeals to you most?", options: ["Historic European cities with museums and architecture", "Tropical beach resorts focused on relaxation and water sports", "High adventure treks in the Himalayas or forests", "Cultural towns with traditional festivals and foods"], tags: ["hospitality", "communication", "risk tolerance"] },
-    { id: "ho20", category: "hospitality", question: "What is your ultimate dream in the hospitality industry?", options: ["To own and run a successful global chain of hotels/cafes", "To become a Michelin-starred chef running an elite restaurant", "To plan massive destination weddings and celebrity events", "To design sustainable eco-tourism resorts across the world"], tags: ["hospitality", "ambition", "creativity"] }
-  ,
+  "hospitality": [
     {
-      id: "ho21",
-      category: "hospitality",
-      subcategory: "customer_service",
-      difficulty: "easy",
-      question: "Do you enjoy talking to guests, making them feel welcome, and coordinating food/seating?",
-      options: ["Yes, very much","Sometimes, if it is a small event","No, I feel shy"],
-      tags: ["hospitality","communication"],
-      scoringLogic: {"traits":{"communication":5},"careers":["guest_relations_officer","hotel_manager"]},
-      malayalamVersion: {"question":"വിരുന്നുകാരോട് സംസാരിക്കാനും, അവർക്കാവശ്യമായ ഭക്ഷണവും സൗകര്യങ്ങളും ഒരുക്കാനും നിങ്ങൾക്ക് താല്പര്യമുണ്ടോ?","options":["അതെ, വളരെ താല്പര്യമുണ്ട്","ചിലപ്പോൾ, ചെറിയ രീതിയിലാണെങ്കിൽ മാത്രം","ഇല്ല, എനിക്ക് നാണക്കേട് തോന്നാറുണ്ട്"]}
+      "id": "q_hospitality_1",
+      "category": "hospitality",
+      "text": "Do you enjoy serving and hosting guests?",
+      "options": [
+        {
+          "text": "Yes, absolutely",
+          "score": 1
+        },
+        {
+          "text": "Sometimes",
+          "score": 0.6
+        },
+        {
+          "text": "Neutral",
+          "score": 0.3
+        },
+        {
+          "text": "No",
+          "score": 0
+        }
+      ],
+      "scoringLogic": {
+        "traits": {
+          "analytical": 0.48,
+          "creativity": 0.44,
+          "leadership": 0.83,
+          "communication": 0.86
+        }
+      },
+      "difficulty": "easy"
     },
     {
-      id: "ho22",
-      category: "hospitality",
-      subcategory: "food",
-      difficulty: "easy",
-      question: "I notice menu choices, restaurant interior designs, and food presentations immediately.",
-      options: ["Strongly Agree","Agree","Neutral","Disagree","Strongly Disagree"],
-      tags: ["hospitality","design"],
-      scoringLogic: {"traits":{"creativity":4},"careers":["restaurant_manager","food_beverage_manager"]},
-      malayalamVersion: {"question":"ഭക്ഷണശാലകളിലെ മെനുകളും, ഉൾാലങ്കാരവും, ഭക്ഷണം വിളമ്പുന്ന രീതിയും ഞാൻ പെട്ടെന്ന് ശ്രദ്ധിക്കാറുണ്ട്.","options":["ശക്തമായി യോജിക്കുന്നു","യോജിക്കുന്നു","നിഷ്പക്ഷം","വിയോജിക്കുന്നു","ശക്തമായി വിയോജിക്കുന്നു"]}
+      "id": "q_hospitality_2",
+      "category": "hospitality",
+      "text": "Are you interested in hotel management?",
+      "options": [
+        {
+          "text": "Yes, absolutely",
+          "score": 1
+        },
+        {
+          "text": "Sometimes",
+          "score": 0.6
+        },
+        {
+          "text": "Neutral",
+          "score": 0.3
+        },
+        {
+          "text": "No",
+          "score": 0
+        }
+      ],
+      "scoringLogic": {
+        "traits": {
+          "analytical": 0.7,
+          "creativity": 0.7,
+          "leadership": 0.86,
+          "communication": 0.22
+        }
+      },
+      "difficulty": "easy"
     },
     {
-      id: "ho23",
-      category: "hospitality",
-      subcategory: "event_planning",
-      difficulty: "medium",
-      question: "Coordinating vendors, sound setups, and menu plans for a major wedding sounds exciting.",
-      options: ["Strongly Agree","Agree","Neutral","Disagree","Strongly Disagree"],
-      tags: ["hospitality","discipline"],
-      scoringLogic: {"traits":{"leadership":4,"communication":4},"careers":["event_planner","wedding_coordinator"]},
-      malayalamVersion: {"question":"ഒരു വലിയ കല്യാണത്തിനായി ആവശ്യക്കാരെ കണ്ടെത്തുന്നത് മുതൽ ഭക്ഷണക്രമീകരണം വരെ പ്ലാൻ ചെയ്യുന്നത് ആവേശകരമാണ്.","options":["ശക്തമായി യോജിക്കുന്നു","യോജിക്കുന്നു","നിഷ്പക്ഷം","വിയോജിക്കുന്നു","ശക്തമായി വിയോജിക്കുന്നു"]}
+      "id": "q_hospitality_3",
+      "category": "hospitality",
+      "text": "Do you want to work in the tourism industry?",
+      "options": [
+        {
+          "text": "Yes, absolutely",
+          "score": 1
+        },
+        {
+          "text": "Sometimes",
+          "score": 0.6
+        },
+        {
+          "text": "Neutral",
+          "score": 0.3
+        },
+        {
+          "text": "No",
+          "score": 0
+        }
+      ],
+      "scoringLogic": {
+        "traits": {
+          "analytical": 0.46,
+          "creativity": 0.95,
+          "leadership": 0.58,
+          "communication": 0.85
+        }
+      },
+      "difficulty": "easy"
     },
     {
-      id: "ho24",
-      category: "hospitality",
-      subcategory: "careers",
-      difficulty: "medium",
-      question: "Which hospitality career path interests you the most?",
-      options: ["Managing luxury hotel operations and guest relations","Directing restaurant kitchens as a professional chef","Designing tourism packages and guiding travelers to cultural sites","Planning massive corporate summits, events, and exhibitions"],
-      tags: ["hospitality","leadership"],
-      scoringLogic: {"traits":{"leadership":5,"communication":3},"careers":["hotel_general_manager","travel_tourism_consultant"]},
-      malayalamVersion: {"question":"ഹോസ്പിറ്റാലിറ്റി രംഗത്തെ ഏത് തൊഴിലാണ് നിങ്ങൾക്ക് കൂടുതൽ താല്പര്യം?","options":["ലക്ഷ്വറി ഹോട്ടലുകളുടെ പ്രവർത്തനങ്ങളും അതിഥി സൽക്കാരവും നിയന്ത്രിക്കുന്നത്","ഒരു പ്രൊഫഷണൽ ഷെഫായി അടുക്കള ഭരിക്കുന്നത്","ടൂറിസം പാക്കേജുകൾ തയ്യാറാക്കുകയും യാത്രക്കാരെ നയിക്കുകയും ചെയ്യുന്നത്","വലിയ കോർപ്പറേറ്റ് മീറ്റിംഗുകളും പ്രദർശനങ്ങളും ആസൂത്രണം ചെയ്യുന്നത്"]}
+      "id": "q_hospitality_4",
+      "category": "hospitality",
+      "text": "Are you good at customer service?",
+      "options": [
+        {
+          "text": "Yes, absolutely",
+          "score": 1
+        },
+        {
+          "text": "Sometimes",
+          "score": 0.6
+        },
+        {
+          "text": "Neutral",
+          "score": 0.3
+        },
+        {
+          "text": "No",
+          "score": 0
+        }
+      ],
+      "scoringLogic": {
+        "traits": {
+          "analytical": 0.37,
+          "creativity": 0.34,
+          "leadership": 0.22,
+          "communication": 0.43
+        }
+      },
+      "difficulty": "medium"
     },
     {
-      id: "ho25",
-      category: "hospitality",
-      subcategory: "complaints",
-      difficulty: "hard",
-      question: "How do you handle an angry guest complaining about slow service in a busy hotel?",
-      options: ["Listen, apologize, offer a complimentary item, and speed up","Explain that the kitchen is busy due to rush hour","Consult the supervisor to manage the guest's demands","Reassign staff immediately to prioritize their order"],
-      tags: ["hospitality","communication"],
-      scoringLogic: {"traits":{"communication":5},"careers":["guest_relations_manager","hotel_manager"]},
-      malayalamVersion: {"question":"തിരക്കുള്ള ഒരു ഹോട്ടലിൽ സർവീസ് വൈകിയതിന് ദേഷ്യപ്പെടുന്ന ഒരു കസ്റ്റമറെ നിങ്ങൾ എങ്ങനെ കൈകാര്യം ചെയ്യും?","options":["ക്ഷമയോടെ കേട്ട് മാപ്പ് പറയുകയും സൗജന്യമായി എന്തെങ്കിലും നൽകി സർവീസ് വേഗത്തിലാക്കുകയും ചെയ്യും","തിരക്ക് കാരണമാണ് വൈകിയതെന്ന് അവരെ പറഞ്ഞു ബോധ്യപ്പെടുത്തും","സീനിയർ മാനേജറുമായി സംസാരിച്ച് പ്രശ്നം പരിഹരിക്കും","അവരുടെ ഓർഡറിന് മുൻഗണന നൽകാൻ ജീവനക്കാരെ ചലിപ്പിക്കും"]}
+      "id": "q_hospitality_5",
+      "category": "hospitality",
+      "text": "Do you enjoy culinary arts and cooking?",
+      "options": [
+        {
+          "text": "Yes, absolutely",
+          "score": 1
+        },
+        {
+          "text": "Sometimes",
+          "score": 0.6
+        },
+        {
+          "text": "Neutral",
+          "score": 0.3
+        },
+        {
+          "text": "No",
+          "score": 0
+        }
+      ],
+      "scoringLogic": {
+        "traits": {
+          "analytical": 0.99,
+          "creativity": 0.48,
+          "leadership": 0.28,
+          "communication": 0.34
+        }
+      },
+      "difficulty": "medium"
     },
     {
-      id: "ho26",
-      category: "hospitality",
-      subcategory: "tourism",
-      difficulty: "medium",
-      question: "I would enjoy studying local cultures, historical architecture, and language to guide travelers.",
-      options: ["Strongly Agree","Agree","Neutral","Disagree","Strongly Disagree"],
-      tags: ["hospitality","communication"],
-      scoringLogic: {"traits":{"communication":5},"careers":["tour_guide","travel_writer"]},
-      malayalamVersion: {"question":"യാത്രക്കാരെ നയിക്കാൻ പ്രാദേശിക സംസ്കാരങ്ങൾ, ചരിത്രം, ഭാഷകൾ എന്നിവ പഠിക്കുന്നത് ഞാൻ ഇഷ്ടപ്പെടുന്നു.","options":["ശക്തമായി യോജിക്കുന്നു","യോജിക്കുന്നു","നിഷ്പക്ഷം","വിയോജിക്കുന്നു","ശക്തമായി വിയോജിക്കുന്നു"]}
+      "id": "q_hospitality_6",
+      "category": "hospitality",
+      "text": "Are you interested in event management?",
+      "options": [
+        {
+          "text": "Yes, absolutely",
+          "score": 1
+        },
+        {
+          "text": "Sometimes",
+          "score": 0.6
+        },
+        {
+          "text": "Neutral",
+          "score": 0.3
+        },
+        {
+          "text": "No",
+          "score": 0
+        }
+      ],
+      "scoringLogic": {
+        "traits": {
+          "analytical": 0.88,
+          "creativity": 0.83,
+          "leadership": 0.81,
+          "communication": 0.44
+        }
+      },
+      "difficulty": "medium"
     },
     {
-      id: "ho27",
-      category: "hospitality",
-      subcategory: "culinary",
-      difficulty: "hard",
-      question: "I prefer working in the food preparation and kitchen cooking side over managing guest desks.",
-      options: ["Strongly Agree","Agree","Neutral","Disagree","Strongly Disagree"],
-      tags: ["hospitality","creativity"],
-      scoringLogic: {"traits":{"creativity":5},"careers":["chef","pastry_artist"]},
-      malayalamVersion: {"question":"അതിഥികളെ സ്വീകരിക്കുന്നതിനേക്കാൾ എനിക്ക് താല്പര്യം അടുക്കളയിൽ പാചകം ചെയ്യാനും വിഭവങ്ങൾ ഒരുക്കാനുമാണ്.","options":["ശക്തമായി യോജിക്കുന്നു","യോജിക്കുന്നു","നിഷ്പക്ഷം","വിയോജിക്കുന്നു","ശക്തമായി വിയോജിക്കുന്നു"]}
+      "id": "q_hospitality_7",
+      "category": "hospitality",
+      "text": "Do you want to manage a restaurant?",
+      "options": [
+        {
+          "text": "Yes, absolutely",
+          "score": 1
+        },
+        {
+          "text": "Sometimes",
+          "score": 0.6
+        },
+        {
+          "text": "Neutral",
+          "score": 0.3
+        },
+        {
+          "text": "No",
+          "score": 0
+        }
+      ],
+      "scoringLogic": {
+        "traits": {
+          "analytical": 0.33,
+          "creativity": 0.31,
+          "leadership": 0.32,
+          "communication": 0.67
+        }
+      },
+      "difficulty": "medium"
     },
     {
-      id: "ho28",
-      category: "hospitality",
-      subcategory: "sustainability",
-      difficulty: "medium",
-      question: "Eco-friendly green hotels that recycle water and avoid single-use plastics are the future.",
-      options: ["Strongly Agree","Agree","Neutral","Disagree","Strongly Disagree"],
-      tags: ["hospitality","empathy"],
-      scoringLogic: {"traits":{"analytical":4},"careers":["ecotourism_consultant","sustainable_hotel_manager"]},
-      malayalamVersion: {"question":"പ്ലാസ്റ്റിക്കുകൾ പൂർണ്ണമായും ഒഴിവാക്കുന്ന പരിസ്ഥിതി സൗഹൃദ ഹോട്ടലുകളാണ് ഭാവിയിലുണ്ടാവേണ്ടത്.","options":["ശക്തമായി യോജിക്കുന്നു","യോജിക്കുന്നു","നിഷ്പക്ഷം","വിയോജിക്കുന്നു","ശക്തമായി വിയോജിക്കുന്നു"]}
+      "id": "q_hospitality_8",
+      "category": "hospitality",
+      "text": "Are you polite and welcoming?",
+      "options": [
+        {
+          "text": "Yes, absolutely",
+          "score": 1
+        },
+        {
+          "text": "Sometimes",
+          "score": 0.6
+        },
+        {
+          "text": "Neutral",
+          "score": 0.3
+        },
+        {
+          "text": "No",
+          "score": 0
+        }
+      ],
+      "scoringLogic": {
+        "traits": {
+          "analytical": 0.78,
+          "creativity": 0.34,
+          "leadership": 0.34,
+          "communication": 0.48
+        }
+      },
+      "difficulty": "hard"
     },
     {
-      id: "ho29",
-      category: "hospitality",
-      subcategory: "revenue",
-      difficulty: "hard",
-      question: "I would enjoy optimizing room booking prices daily based on search interest and season demand.",
-      options: ["Strongly Agree","Agree","Neutral","Disagree","Strongly Disagree"],
-      tags: ["hospitality","finance"],
-      scoringLogic: {"traits":{"analytical":5},"careers":["hotel_revenue_manager","pricing_analyst"]},
-      malayalamVersion: {"question":"സീസണിലെ ആവശ്യക്കാരെയും തിരക്കുകളെയും അടിസ്ഥാനമാക്കി ഹോട്ടൽ മുറികളുടെ വാടക ക്രമീകരിക്കുന്നത് ഞാൻ ആസ്വദിക്കും.","options":["ശക്തമായി യോജിക്കുന്നു","യോജിക്കുന്നു","നിഷ്പക്ഷം","വിയോജിക്കുന്നു","ശക്തമായി വിയോജിക്കുന്നു"]}
+      "id": "q_hospitality_9",
+      "category": "hospitality",
+      "text": "Do you enjoy traveling?",
+      "options": [
+        {
+          "text": "Yes, absolutely",
+          "score": 1
+        },
+        {
+          "text": "Sometimes",
+          "score": 0.6
+        },
+        {
+          "text": "Neutral",
+          "score": 0.3
+        },
+        {
+          "text": "No",
+          "score": 0
+        }
+      ],
+      "scoringLogic": {
+        "traits": {
+          "analytical": 0.32,
+          "creativity": 0.93,
+          "leadership": 0.21,
+          "communication": 0.8
+        }
+      },
+      "difficulty": "hard"
     },
     {
-      id: "ho30",
-      category: "hospitality",
-      subcategory: "workload",
-      difficulty: "medium",
-      question: "Working during festivals, late nights, or holiday seasons sounds acceptable to me.",
-      options: ["Strongly Agree","Agree","Neutral","Disagree","Strongly Disagree"],
-      tags: ["hospitality","work style"],
-      scoringLogic: {"traits":{"discipline":5},"careers":["hotel_operations_lead","event_coordinator"]},
-      malayalamVersion: {"question":"അവധി ദിവസങ്ങളിലോ, രാത്രികളിലോ, ആഘോഷ സമയങ്ങളിലോ ജോലി ചെയ്യേണ്ടി വരുന്നത് ഞാൻ പൊരുത്തപ്പെടും.","options":["ശക്തമായി യോജിക്കുന്നു","യോജിക്കുന്നു","നിഷ്പക്ഷം","വിയോജിക്കുന്നു","ശക്തമായി വിയോജിക്കുന്നു"]}
+      "id": "q_hospitality_10",
+      "category": "hospitality",
+      "text": "Are you interested in luxury hospitality?",
+      "options": [
+        {
+          "text": "Yes, absolutely",
+          "score": 1
+        },
+        {
+          "text": "Sometimes",
+          "score": 0.6
+        },
+        {
+          "text": "Neutral",
+          "score": 0.3
+        },
+        {
+          "text": "No",
+          "score": 0
+        }
+      ],
+      "scoringLogic": {
+        "traits": {
+          "analytical": 0.81,
+          "creativity": 0.46,
+          "leadership": 0.59,
+          "communication": 0.34
+        }
+      },
+      "difficulty": "hard"
     }
   ],
-  aviation: [
-    { id: "av1", category: "aviation", question: "What catches your attention most about airplanes?", options: ["The complex aerodynamics and engineering of jet engines", "The prestige, travel lifestyle, and uniforms of pilots", "The massive logistics of managing airports and flights", "The design and comfort of luxury airline cabins"], tags: ["aviation", "technical interest", "discipline"] },
-    { id: "av2", category: "aviation", question: "How do you react to flight turbulence?", options: ["Completely calm; I know planes are built to withstand it", "Slightly nervous, but I trust the pilot and technology", "Very anxious; I count down the minutes until it stops", "Fascinated by the meteorological weather cells causing it"], tags: ["aviation", "discipline", "science"] },
-    { id: "av3", category: "aviation", question: "Which aviation career path sounds most exciting?", options: ["Commercial Airline Pilot (Flying global routes)", "Aircraft Maintenance Engineer (Servicing jet engines)", "Airport Operations Manager (Managing runways & terminals)", "Air Traffic Controller (ATC - Coordinating flight paths)"], tags: ["aviation", "technical interest", "discipline"] },
-    { id: "av4", category: "aviation", question: "How do you feel about working in a highly regulated, zero-error job?", options: ["I thrive under strict checklists and safety rules", "I find the high responsibility and stakes stressful", "I view it as a proud, high-precision profession", "I prefer a job with creative freedom to experiment"], tags: ["aviation", "discipline", "work style"] },
-    { id: "av5", category: "aviation", question: "What is the most critical trait for a pilot or air traffic controller?", options: ["Calmness and rapid decision-making during emergencies", "Strict adherence to checklists and communication rules", "Excellent spatial awareness and mathematical tracking", "High physical fitness and stamina for long flights"], tags: ["aviation", "discipline", "social confidence"] },
-    { id: "av6", category: "aviation", question: "How do you feel about traveling constantly and sleeping in different time zones?", options: ["I love the adventure of seeing a new country every day", "I prefer a stable domestic route that lets me return home daily", "I prefer aviation engineering jobs with fixed local hangar hours", "I would find constant jetlag extremely exhausting"], tags: ["aviation", "work style", "discipline"] },
-    { id: "av7", category: "aviation", question: "What is your stance on the carbon emissions of airlines?", options: ["We must invest heavily in sustainable aviation fuels (SAF)", "Electric planes are the future of regional travel", "Aviation emissions are minor compared to heavy industries", "Carbon taxes should be integrated into passenger ticket prices"], tags: ["aviation", "science", "analytical thinking"] },
-    { id: "av8", category: "aviation", question: "Which aircraft manufacturer interests you most?", options: ["Boeing (Focus on pilot control and automation systems)", "Airbus (Focus on digital fly-by-wire engineering)", "SpaceX (Space transport and rocketry telemetry)", "HAL (Indigenous Indian defense aviation crafts)"], tags: ["aviation", "technical interest", "innovation mindset"] },
-    { id: "av9", category: "aviation", question: "How would you handle a stressful emergency notification in the cockpit?", options: ["Follow the emergency checklist step-by-step with my co-pilot", "Use spatial logic to assess the physical status of the plane", "Communicate immediately with Air Traffic Control for guidelines", "Rely on flight simulator practice to hand-fly the aircraft"], tags: ["aviation", "discipline", "analytical thinking"] },
-    { id: "av10", category: "aviation", question: "What makes an airport 'world-class' in your view?", options: ["Seamless, automated passenger flow and security scans", "Beautiful green architecture, gardens, and premium design", "High runway capacity and zero flight delays", "Excellent retail shops, food courts, and lounge service"], tags: ["aviation", "design", "business"] },
-    { id: "av11", category: "aviation", question: "What physics concept interests you most?", options: ["Lift, drag, and Bernoulli's principle of fluid dynamics", "Jet engine thermodynamics and high-compression combustion", "Satellite orbits and orbital space navigation", "Weather patterns, winds, and atmospheric pressure systems"], tags: ["aviation", "science", "technical interest"] },
-    { id: "av12", category: "aviation", question: "If you had to improve an airline's business, where do you focus?", options: ["Optimizing flight schedules to reduce fuel burn and costs", "Upgrading cabin comfort and meal service quality", "Running marketing loyalty schemes for frequent flyers", "Digitizing ticket bookings and check-in flow apps"], tags: ["aviation", "business", "marketing"] },
-    { id: "av13", category: "aviation", question: "How do you feel about pilot training using VR simulators?", options: ["Amazing; it allows training for extreme scenarios safely", "Useful but cannot replace actual hands-on flight hours", "The most efficient way to build muscle memory fast", "Essential to reduce training costs for students"], tags: ["aviation", "technology", "discipline"] },
-    { id: "av14", category: "aviation", question: "What does 'crew resource management' (CRM) mean to you?", options: ["Flat hierarchies where co-pilots can speak up on errors", "Clear division of tasks between cabin and cockpit crew", "Managing roster schedules to prevent pilot fatigue", "Using teamwork to solve critical failures in the air"], tags: ["aviation", "leadership", "teamwork"] },
-    { id: "av15", category: "aviation", question: "Which aviation development excites you most?", options: ["Supersonic commercial passenger jets returning to travel", "Autonomous pilotless drones carrying cargo or taxi passengers", "Space tourism flights orbiting the Earth for civilians", "Bio-mimetic wing designs that bend like bird feathers"], tags: ["aviation", "innovation mindset", "technology"] },
-    { id: "av16", category: "aviation", question: "How do you view Air Traffic Control (ATC) stress?", options: ["A high-adrenaline challenge that I would find exciting", "A highly stressful job that needs strict shift rotations", "A role that requires perfect visual and spatial logic", "A job that will eventually be automated by AI flight logs"], tags: ["aviation", "discipline", "logical thinking"] },
-    { id: "av17", category: "aviation", question: "What is your experience with flight simulation games?", options: ["I play Microsoft Flight Simulator with joystick setups", "I have tried basic plane games on mobile or console", "I have never played one but find the cockpit controls cool", "I have zero interest in flying planes virtually"], tags: ["aviation", "technical interest", "discipline"] },
-    { id: "av18", category: "aviation", question: "If your flight is delayed by 4 hours, how do you react?", options: ["Stay calm, find a charging port, and work or read", "Check airline guidelines for refund/coupon options", "Ask the gate staff for detailed reasons and updates", "Feel annoyed but accept it as a weather or safety issue"], tags: ["aviation", "discipline", "emotional intelligence"] },
-    { id: "av19", category: "aviation", question: "What is the key to a safe flight operation?", options: ["Rigorous pre-flight maintenance checks by engineers", "Continuous training of pilots in flight simulators", "Strict adherence to air traffic separation rules", "Advanced weather forecasting and path routing"], tags: ["aviation", "discipline", "science"] },
-    { id: "av20", category: "aviation", question: "What is your ultimate dream in aviation?", options: ["To fly heavy commercial wide-body jets (like Boeing 777)", "To design the next generation of eco-friendly aircraft", "To run operations at a major international airport hub", "To work in space agency launch controls (like ISRO)"], tags: ["aviation", "ambition", "technical interest"] }
-  ,
+  "aviation": [
     {
-      id: "av21",
-      category: "aviation",
-      subcategory: "aerodynamics",
-      difficulty: "easy",
-      question: "I am fascinated by how massive airplanes lift off the ground and fly.",
-      options: ["Strongly Agree","Agree","Neutral","Disagree","Strongly Disagree"],
-      tags: ["aviation","technical interest"],
-      scoringLogic: {"traits":{"analytical":5},"careers":["aerospace_engineer","pilot"]},
-      malayalamVersion: {"question":"വлия വിമാനങ്ങൾ എങ്ങനെയാണ് ആകാശത്തിലൂടെ പറന്നുയരുന്നത് എന്നറിയുന്നത് എന്നെ അത്ഭുതപ്പെടുത്താറുണ്ട്.","options":["ശക്തമായി യോജിക്കുന്നു","യോജിക്കുന്നു","നിഷ്പക്ഷം","വിയോജിക്കുന്നു","ശക്തമായി വിയോജിക്കുന്നു"]}
+      "id": "q_aviation_1",
+      "category": "aviation",
+      "text": "Are you fascinated by airplanes?",
+      "options": [
+        {
+          "text": "Yes, absolutely",
+          "score": 1
+        },
+        {
+          "text": "Sometimes",
+          "score": 0.6
+        },
+        {
+          "text": "Neutral",
+          "score": 0.3
+        },
+        {
+          "text": "No",
+          "score": 0
+        }
+      ],
+      "scoringLogic": {
+        "traits": {
+          "analytical": 0.97,
+          "creativity": 0.3,
+          "leadership": 0.71,
+          "communication": 0.29
+        }
+      },
+      "difficulty": "easy"
     },
     {
-      id: "av22",
-      category: "aviation",
-      subcategory: "checklists",
-      difficulty: "easy",
-      question: "Do you prefer following strict safety rules and checklists over making creative modifications?",
-      options: ["Yes, safety rules are absolute","Sometimes, if needed","No, I prefer creative freedom"],
-      tags: ["aviation","discipline"],
-      scoringLogic: {"traits":{"discipline":5},"careers":["pilot","air_traffic_controller"]},
-      malayalamVersion: {"question":"ക്രിയേറ്റീവായി മാറ്റങ്ങൾ വരുത്തുന്നതിനേക്കാൾ കർശനമായ സുരക്ഷാ നിയമങ്ങളും പ്രോട്ടോക്കോളും പിന്തുടരാനാണോ നിങ്ങൾക്ക് താല്പര്യം?","options":["അതെ, സുരക്ഷാ നിയമങ്ങൾ കർശനമായി പാലിക്കണം","ചിലപ്പോൾ, ആവശ്യമുണ്ടെങ്കിൽ","ഇല്ല, എനിക്ക് സ്വതന്ത്രമായി കാര്യങ്ങൾ ചെയ്യാനാണ് ഇഷ്ടം"]}
+      "id": "q_aviation_2",
+      "category": "aviation",
+      "text": "Do you want to be a pilot?",
+      "options": [
+        {
+          "text": "Yes, absolutely",
+          "score": 1
+        },
+        {
+          "text": "Sometimes",
+          "score": 0.6
+        },
+        {
+          "text": "Neutral",
+          "score": 0.3
+        },
+        {
+          "text": "No",
+          "score": 0
+        }
+      ],
+      "scoringLogic": {
+        "traits": {
+          "analytical": 0.82,
+          "creativity": 0.75,
+          "leadership": 0.89,
+          "communication": 0.8
+        }
+      },
+      "difficulty": "easy"
     },
     {
-      id: "av23",
-      category: "aviation",
-      subcategory: "engineering",
-      difficulty: "medium",
-      question: "Understanding turbine engines, hydraulic systems, and jet fuel metrics sounds interesting.",
-      options: ["Strongly Agree","Agree","Neutral","Disagree","Strongly Disagree"],
-      tags: ["aviation","science"],
-      scoringLogic: {"traits":{"analytical":5},"careers":["aircraft_maintenance_engineer","aerospace_engineer"]},
-      malayalamVersion: {"question":"ടർബൈൻ എൻജിനുകൾ, ഹൈഡ്രോളിക് സിസ്റ്റങ്ങൾ, വിമാന ഇന്ധനങ്ങൾ എന്നിവയെക്കുറിച്ച് പഠിക്കുന്നത് താല്പര്യമുള്ള കാര്യമാണ്.","options":["ശക്തമായി യോജിക്കുന്നു","യോജിക്കുന്നു","നിഷ്പക്ഷം","വിയോജിക്കുന്നു","ശക്തമായി വിയോജിക്കുന്നു"]}
+      "id": "q_aviation_3",
+      "category": "aviation",
+      "text": "Are you interested in aerospace engineering?",
+      "options": [
+        {
+          "text": "Yes, absolutely",
+          "score": 1
+        },
+        {
+          "text": "Sometimes",
+          "score": 0.6
+        },
+        {
+          "text": "Neutral",
+          "score": 0.3
+        },
+        {
+          "text": "No",
+          "score": 0
+        }
+      ],
+      "scoringLogic": {
+        "traits": {
+          "analytical": 0.22,
+          "creativity": 0.48,
+          "leadership": 0.97,
+          "communication": 0.34
+        }
+      },
+      "difficulty": "easy"
     },
     {
-      id: "av24",
-      category: "aviation",
-      subcategory: "careers",
-      difficulty: "medium",
-      question: "Which aviation career path sounds most appealing to you?",
-      options: ["Commercial Pilot flying international passengers","Aircraft Maintenance Engineer servicing jet turbines","Air Traffic Controller guiding flight paths from towers","Airport Operations Manager handling runways and schedules"],
-      tags: ["aviation","technical interest"],
-      scoringLogic: {"traits":{"analytical":4,"leadership":3},"careers":["commercial_pilot","air_traffic_controller"]},
-      malayalamVersion: {"question":"ഏവിയേഷൻ രംഗത്തെ ഏത് ജോലിയാണ് നിങ്ങൾക്ക് കൂടുതൽ താല്പര്യം?","options":["വിമാനം പറത്തുന്ന കൊമേഴ്സ്യൽ പൈലറ്റ്","വിമാന എൻജിനുകൾ നന്നാക്കുന്ന എയർക്രാഫ്റ്റ് മെയിന്റനൻസ് എൻജിനീയർ","ആകാശത്തെ വഴികൾ നിയന്ത്രിക്കുന്ന എയർ ട്രാഫിക് കൺട്രോളർ","റൺവേയും സമയക്രമവും കൈകാര്യം ചെയ്യുന്ന എയർപോർട്ട് മാനേജർ"]}
+      "id": "q_aviation_4",
+      "category": "aviation",
+      "text": "Do you want to work as cabin crew?",
+      "options": [
+        {
+          "text": "Yes, absolutely",
+          "score": 1
+        },
+        {
+          "text": "Sometimes",
+          "score": 0.6
+        },
+        {
+          "text": "Neutral",
+          "score": 0.3
+        },
+        {
+          "text": "No",
+          "score": 0
+        }
+      ],
+      "scoringLogic": {
+        "traits": {
+          "analytical": 0.78,
+          "creativity": 0.59,
+          "leadership": 0.44,
+          "communication": 0.91
+        }
+      },
+      "difficulty": "medium"
     },
     {
-      id: "av25",
-      category: "aviation",
-      subcategory: "stress",
-      difficulty: "hard",
-      question: "How do you react to sudden stressful situations (like flight turbulence)?",
-      options: ["Stay completely calm, trust the cockpit crew and systems","Feel slightly nervous but follow standard safety procedures","Feel highly anxious and wait for it to pass","Observe environmental changes or weather reports for information"],
-      tags: ["aviation","discipline"],
-      scoringLogic: {"traits":{"discipline":5},"careers":["pilot","air_traffic_controller"]},
-      malayalamVersion: {"question":"വിമാനത്തിൽ പെട്ടെന്ന് ഉണ്ടാകുന്ന കുലുക്കങ്ങൾ (Turbulence) ഉണ്ടാകുമ്പോൾ നിങ്ങൾ എങ്ങനെയാണ് പ്രതികരിക്കുക?","options":["പൂർണ്ണമായി ശാന്തനായി കോക്പിറ്റിലെ പൈലറ്റുമാരിലും സംവിധാനങ്ങളിലും വിശ്വസിക്കും","ചെറിയ ഭയം തോന്നുമെങ്കിലും സുരക്ഷാ നിർദ്ദേശങ്ങൾ പാലിക്കും","വലിയ ഭയം തോന്നി അത് മാറുന്നതുവരെ കാത്തിരിക്കും","കാലാവസ്ഥാ വ്യതിയാനങ്ങളെക്കുറിച്ച് നോക്കി കാര്യങ്ങൾ മനസ്സിലാക്കും"]}
+      "id": "q_aviation_5",
+      "category": "aviation",
+      "text": "Are you interested in air traffic control?",
+      "options": [
+        {
+          "text": "Yes, absolutely",
+          "score": 1
+        },
+        {
+          "text": "Sometimes",
+          "score": 0.6
+        },
+        {
+          "text": "Neutral",
+          "score": 0.3
+        },
+        {
+          "text": "No",
+          "score": 0
+        }
+      ],
+      "scoringLogic": {
+        "traits": {
+          "analytical": 0.64,
+          "creativity": 0.69,
+          "leadership": 0.25,
+          "communication": 0.62
+        }
+      },
+      "difficulty": "medium"
     },
     {
-      id: "av26",
-      category: "aviation",
-      subcategory: "space",
-      difficulty: "hard",
-      question: "Working in rocket telemetry, satellite orbits, or space mission controls sounds exciting.",
-      options: ["Strongly Agree","Agree","Neutral","Disagree","Strongly Disagree"],
-      tags: ["aviation","technology"],
-      scoringLogic: {"traits":{"analytical":5},"careers":["space_scientist","avionics_engineer"]},
-      malayalamVersion: {"question":"റോക്കറ്റ് വിക്ഷേപണം, ഉപഗ്രഹ ഭ്രമണപഥങ്ങൾ, ബഹിരാകാശ ദൗത്യങ്ങൾ എന്നിവ കൈകാര്യം ചെയ്യുന്നത് ആവേശകരമാണ്.","options":["ശക്തമായി യോജിക്കുന്നു","യോജിക്കുന്നു","നിഷ്പക്ഷം","വിയോജിക്കുന്നു","ശക്തമായി വിയോജിക്കുന്നു"]}
+      "id": "q_aviation_6",
+      "category": "aviation",
+      "text": "Do you want to manage an airport?",
+      "options": [
+        {
+          "text": "Yes, absolutely",
+          "score": 1
+        },
+        {
+          "text": "Sometimes",
+          "score": 0.6
+        },
+        {
+          "text": "Neutral",
+          "score": 0.3
+        },
+        {
+          "text": "No",
+          "score": 0
+        }
+      ],
+      "scoringLogic": {
+        "traits": {
+          "analytical": 0.45,
+          "creativity": 0.49,
+          "leadership": 0.26,
+          "communication": 0.64
+        }
+      },
+      "difficulty": "medium"
     },
     {
-      id: "av27",
-      category: "aviation",
-      subcategory: "weather",
-      difficulty: "medium",
-      question: "I find the study of weather cycles, winds, and radar tracking interesting.",
-      options: ["Strongly Agree","Agree","Neutral","Disagree","Strongly Disagree"],
-      tags: ["aviation","science"],
-      scoringLogic: {"traits":{"analytical":5},"careers":["meteorologist","air_traffic_controller"]},
-      malayalamVersion: {"question":"കാലാവസ്ഥാ വ്യതിയാനങ്ങൾ, കാറ്റിൻ്റെ ദിശ, റഡാർ വിവരങ്ങൾ എന്നിവ പഠിക്കുന്നത് താല്പര്യമുള്ള കാര്യമാണ്.","options":["ശക്തമായി യോജിക്കുന്നു","യോജിക്കുന്നു","നിഷ്പക്ഷം","വിയോജിക്കുന്നു","ശക്തമായി വിയോജിക്കുന്നു"]}
+      "id": "q_aviation_7",
+      "category": "aviation",
+      "text": "Are you comfortable with heights and flying?",
+      "options": [
+        {
+          "text": "Yes, absolutely",
+          "score": 1
+        },
+        {
+          "text": "Sometimes",
+          "score": 0.6
+        },
+        {
+          "text": "Neutral",
+          "score": 0.3
+        },
+        {
+          "text": "No",
+          "score": 0
+        }
+      ],
+      "scoringLogic": {
+        "traits": {
+          "analytical": 0.45,
+          "creativity": 0.21,
+          "leadership": 0.47,
+          "communication": 0.57
+        }
+      },
+      "difficulty": "medium"
     },
     {
-      id: "av28",
-      category: "aviation",
-      subcategory: "logistics",
-      difficulty: "medium",
-      question: "I would enjoy planning flight rosters, terminal passenger flows, and airline budgets.",
-      options: ["Strongly Agree","Agree","Neutral","Disagree","Strongly Disagree"],
-      tags: ["aviation","business"],
-      scoringLogic: {"traits":{"analytical":4,"leadership":3},"careers":["airport_operations_manager","aviation_logistics_specialist"]},
-      malayalamVersion: {"question":"വിമാനങ്ങളുടെ സമയക്രമം, യാത്രക്കാരുടെ സൗകര്യങ്ങൾ, ബജറ്റുകൾ എന്നിവ പ്ലാൻ ചെയ്യുന്നത് ഞാൻ ആസ്വദിക്കും.","options":["ശക്തമായി യോജിക്കുന്നു","യോജിക്കുന്നു","നിഷ്പക്ഷം","വിയോജിക്കുന്നു","ശക്തമായി വിയോജിക്കുന്നു"]}
+      "id": "q_aviation_8",
+      "category": "aviation",
+      "text": "Do you enjoy aviation technology?",
+      "options": [
+        {
+          "text": "Yes, absolutely",
+          "score": 1
+        },
+        {
+          "text": "Sometimes",
+          "score": 0.6
+        },
+        {
+          "text": "Neutral",
+          "score": 0.3
+        },
+        {
+          "text": "No",
+          "score": 0
+        }
+      ],
+      "scoringLogic": {
+        "traits": {
+          "analytical": 0.79,
+          "creativity": 0.22,
+          "leadership": 0.69,
+          "communication": 0.55
+        }
+      },
+      "difficulty": "hard"
     },
     {
-      id: "av29",
-      category: "aviation",
-      subcategory: "simulation",
-      difficulty: "hard",
-      question: "Training cockpit crew using advanced Virtual Reality (VR) simulators is better than using physical planes.",
-      options: ["Strongly Agree","Agree","Neutral","Disagree","Strongly Disagree"],
-      tags: ["aviation","technology"],
-      scoringLogic: {"traits":{"analytical":4},"careers":["flight_simulator_instructor","avionics_developer"]},
-      malayalamVersion: {"question":"യഥാർത്ഥ വിമാനങ്ങളിൽ പരിശീലിക്കുന്നതിനേക്കാൾ നല്ലത് അഡ്വാൻസ്‌ഡ് വെർച്വൽ റിയാലിറ്റി (VR) സിമുലേറ്ററുകളിൽ പരിശീലിക്കുന്നതാണ്.","options":["ശക്തമായി യോജിക്കുന്നു","യോജിക്കുന്നു","നിഷ്പക്ഷം","വിയോജിക്കുന്നു","ശക്തമായി വിയോജിക്കുന്നു"]}
+      "id": "q_aviation_9",
+      "category": "aviation",
+      "text": "Are you interested in flight safety?",
+      "options": [
+        {
+          "text": "Yes, absolutely",
+          "score": 1
+        },
+        {
+          "text": "Sometimes",
+          "score": 0.6
+        },
+        {
+          "text": "Neutral",
+          "score": 0.3
+        },
+        {
+          "text": "No",
+          "score": 0
+        }
+      ],
+      "scoringLogic": {
+        "traits": {
+          "analytical": 0.3,
+          "creativity": 0.61,
+          "leadership": 0.52,
+          "communication": 0.63
+        }
+      },
+      "difficulty": "hard"
     },
     {
-      id: "av30",
-      category: "aviation",
-      subcategory: "ecology",
-      difficulty: "hard",
-      question: "Investing in sustainable electric airplanes is critical to reduce the carbon footprint of global travel.",
-      options: ["Strongly Agree","Agree","Neutral","Disagree","Strongly Disagree"],
-      tags: ["aviation","empathy"],
-      scoringLogic: {"traits":{"analytical":4,"innovation":3},"careers":["aviation_sustainability_analyst","aerospace_engineer"]},
-      malayalamVersion: {"question":"ആഗോള തലത്തിലുള്ള കാർബൺ മലിനീകരണം കുറയ്ക്കാൻ പരിസ്ഥിതി സൗഹൃദ ഇലക്ട്രിക് വിമാനങ്ങളിൽ നിക്ഷേപിക്കുന്നത് അനിവാര്യമാണ്.","options":["ശക്തമായി യോജിക്കുന്നു","യോജിക്കുന്നു","നിഷ്പക്ഷം","വിയോജിക്കുന്നു","ശക്തമായി വിയോജിക്കുന്നു"]}
+      "id": "q_aviation_10",
+      "category": "aviation",
+      "text": "Do you want to work in aviation mechanics?",
+      "options": [
+        {
+          "text": "Yes, absolutely",
+          "score": 1
+        },
+        {
+          "text": "Sometimes",
+          "score": 0.6
+        },
+        {
+          "text": "Neutral",
+          "score": 0.3
+        },
+        {
+          "text": "No",
+          "score": 0
+        }
+      ],
+      "scoringLogic": {
+        "traits": {
+          "analytical": 0.33,
+          "creativity": 0.64,
+          "leadership": 0.26,
+          "communication": 0.48
+        }
+      },
+      "difficulty": "hard"
     }
   ]
 };

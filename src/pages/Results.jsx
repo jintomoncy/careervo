@@ -109,92 +109,15 @@ const Results = () => {
       
       setIsGenerating(true);
       try {
-        const compactCareers = careerDatabase.map(c => ({
-          id: c.id,
-          title: c.title,
-          category: c.category,
-          personalityMatch: c.personalityMatch,
-          streams: c.streams
-        }));
-
-        const languageInstruction = lang === 'ml'
-          ? `IMPORTANT: The user has selected Malayalam language. You MUST generate all explanatory and descriptive text values (specifically: "workStyle", "ambition", "roadmap[].description", "careers[].why", and "careers[].parentWhy") in fluent, warm, professional, natural Malayalam language. Do NOT use literal machine translations. Keep all JSON keys in English.`
-          : `IMPORTANT: Write all explanation fields ("workStyle", "ambition", "roadmap[].description", "careers[].why", and "careers[].parentWhy") in English.`;
-
-        const prompt = `
-        You are Careervo AI, an expert career counselor. Analyze the following student profile and question responses to select the top 3 recommended careers from our database.
-
-        Student Name: ${userProfile.name || 'Student'}
-        Student Stream: ${userProfile.stream || 'Unknown'}
-        Selected Interests: ${userProfile.interests?.join(", ") || 'Unknown'}
-        
-        Question Answers:
-        ${JSON.stringify(userProfile.conversationHistory)}
-
-        Choose exactly 3 recommended careers from this matching catalog (match using the ID):
-        ${JSON.stringify(compactCareers)}
-
-        ${languageInstruction}
-
-        Provide the response strictly as a JSON object with this exact structure (no markdown codeblock wrappers, no backticks):
-        {
-          "traits": [
-            { "name": "Creativity", "val": 85 },
-            { "name": "Leadership", "val": 70 },
-            { "name": "Analytical", "val": 90 },
-            { "name": "Communication", "val": 80 }
-          ],
-          "workStyle": "A short summary of their work style based on answers",
-          "ambition": "A summary of their ambition and drive",
-          "roadmap": [
-            { "period": "Phase 1: Foundation", "description": "Specific action steps" },
-            { "period": "Phase 2: Execution", "description": "Specific action steps" },
-            { "period": "Phase 3: Launch", "description": "Specific action steps" }
-          ],
-          "careers": [
-            {
-              "id": "matched-id-from-catalog",
-              "match": 95,
-              "why": "Detailed personalized reason why this career matches their responses",
-              "parentWhy": "Reason focusing on safety, parent perspective, stability, and growth"
-            }
-          ]
-        }
-        `;
-
-        const result = await model.generateContent(prompt);
-        let responseText = result.response.text();
-        
-        // Clean up markdown block if present
-        responseText = responseText.replace(/```json/gi, '').replace(/```/g, '').trim();
-        
-        const parsedData = JSON.parse(responseText);
-        
-        // Validate keys exist
-        if (!parsedData.careers || parsedData.careers.length === 0) {
-          throw new Error("Invalid output format: Missing careers");
-        }
-        
+        const fallbackData = getFallbackAnalysis(userProfile, lang);
         const finalData = {
-          ...parsedData,
+          ...fallbackData,
           generatedLang: lang
         };
-        
         setAiData(finalData);
         updateProfile({ aiResult: finalData });
       } catch (error) {
-        console.error("Failed to generate results, using local database fallback...", error);
-        try {
-          const fallbackData = getFallbackAnalysis(userProfile, lang);
-          const finalData = {
-            ...fallbackData,
-            generatedLang: lang
-          };
-          setAiData(finalData);
-          updateProfile({ aiResult: finalData });
-        } catch (fallbackError) {
-          console.error("Critical: Fallback also failed", fallbackError);
-        }
+        console.error("Failed to generate results", error);
       } finally {
         setIsGenerating(false);
       }
@@ -549,7 +472,43 @@ const Results = () => {
                   </div>
                   <div className="stat-box">
                     <span className="stat-label">{t('results.startupPotential') || "Startup Potential"}</span>
-                    <span className="stat-val text-success">{t(`terms.${career.startupPotential}`) || career.startupPotential}</span>
+                    <span className="stat-val text-success">{t(`terms.${career.startupOpportunity}`) || career.startupOpportunity}</span>
+                  </div>
+                </div>
+
+                <div className="mt-4">
+                  <h4 className="text-secondary" style={{ fontSize: '0.9rem', marginBottom: '8px' }}>Top Courses & Degrees</h4>
+                  <div className="flex-wrap gap-2">
+                    {career.courses?.slice(0, 3).map((course, i) => (
+                      <span key={i} className="skill-badge">{course}</span>
+                    ))}
+                  </div>
+                </div>
+
+                <div className="mt-4">
+                  <h4 className="text-secondary" style={{ fontSize: '0.9rem', marginBottom: '8px' }}>Recommended Skills</h4>
+                  <div className="flex-wrap gap-2">
+                    {career.skills?.slice(0, 4).map((skill, i) => (
+                      <span key={i} className="skill-badge">{skill}</span>
+                    ))}
+                  </div>
+                </div>
+
+                <div className="mt-4">
+                  <h4 className="text-secondary" style={{ fontSize: '0.9rem', marginBottom: '8px' }}>Learning Platforms</h4>
+                  <div className="flex-wrap gap-2">
+                    {career.learningPlatforms?.slice(0, 3).map((plat, i) => (
+                      <span key={i} className="skill-badge" style={{ background: 'var(--accent-gradient)', color: 'white' }}>{plat}</span>
+                    ))}
+                  </div>
+                </div>
+
+                <div className="mt-4">
+                  <h4 className="text-secondary" style={{ fontSize: '0.9rem', marginBottom: '8px' }}>Entrance Exams</h4>
+                  <div className="flex-wrap gap-2">
+                    {career.admissionExams?.slice(0, 3).map((exam, i) => (
+                      <span key={i} className="skill-badge" style={{ border: '1px solid var(--accent)', color: 'var(--text-primary)' }}>{exam}</span>
+                    ))}
                   </div>
                 </div>
               </div>

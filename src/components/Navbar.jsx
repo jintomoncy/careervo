@@ -17,7 +17,13 @@ const Navbar = () => {
           <span>Careervo</span>
         </Link>
         
-        {!isFlowActive && (
+        {isFlowActive ? (
+          <div className="navbar-links">
+            <Link to="/analysis" className="nav-link">{lang === 'ml' ? 'ഡാഷ്ബോർഡ്' : 'Dashboard'}</Link>
+            <Link to="/results" className="nav-link">{lang === 'ml' ? 'റിസൾട്ട്' : 'Results'}</Link>
+            <Link to="/onboarding" className="nav-link">{lang === 'ml' ? 'പ്രൊഫൈൽ' : 'Profile'}</Link>
+          </div>
+        ) : (
           <div className="navbar-links">
             <Link to="/" className="nav-link">{t('nav.home')}</Link>
             <Link to="/#how-it-works" className="nav-link">{t('nav.howItWorks')}</Link>

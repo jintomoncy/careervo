@@ -367,3 +367,18 @@
     padding: 10px 16px;
   }
 }
+
+/* MOBILE RESPONSIVENESS FIXES */
+@media screen and (max-width: 768px) {
+  .interests-grid { grid-template-columns: 1fr 1fr !important; gap: 0.75rem; }
+  .question-card { padding: 1.5rem !important; }
+  .options-list { grid-template-columns: 1fr !important; }
+  .option-btn { font-size: 0.95rem; padding: 1rem; }
+  .flow-navigation { flex-direction: column; gap: 1rem; }
+  .interests-summary-bar { flex-direction: column; text-align: center; gap: 1rem; }
+  .interests-summary-text { font-size: 0.85rem; }
+}
+@media screen and (max-width: 480px) {
+  .interests-grid { grid-template-columns: 1fr !important; }
+}
+

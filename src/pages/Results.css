@@ -1237,3 +1237,18 @@
 
 
 
+
+/* MOBILE RESPONSIVENESS FIXES */
+@media screen and (max-width: 768px) {
+  .dashboard-header { flex-direction: column; text-align: center; gap: 1rem; }
+  .header-actions { justify-content: center; width: 100%; }
+  .header-actions button { width: 100%; justify-content: center; margin-bottom: 0.5rem; }
+  .dashboard-grid { grid-template-columns: 1fr !important; gap: 1rem; padding: 10px !important; }
+  .colleges-grid { grid-template-columns: 1fr !important; gap: 1rem; }
+  .career-stats-grid { grid-template-columns: 1fr !important; }
+  .pdf-export-layer, .png-export-layer { display: none !important; } /* Hide exports on small screens completely */
+  .profile-card, .behavior-card, .roadmap-card, .career-match-card { width: 100%; max-width: 100%; box-sizing: border-box; }
+  .actions-bar-buttons { flex-direction: column; width: 100%; }
+  .actions-bar-buttons button { width: 100%; margin-bottom: 0.5rem; }
+}
+

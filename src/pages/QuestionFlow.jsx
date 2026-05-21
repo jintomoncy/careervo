@@ -31,14 +31,14 @@ const QuestionFlow = () => {
     if (selectedInterests.includes(interest)) {
       setSelectedInterests(selectedInterests.filter(i => i !== interest));
     } else {
-      if (selectedInterests.length < 3) {
+      if (selectedInterests.length < 5) {
         setSelectedInterests([...selectedInterests, interest]);
       }
     }
   };
 
   const startQuestions = () => {
-    if (selectedInterests.length === 3) {
+    if (selectedInterests.length > 0) {
       updateProfile({ interests: selectedInterests });
       const firstQ = selectNextQuestion(userProfile.stream || 'Science', selectedInterests, [], new Set());
       setQuestions([firstQ]);
@@ -125,7 +125,7 @@ const QuestionFlow = () => {
             <h2>{t('questions.interestsTitle')}</h2>
             <p>{t('questions.interestsSub')}</p>
             <div className="selection-count">
-              {selectedInterests.length} / 3 {t('questions.selected')}
+              {selectedInterests.length} / 5 {t('questions.selected')}
             </div>
             {selectedInterests.length > 0 && (
               <div>
@@ -153,7 +153,7 @@ const QuestionFlow = () => {
             <button 
               className="btn-primary btn-large" 
               onClick={startQuestions}
-              disabled={selectedInterests.length !== 3}
+              disabled={selectedInterests.length === 0}
             >
               {t('questions.nextStep')}
               <ChevronRight />
@@ -202,16 +202,21 @@ const QuestionFlow = () => {
               <h2 className="question-text">{getQuestionText(currentQuestionData)}</h2>
               <div className="options-list">
                 {getQuestionOptions(currentQuestionData).map((opt, idx) => {
+                  const origOpt = currentQuestionData.options[idx];
+                  const optText = typeof opt === 'string' ? opt : opt.text;
+                  const origText = typeof origOpt === 'string' ? origOpt : origOpt.text;
+                  
                   const prevAns = conversationHistory[currentIndex];
-                  const isSelected = prevAns && prevAns.answer === currentQuestionData.options[idx];
+                  const isSelected = prevAns && prevAns.answer === origText;
+                  
                   return (
                     <button 
                       key={idx} 
                       className={`option-btn ${isSelected ? 'selected' : ''}`}
-                      onClick={() => handleAnswer(opt, currentQuestionData.options[idx])}
+                      onClick={() => handleAnswer(optText, origText)}
                     >
                       <span className="option-letter">{String.fromCharCode(65 + idx)}</span>
-                      {opt}
+                      {optText}
                     </button>
                   );
                 })}
