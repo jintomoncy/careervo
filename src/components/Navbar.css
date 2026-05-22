@@ -68,30 +68,36 @@
   .navbar {
     margin: 6px 12px;
     top: 6px;
-    padding: 6px 0;
+    padding: 8px 0;
   }
   
   .navbar-container {
-    padding: 0 12px;
-    gap: 8px;
+    padding: 0 8px;
+    gap: 4px;
+    flex-wrap: nowrap;
   }
 
   .navbar-logo {
-    font-size: 1.2rem;
+    font-size: 1.1rem;
     gap: 4px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
 
   .logo-icon {
     width: 18px;
     height: 18px;
+    flex-shrink: 0;
   }
 
   .navbar-actions {
     gap: 6px;
+    flex-shrink: 0;
   }
 
   .navbar-actions .lang-toggle {
-    padding: 6px 10px;
+    padding: 6px 8px;
     font-size: 0.8rem;
     gap: 4px;
     border-radius: 8px;
@@ -103,7 +109,7 @@
   }
 
   .navbar-actions .btn-primary {
-    padding: 6px 12px;
+    padding: 6px 10px;
     font-size: 0.8rem;
     border-radius: 8px;
     white-space: nowrap;

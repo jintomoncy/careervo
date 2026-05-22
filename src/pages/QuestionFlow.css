@@ -379,6 +379,7 @@
   .interests-summary-text { font-size: 0.85rem; }
 }
 @media screen and (max-width: 480px) {
-  .interests-grid { grid-template-columns: 1fr !important; }
+  .interests-grid { grid-template-columns: 1fr 1fr !important; gap: 0.5rem; }
+  .interest-card { padding: 12px 8px; font-size: 0.8rem; min-height: 80px; }
 }
 

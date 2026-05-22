@@ -41,10 +41,14 @@ const QuestionFlow = () => {
     if (selectedInterests.length > 0) {
       updateProfile({ interests: selectedInterests });
       const firstQ = selectNextQuestion(userProfile.stream || 'Science', selectedInterests, [], new Set());
-      setQuestions([firstQ]);
-      setConversationHistory([]);
-      setCurrentIndex(0);
-      setPhase('questions');
+      if (firstQ) {
+        setQuestions([firstQ]);
+        setConversationHistory([]);
+        setCurrentIndex(0);
+        setPhase('questions');
+      } else {
+        alert(lang === 'ml' ? "ചോദ്യങ്ങൾ ലോഡ് ചെയ്യാൻ കഴിഞ്ഞില്ല. ദയവായി പേജ് റിഫ്രഷ് ചെയ്യുക." : "Could not load questions. Please refresh the page.");
+      }
     }
   };
 
@@ -74,9 +78,14 @@ const QuestionFlow = () => {
         updatedHistory,
         alreadySelectedIds
       );
-      const updatedQuestions = [...questions.slice(0, currentIndex + 1), nextQ];
-      setQuestions(updatedQuestions);
-      setCurrentIndex(currentIndex + 1);
+      if (nextQ) {
+        const updatedQuestions = [...questions.slice(0, currentIndex + 1), nextQ];
+        setQuestions(updatedQuestions);
+        setCurrentIndex(currentIndex + 1);
+      } else {
+        updateProfile({ conversationHistory: updatedHistory });
+        setPhase('analyzing');
+      }
     } else {
       updateProfile({ conversationHistory: updatedHistory });
       setPhase('analyzing');

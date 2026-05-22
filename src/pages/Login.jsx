@@ -5,6 +5,9 @@ import { useLanguage } from '../context/LanguageContext';
 import { useUser } from '../context/UserContext';
 import './Auth.css';
 
+import { auth, googleProvider } from '../lib/firebase';
+import { signInWithPopup } from 'firebase/auth';
+
 const Login = () => {
   const { t } = useLanguage();
   const { updateProfile } = useUser();
@@ -52,13 +55,24 @@ const Login = () => {
     }, 1200);
   };
 
-  const handleGoogleLogin = () => {
+  const handleGoogleLogin = async () => {
     setLoading(true);
-    setTimeout(() => {
-      setLoading(false);
-      updateProfile({ email: 'google.student@gmail.com' });
+    setError('');
+    try {
+      const result = await signInWithPopup(auth, googleProvider);
+      const user = result.user;
+      updateProfile({ 
+        email: user.email,
+        name: user.displayName || '',
+        uid: user.uid
+      });
       navigate('/onboarding');
-    }, 1000);
+    } catch (err) {
+      console.error("Google Auth Error:", err);
+      setError(t('auth.loginError') || 'Failed to sign in with Google. Ensure Firebase config is added.');
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (

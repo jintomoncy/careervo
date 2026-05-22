@@ -583,7 +583,7 @@ const Results = () => {
       </div>
       
       {/* ─── HIDDEN HIGH-FIDELITY LAYOUTS FOR PDF/PNG EXPORT ─── */}
-      <div style={{ position: 'absolute', left: '-9999px', top: '0', pointerEvents: 'none' }}>
+      <div style={{ position: 'absolute', opacity: 0, zIndex: -100, top: 0, left: 0, pointerEvents: 'none' }}>
         
         {/* PNG Infographic Root */}
         <div id="png-infographic-root" style={{ width: '1000px', height: '1600px', fontFamily: "'Inter', sans-serif" }}>

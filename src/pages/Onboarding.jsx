@@ -3,6 +3,8 @@ import { useNavigate } from 'react-router-dom';
 import { User, MapPin, Globe, ArrowRight, Mail, Phone } from 'lucide-react';
 import { useLanguage } from '../context/LanguageContext';
 import { useUser } from '../context/UserContext';
+import { db } from '../lib/firebase';
+import { doc, setDoc } from 'firebase/firestore';
 import './Auth.css';
 
 const CITIES_DATASET = [
@@ -134,7 +136,7 @@ const Onboarding = () => {
     }
   };
 
-  const handleNext = (e) => {
+  const handleNext = async (e) => {
     e.preventDefault();
     setError('');
 
@@ -163,6 +165,23 @@ const Onboarding = () => {
         phone: formData.phone,
         city: formData.city
       });
+      
+      if (userProfile.uid) {
+        try {
+          await setDoc(doc(db, "users", userProfile.uid), {
+            firstName: formData.firstName.trim(),
+            lastName: formData.lastName.trim(),
+            email: formData.email,
+            phone: formData.phone,
+            city: formData.city,
+            language: formData.language,
+            updatedAt: new Date()
+          }, { merge: true });
+        } catch (err) {
+          console.error("Firestore error:", err);
+        }
+      }
+
       setLang(formData.language);
       setStep(2);
     } else {
@@ -171,6 +190,18 @@ const Onboarding = () => {
         return;
       }
       updateProfile({ stream: formData.stream });
+      
+      if (userProfile.uid) {
+        try {
+          await setDoc(doc(db, "users", userProfile.uid), {
+            stream: formData.stream,
+            updatedAt: new Date()
+          }, { merge: true });
+        } catch (err) {
+          console.error("Firestore error:", err);
+        }
+      }
+
       navigate('/analysis');
     }
   };
