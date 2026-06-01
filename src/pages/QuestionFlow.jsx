@@ -5,6 +5,8 @@ import { useLanguage } from '../context/LanguageContext';
 import { useUser } from '../context/UserContext';
 import { selectQuestionsForStudent, selectNextQuestion } from '../lib/careerDatabase';
 import { questionsMl } from '../lib/careerDatabase/questionsMl';
+import { db } from '../lib/firebase';
+import { doc, setDoc, serverTimestamp } from 'firebase/firestore';
 import './QuestionFlow.css';
 
 const industries = [
@@ -20,6 +22,12 @@ const QuestionFlow = () => {
   const { userProfile, updateProfile } = useUser();
   const navigate = useNavigate();
   
+  useEffect(() => {
+    if (!userProfile.stream) {
+      navigate('/onboarding', { replace: true });
+    }
+  }, [userProfile.stream, navigate]);
+
   const [phase, setPhase] = useState('interests'); // 'interests' | 'questions' | 'analyzing'
   const [selectedInterests, setSelectedInterests] = useState(userProfile.interests || []);
   
@@ -48,6 +56,24 @@ const QuestionFlow = () => {
         setPhase('questions');
       } else {
         alert(lang === 'ml' ? "ചോദ്യങ്ങൾ ലോഡ് ചെയ്യാൻ കഴിഞ്ഞില്ല. ദയവായി പേജ് റിഫ്രഷ് ചെയ്യുക." : "Could not load questions. Please refresh the page.");
+      }
+    }
+  };
+
+  const finishQuestions = async (updatedHistory) => {
+    updateProfile({ conversationHistory: updatedHistory });
+    setPhase('analyzing');
+    if (userProfile.uid) {
+      try {
+        await setDoc(doc(db, "responses", userProfile.uid), {
+          interests: selectedInterests,
+          answers: updatedHistory,
+          userId: userProfile.uid,
+          createdAt: serverTimestamp(),
+          updatedAt: serverTimestamp()
+        }, { merge: true });
+      } catch (err) {
+        console.error("Firestore Error in responses:", err);
       }
     }
   };
@@ -83,12 +109,10 @@ const QuestionFlow = () => {
         setQuestions(updatedQuestions);
         setCurrentIndex(currentIndex + 1);
       } else {
-        updateProfile({ conversationHistory: updatedHistory });
-        setPhase('analyzing');
+        finishQuestions(updatedHistory);
       }
     } else {
-      updateProfile({ conversationHistory: updatedHistory });
-      setPhase('analyzing');
+      finishQuestions(updatedHistory);
     }
   };
 
@@ -118,7 +142,10 @@ const QuestionFlow = () => {
 
   const getQuestionText = (qData) => {
     if (!qData) return '';
-    return lang === 'ml' && questionsMl[qData.id] ? questionsMl[qData.id].question : qData.question;
+    if (lang === 'ml' && questionsMl[qData.id]) {
+      return questionsMl[qData.id].question || questionsMl[qData.id].text || "താഴെയുള്ള ഓപ്ഷൻ തിരഞ്ഞെടുക്കുക";
+    }
+    return qData.question || qData.text || "Choose the option below";
   };
 
   const getQuestionOptions = (qData) => {
@@ -204,11 +231,11 @@ const QuestionFlow = () => {
           {!currentQuestionData ? (
             <div className="question-card glass-panel flex-center flex-column" style={{ minHeight: '300px' }}>
               <Loader2 size={40} className="text-accent spinner-anim" style={{ animation: 'spin 1s linear infinite' }} />
-              <p className="mt-4 text-secondary">{lang === 'ml' ? 'കരിയർവോ എ.ഐ ചോദ്യങ്ങൾ ലോഡ് ചെയ്യുന്നു...' : 'Careervo AI is loading your questions...'}</p>
+              <p className="mt-4 text-secondary">{lang === 'ml' ? 'ചോദ്യങ്ങൾ ലോഡ് ചെയ്യുന്നു...' : 'Questions are loading...'}</p>
             </div>
           ) : (
             <div className="question-card glass-panel animate-fade-in">
-              <h2 className="question-text">{getQuestionText(currentQuestionData)}</h2>
+              <h2 className="question-title">{getQuestionText(currentQuestionData)}</h2>
               <div className="options-list">
                 {getQuestionOptions(currentQuestionData).map((opt, idx) => {
                   const origOpt = currentQuestionData.options[idx];

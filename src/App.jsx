@@ -6,6 +6,7 @@ import Login from './pages/Login';
 import Onboarding from './pages/Onboarding';
 import QuestionFlow from './pages/QuestionFlow';
 import Results from './pages/Results';
+import ProtectedRoute from './components/ProtectedRoute';
 import './App.css';
 
 function App() {
@@ -16,9 +17,21 @@ function App() {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/login" element={<Login />} />
-          <Route path="/onboarding" element={<Onboarding />} />
-          <Route path="/analysis" element={<QuestionFlow />} />
-          <Route path="/results" element={<Results />} />
+          <Route path="/onboarding" element={
+            <ProtectedRoute>
+              <Onboarding />
+            </ProtectedRoute>
+          } />
+          <Route path="/analysis" element={
+            <ProtectedRoute>
+              <QuestionFlow />
+            </ProtectedRoute>
+          } />
+          <Route path="/results" element={
+            <ProtectedRoute>
+              <Results />
+            </ProtectedRoute>
+          } />
         </Routes>
       </main>
       <Footer />

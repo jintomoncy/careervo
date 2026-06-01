@@ -4,12 +4,13 @@ import { getFirestore } from "firebase/firestore";
 
 // TODO: Replace with your actual Firebase config
 const firebaseConfig = {
-  apiKey: "YOUR_API_KEY",
-  authDomain: "YOUR_AUTH_DOMAIN",
-  projectId: "YOUR_PROJECT_ID",
-  storageBucket: "YOUR_STORAGE_BUCKET",
-  messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
-  appId: "YOUR_APP_ID"
+  apiKey: "AIzaSyDbvMQKUWnQfni4qqEhG8Tz-wHzE815wCk",
+  authDomain: "careervo-777.firebaseapp.com",
+  projectId: "careervo-777",
+  storageBucket: "careervo-777.firebasestorage.app",
+  messagingSenderId: "741400245956",
+  appId: "1:741400245956:web:ac4ab41b5db0f377ce3b91",
+  measurementId: "G-0Z08EWCP9K"
 };
 
 // Initialize Firebase

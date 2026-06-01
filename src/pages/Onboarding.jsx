@@ -1,10 +1,11 @@
 import { useState, useRef, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { User, MapPin, Globe, ArrowRight, Mail, Phone } from 'lucide-react';
+import { User, MapPin, Globe, ArrowRight, Mail, Phone, LogOut } from 'lucide-react';
 import { useLanguage } from '../context/LanguageContext';
 import { useUser } from '../context/UserContext';
+import { useAuth } from '../context/AuthContext';
 import { db } from '../lib/firebase';
-import { doc, setDoc } from 'firebase/firestore';
+import { doc, setDoc, serverTimestamp } from 'firebase/firestore';
 import './Auth.css';
 
 const CITIES_DATASET = [
@@ -24,7 +25,17 @@ const CITIES_DATASET = [
 const Onboarding = () => {
   const { t, setLang, lang } = useLanguage();
   const { userProfile, updateProfile } = useUser();
+  const { logout } = useAuth();
   const navigate = useNavigate();
+  
+  const handleLogout = async () => {
+    try {
+      await logout();
+      navigate('/login');
+    } catch (err) {
+      console.error("Logout error", err);
+    }
+  };
   
   const [step, setStep] = useState(1);
   const getInitialName = () => {
@@ -42,6 +53,7 @@ const Onboarding = () => {
     email: userProfile.email || '',
     phone: userProfile.phone || '',
     city: userProfile.city || '',
+    state: userProfile.state || '',
     stream: userProfile.stream || '',
     language: lang
   });
@@ -159,11 +171,17 @@ const Onboarding = () => {
         return;
       }
 
+      if (!formData.state.trim()) {
+        setError(lang === 'ml' ? 'ദയവായി നിങ്ങളുടെ സംസ്ഥാനം നൽകുക.' : "Please select your state.");
+        return;
+      }
+
       updateProfile({
         name: `${formData.firstName.trim()} ${formData.lastName.trim()}`,
         email: formData.email,
         phone: formData.phone,
-        city: formData.city
+        city: formData.city,
+        state: formData.state
       });
       
       if (userProfile.uid) {
@@ -171,11 +189,14 @@ const Onboarding = () => {
           await setDoc(doc(db, "users", userProfile.uid), {
             firstName: formData.firstName.trim(),
             lastName: formData.lastName.trim(),
+            name: `${formData.firstName.trim()} ${formData.lastName.trim()}`,
             email: formData.email,
             phone: formData.phone,
             city: formData.city,
+            state: formData.state,
             language: formData.language,
-            updatedAt: new Date()
+            createdAt: serverTimestamp(),
+            updatedAt: serverTimestamp()
           }, { merge: true });
         } catch (err) {
           console.error("Firestore error:", err);
@@ -194,8 +215,8 @@ const Onboarding = () => {
       if (userProfile.uid) {
         try {
           await setDoc(doc(db, "users", userProfile.uid), {
-            stream: formData.stream,
-            updatedAt: new Date()
+            plusTwoStream: formData.stream,
+            updatedAt: serverTimestamp()
           }, { merge: true });
         } catch (err) {
           console.error("Firestore error:", err);
@@ -317,6 +338,21 @@ const Onboarding = () => {
                 )}
               </div>
 
+              {/* State */}
+              <div className="input-group">
+                <label>{lang === 'ml' ? 'സംസ്ഥാനം' : 'State'}</label>
+                <div className="input-with-icon">
+                  <MapPin size={18} />
+                  <input 
+                    type="text" 
+                    placeholder={lang === 'ml' ? 'സംസ്ഥാനം നൽകുക' : 'Type state name'} 
+                    value={formData.state}
+                    onChange={e => setFormData({...formData, state: e.target.value})}
+                    required 
+                  />
+                </div>
+              </div>
+
               {/* Language preferred */}
               <div className="input-group">
                 <label>{t('onboarding.language')}</label>
@@ -363,6 +399,16 @@ const Onboarding = () => {
           >
             {step === 1 ? t('auth.continueBtn') : t('onboarding.startAnalysis')}
             <ArrowRight size={18} style={{ marginLeft: '8px' }} />
+          </button>
+          
+          <button 
+            type="button" 
+            onClick={handleLogout}
+            className="btn-secondary w-full flex-center"
+            style={{ marginTop: '16px', color: '#ef4444', borderColor: '#ef4444' }}
+          >
+            <LogOut size={18} style={{ marginRight: '8px' }} />
+            {lang === 'ml' ? 'ലോഗ്ഔട്ട് ചെയ്യുക' : 'Logout'}
           </button>
         </form>
       </div>

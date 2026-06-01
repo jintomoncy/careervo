@@ -1,67 +1,79 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Sparkles, Mail, ArrowRight, ShieldCheck, RefreshCw } from 'lucide-react';
 import { useLanguage } from '../context/LanguageContext';
 import { useUser } from '../context/UserContext';
+import { useAuth } from '../context/AuthContext';
 import './Auth.css';
-
-import { auth, googleProvider } from '../lib/firebase';
-import { signInWithPopup } from 'firebase/auth';
 
 const Login = () => {
   const { t } = useLanguage();
   const { updateProfile } = useUser();
+  const { currentUser, loginWithGoogle, signUpWithEmail, loginWithEmail, sendVerification, logout } = useAuth();
   const navigate = useNavigate();
-  const [step, setStep] = useState('input'); // 'input' or 'otp'
+  const [isSignUp, setIsSignUp] = useState(true);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
-  
-  const [formData, setFormData] = useState({ email: '', otp: '' });
+  const [message, setMessage] = useState('');
+
+  const [formData, setFormData] = useState({ email: '', password: '' });
+
+  useEffect(() => {
+    if (currentUser && currentUser.emailVerified) {
+      navigate('/onboarding', { replace: true });
+    }
+  }, [currentUser, navigate]);
 
   const validateEmail = (email) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
 
-  const handleSendOTP = (e) => {
+  const handleEmailAuth = async (e) => {
     e.preventDefault();
     setError('');
-    
+    setMessage('');
+
     if (!validateEmail(formData.email)) {
       setError(t('auth.invalidEmail') || "Please enter a valid email address.");
       return;
     }
-
-    setLoading(true);
-    // Simulate API call for sending OTP
-    setTimeout(() => {
-      setLoading(false);
-      setStep('otp');
-    }, 1200);
-  };
-
-  const handleVerifyOTP = (e) => {
-    e.preventDefault();
-    setError('');
     
-    if (formData.otp.length !== 6) {
-      setError(t('auth.invalidOtp') || "Invalid OTP. Please enter 6 digits.");
+    if (formData.password.length < 6) {
+      setError("Password must be at least 6 characters.");
       return;
     }
 
     setLoading(true);
-    // Simulate API call for verifying OTP
-    setTimeout(() => {
+    try {
+      if (isSignUp) {
+        const userCredential = await signUpWithEmail(formData.email, formData.password);
+        await sendVerification(userCredential.user);
+        setMessage("Verification email sent! Please check your inbox, verify, and then login.");
+        setIsSignUp(false);
+        await logout(); // force them to log in after verifying
+      } else {
+        const userCredential = await loginWithEmail(formData.email, formData.password);
+        if (!userCredential.user.emailVerified) {
+          setError("Please verify your email before logging in.");
+          await logout();
+        } else {
+          updateProfile({ email: userCredential.user.email, uid: userCredential.user.uid });
+          navigate('/onboarding');
+        }
+      }
+    } catch (err) {
+      console.error("Email Auth Error:", err);
+      setError(err.message || "Authentication failed. Please try again.");
+    } finally {
       setLoading(false);
-      updateProfile({ email: formData.email });
-      navigate('/onboarding');
-    }, 1200);
+    }
   };
 
   const handleGoogleLogin = async () => {
     setLoading(true);
     setError('');
     try {
-      const result = await signInWithPopup(auth, googleProvider);
-      const user = result.user;
-      updateProfile({ 
+      const result = await loginWithGoogle();
+      const user = result.user; // Extract user properly
+      updateProfile({
         email: user.email,
         name: user.displayName || '',
         uid: user.uid
@@ -69,7 +81,7 @@ const Login = () => {
       navigate('/onboarding');
     } catch (err) {
       console.error("Google Auth Error:", err);
-      setError(t('auth.loginError') || 'Failed to sign in with Google. Ensure Firebase config is added.');
+      setError(err.message || 'Failed to sign in with Google.');
     } finally {
       setLoading(false);
     }
@@ -84,84 +96,65 @@ const Login = () => {
           <p>{t('auth.subtitle')}</p>
         </div>
 
-        {step === 'input' ? (
-          <div className="auth-methods animate-fade-in">
-            <button className="btn-secondary w-full google-btn" onClick={handleGoogleLogin} disabled={loading}>
-              <img src="https://www.google.com/favicon.ico" alt="Google" className="provider-icon" />
-              {t('auth.continueGoogle')}
-            </button>
-            
-            <div className="divider">
-              <span>{t('auth.or')}</span>
-            </div>
+        <div className="auth-methods animate-fade-in">
+          <button className="btn-secondary w-full google-btn" onClick={handleGoogleLogin} disabled={loading}>
+            <img src="https://www.google.com/favicon.ico" alt="Google" className="provider-icon" />
+            {t('auth.continueGoogle')}
+          </button>
 
-            <form onSubmit={handleSendOTP} className="auth-form">
-              <div className="input-group">
-                <label>{t('auth.emailLabel')}</label>
-                <div className="input-with-icon">
-                  <Mail size={18} />
-                  <input 
-                    type="email" 
-                    placeholder="student@example.com" 
-                    value={formData.email}
-                    onChange={(e) => setFormData({...formData, email: e.target.value})}
-                    required 
-                  />
-                </div>
-              </div>
-              
-              {error && <div className="auth-error animate-fade-in">{error}</div>}
-              
-              <button type="submit" className="btn-primary w-full mt-4" disabled={loading}>
-                {loading ? t('auth.sending') || 'Sending...' : t('auth.continueBtn')}
-                {!loading && <ArrowRight size={18} />}
-              </button>
-            </form>
+          <div className="divider">
+            <span>{t('auth.or')}</span>
           </div>
-        ) : (
-          <div className="otp-verification animate-fade-in">
-            <div className="text-center mb-6">
-              <ShieldCheck size={48} className="text-accent mx-auto mb-4" />
-              <h3>{t('auth.verifyOtp')}</h3>
-              <p className="text-secondary mt-2">
-                We've sent a 6-digit code to <br/>
-                <strong>{formData.email}</strong>
-              </p>
-            </div>
-            
-            <form onSubmit={handleVerifyOTP}>
-              <div className="input-group text-center">
-                <input 
-                  type="text" 
-                  maxLength={6}
-                  className="otp-input"
-                  placeholder="• • • • • •" 
-                  value={formData.otp}
-                  onChange={(e) => setFormData({...formData, otp: e.target.value.replace(/\D/g, '')})}
-                  required 
+
+          <form onSubmit={handleEmailAuth} className="auth-form">
+            <div className="input-group">
+              <label>{t('auth.emailLabel')}</label>
+              <div className="input-with-icon">
+                <Mail size={18} />
+                <input
+                  type="email"
+                  placeholder="student@example.com"
+                  value={formData.email}
+                  onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                  required
                 />
               </div>
+            </div>
 
-              {error && <div className="auth-error animate-fade-in">{error}</div>}
-              
-              <button type="submit" className="btn-primary w-full mt-4" disabled={loading || formData.otp.length !== 6}>
-                {loading ? t('auth.verifying') || 'Verifying...' : (t('auth.verifyLogin') || 'Verify & Login')}
-                {!loading && <ArrowRight size={18} />}
-              </button>
-            </form>
+            <div className="input-group mt-3">
+              <label>Password</label>
+              <div className="input-with-icon">
+                <ShieldCheck size={18} />
+                <input
+                  type="password"
+                  placeholder="••••••••"
+                  value={formData.password}
+                  onChange={(e) => setFormData({ ...formData, password: e.target.value })}
+                  required
+                  minLength={6}
+                />
+              </div>
+            </div>
+
+            {error && <div className="auth-error animate-fade-in">{error}</div>}
+            {message && <div className="auth-success animate-fade-in" style={{ color: 'green', marginTop: '10px' }}>{message}</div>}
+
+            <button type="submit" className="btn-primary w-full mt-4" disabled={loading}>
+              {loading ? (isSignUp ? 'Signing Up...' : 'Logging In...') : (isSignUp ? 'Sign Up' : 'Log In')}
+              {!loading && <ArrowRight size={18} />}
+            </button>
             
-            <div className="text-center mt-6">
-              <button 
-                type="button" 
-                className="resend-btn flex-center gap-1 mx-auto" 
-                onClick={() => setStep('input')}
+            <div className="text-center mt-4">
+              <button
+                type="button"
+                className="resend-btn"
+                onClick={() => { setIsSignUp(!isSignUp); setError(''); setMessage(''); }}
               >
-                <RefreshCw size={14} />
-                {t('auth.changeOrResend') || 'Change Method or Resend'}
+                {isSignUp ? 'Already have an account? Log In' : "Don't have an account? Sign Up"}
               </button>
             </div>
-          </div>
-        )}
+          </form>
+        </div>
       </div>
     </div>
   );
