@@ -131,13 +131,30 @@ export function selectQuestionsForStudent(stream, interests, count = 15) {
   return selectedPool;
 }
 
-export function getCollegesForCareers(careerIds) {
+export function getCollegesForCareers(careerIds, userCity = "") {
   const filterColleges = (list) => {
-    return list.filter(college => college.availableCourses.some(courseId => careerIds.includes(courseId)));
+    return list.filter(college => {
+      if (!college.availableCourses) return false;
+      return college.availableCourses.some(courseId => careerIds.includes(courseId));
+    });
   };
 
-  const matchedKerala = filterColleges(collegeDatabase.kerala).sort((a, b) => b.placementScore - a.placementScore);
-  const matchedIndia = filterColleges(collegeDatabase.india).sort((a, b) => b.placementScore - a.placementScore);
+  const scoreCollege = (college) => {
+    let score = college.placementScore || 50;
+    if (userCity && college.location && college.location.toLowerCase() === userCity.toLowerCase()) {
+      score += 20; // Boost home city colleges
+    }
+    score += Math.random() * 5; // Tie-breaker
+    return score;
+  };
+
+  const matchedKerala = filterColleges(collegeDatabase.kerala)
+    .map(c => ({...c, _matchScore: scoreCollege(c)}))
+    .sort((a, b) => b._matchScore - a._matchScore);
+    
+  const matchedIndia = filterColleges(collegeDatabase.india)
+    .map(c => ({...c, _matchScore: scoreCollege(c)}))
+    .sort((a, b) => b._matchScore - a._matchScore);
 
   return { kerala: matchedKerala, india: matchedIndia };
 }
@@ -165,49 +182,71 @@ export function getFallbackAnalysis(userProfile, lang = 'en') {
 
   const scoredCareers = careerDatabase.map(career => {
     let score = 0;
-    // 1. Interest match
-    if (selectedInterests.some(interest => 
-      career.category.toLowerCase() === interest.toLowerCase() ||
-      (interest === "Government Jobs" && career.category.toLowerCase() === "government jobs")
-    )) {
-      score += 20;
-    }
     
-    // 2. Stream match
-    if (career.streams && career.streams.some(s => s.toLowerCase() === stream.toLowerCase())) {
-      score += 15;
+    // 1. Stream Match (Strict Penalization)
+    const careerStreams = (career.streams || []).map(s => s.toLowerCase());
+    const userStreamLower = stream.toLowerCase();
+    const hasStreamMatch = careerStreams.length === 0 || careerStreams.includes(userStreamLower) || careerStreams.includes('any');
+    
+    if (!hasStreamMatch) {
+      score -= 100; // Strong penalty for stream mismatch
+    } else {
+      score += 20; // Stream match bonus
     }
 
-    if (career.interests && selectedInterests.some(i => career.interests.includes(i))) {
-      score += 10;
+    // 2. Interest match
+    const careerCategory = (career.category || '').toLowerCase();
+    if (selectedInterests.some(interest => careerCategory === interest.toLowerCase() || (interest === "Government Jobs" && careerCategory === "government jobs"))) {
+      score += 30;
+    }
+    
+    if (career.interests) {
+      const matchCount = selectedInterests.filter(i => career.interests.map(ci=>ci.toLowerCase()).includes(i.toLowerCase())).length;
+      score += (matchCount * 10);
     }
 
     // 3. Personality Score Match
     if (career.personalityMatch) {
+      let traitScore = 0;
       career.personalityMatch.forEach(trait => {
         const lowerTrait = trait.toLowerCase();
-        if (lowerTrait.includes('creat') || lowerTrait.includes('design') || lowerTrait.includes('innovat')) score += (actualTraits.creativity * 5);
-        if (lowerTrait.includes('lead') || lowerTrait.includes('manage')) score += (actualTraits.leadership * 5);
-        if (lowerTrait.includes('analy') || lowerTrait.includes('problem')) score += (actualTraits.analytical * 5);
-        if (lowerTrait.includes('commun') || lowerTrait.includes('empath')) score += (actualTraits.communication * 5);
+        if (lowerTrait.includes('creat') || lowerTrait.includes('design') || lowerTrait.includes('innovat')) traitScore += actualTraits.creativity;
+        if (lowerTrait.includes('lead') || lowerTrait.includes('manage')) traitScore += actualTraits.leadership;
+        if (lowerTrait.includes('analy') || lowerTrait.includes('problem')) traitScore += actualTraits.analytical;
+        if (lowerTrait.includes('commun') || lowerTrait.includes('empath')) traitScore += actualTraits.communication;
       });
+      score += (traitScore * 10);
     }
 
     // 4. Answer patterns (Question scores)
     const history = userProfile.conversationHistory || [];
+    let answerScore = 0;
     history.forEach(ans => {
-      // getAnswerMultiplier logic would be useful here, but since it's not exported we just check text roughly
       let mult = 0.5;
       const lowerAns = (ans.answer || '').toLowerCase();
       if (lowerAns.includes('strongly agree') || lowerAns === 'yes, absolutely' || lowerAns === 'yes') mult = 1.0;
       else if (lowerAns.includes('agree') || lowerAns === 'sometimes') mult = 0.6;
       else if (lowerAns.includes('neutral') || lowerAns === 'not sure') mult = 0.3;
-      else if (lowerAns.includes('disagree') || lowerAns === 'no') mult = 0.0;
+      else if (lowerAns.includes('disagree') || lowerAns === 'no') mult = -0.5;
+      else if (lowerAns.includes('strongly disagree')) mult = -1.0;
       
-      if (ans.category === career.category.toLowerCase()) {
-        score += (mult * 5);
+      if (ans.category && ans.category.toLowerCase() === careerCategory) {
+        answerScore += (mult * 15);
+      }
+
+      // Check tags against career skills/title
+      if (ans.tags && Array.isArray(ans.tags)) {
+        ans.tags.forEach(tag => {
+          const lowerTag = tag.toLowerCase();
+          if (career.title.toLowerCase().includes(lowerTag)) answerScore += (mult * 10);
+          if (career.skills && career.skills.some(s => s.toLowerCase().includes(lowerTag))) answerScore += (mult * 8);
+        });
       }
     });
+    score += answerScore;
+
+    // Tie breaker
+    score += Math.random() * 2;
     
     return { career, score };
   });
@@ -293,7 +332,7 @@ export function getFallbackAnalysis(userProfile, lang = 'en') {
 
   // Get matching colleges
   const topCourseIds = top5.map(c => c.id);
-  const matchedColleges = getCollegesForCareers(topCourseIds);
+  const matchedColleges = getCollegesForCareers(topCourseIds, userProfile.city);
   
   return {
     traits: defaultTraits,
