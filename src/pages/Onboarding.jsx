@@ -1,9 +1,9 @@
 import { useState, useRef, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { User, MapPin, Globe, ArrowRight, Mail, Phone, LogOut } from 'lucide-react';
+import { User, MapPin, Globe, ArrowRight, Mail, Phone } from 'lucide-react';
 import { useLanguage } from '../context/LanguageContext';
 import { useUser } from '../context/UserContext';
-import { useAuth } from '../context/AuthContext';
+
 import { db } from '../lib/firebase';
 import { doc, setDoc, serverTimestamp } from 'firebase/firestore';
 import './Auth.css';
@@ -25,18 +25,6 @@ const CITIES_DATASET = [
 const Onboarding = () => {
   const { t, setLang, lang } = useLanguage();
   const { userProfile, updateProfile } = useUser();
-  const { logout } = useAuth();
-  const navigate = useNavigate();
-  
-  const handleLogout = async () => {
-    try {
-      await logout();
-      navigate('/login');
-    } catch (err) {
-      console.error("Logout error", err);
-    }
-  };
-  
   const [step, setStep] = useState(1);
   const getInitialName = () => {
     const parts = (userProfile.name || '').trim().split(/\s+/);
@@ -163,7 +151,12 @@ const Onboarding = () => {
       }
       if (formData.phone && formData.phone.length !== 10) {
         setPhoneError(lang === 'ml' ? 'ദയവായി ശരിയായ ഫോൺ നമ്പർ നൽകുക' : 'Please enter a valid phone number');
-        setError(lang === 'ml' ? 'ദയവായി ശരിയായ ഫോൺ നമ്പർ നൽകുക.' : "Please enter a valid phone number.");
+        setError(lang === 'ml' ? 'ദയവായി ശരിയായ ഫോൺ നമ്പർ നൽകുക.' : "Please enter a valid 10-digit phone number.");
+        return;
+      }
+      
+      if (!formData.phone || formData.phone.length !== 10) {
+        setError(lang === 'ml' ? 'ദയവായി 10 അക്ക ഫോൺ നമ്പർ നൽകുക.' : "Please provide a valid 10-digit phone number.");
         return;
       }
       if (!formData.city.trim()) {
@@ -396,20 +389,16 @@ const Onboarding = () => {
             type="submit" 
             className="btn-primary w-full flex-center"
             style={{ marginTop: '32px' }}
+            disabled={
+              step === 1 
+                ? (!formData.firstName || !formData.lastName || !formData.phone || formData.phone.length !== 10 || !formData.city || !formData.state) 
+                : (!formData.stream)
+            }
           >
             {step === 1 ? t('auth.continueBtn') : t('onboarding.startAnalysis')}
             <ArrowRight size={18} style={{ marginLeft: '8px' }} />
           </button>
           
-          <button 
-            type="button" 
-            onClick={handleLogout}
-            className="btn-secondary w-full flex-center"
-            style={{ marginTop: '16px', color: '#ef4444', borderColor: '#ef4444' }}
-          >
-            <LogOut size={18} style={{ marginRight: '8px' }} />
-            {lang === 'ml' ? 'ലോഗ്ഔട്ട് ചെയ്യുക' : 'Logout'}
-          </button>
         </form>
       </div>
     </div>

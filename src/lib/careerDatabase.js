@@ -9,7 +9,9 @@ export { questionBank, careerDatabase, collegeDatabase };
 const streamCategoryMap = {
   Science: ['technology', 'ai', 'healthcare', 'aviation', 'agriculture', 'sports'],
   Commerce: ['business', 'finance', 'entrepreneurship', 'marketing', 'hospitality', 'government_jobs'],
-  Humanities: ['design', 'psychology', 'media', 'law', 'education', 'fashion', 'government_jobs']
+  Humanities: ['design', 'psychology', 'media', 'law', 'education', 'fashion', 'government_jobs'],
+  'Computer Science': ['technology', 'ai', 'design', 'media', 'entrepreneurship'],
+  Arts: ['design', 'fashion', 'media', 'psychology', 'education']
 };
 
 function getAnswerMultiplier(answer) {
@@ -59,69 +61,61 @@ export function calculateTraits(previousAnswers) {
 
 export function selectNextQuestion(stream, interests, previousAnswers = [], alreadySelectedIds = new Set()) {
   const normalizedInterests = (interests || []).map(i => i.toLowerCase().replace(/\s+/g, '_')).filter(cat => !!questionBank[cat]);
-  // Strictly use selected interests if available
   const activeInterests = normalizedInterests.length > 0 ? normalizedInterests : (streamCategoryMap[stream] || streamCategoryMap.Science);
-
   const totalAnswered = previousAnswers.length;
 
-  let allCandidates = [];
-  
-  // Gather questions from active interests that match the stream
-  activeInterests.forEach(cat => {
-    const qs = questionBank[cat] || [];
-    let streamQs = qs.filter(q => !alreadySelectedIds.has(q.id) && q.stream && q.stream.includes(stream));
-    if (streamQs.length > 0) {
-      allCandidates = allCandidates.concat(streamQs);
-    } else {
-      // Fallback to non-stream-specific if none match
-      allCandidates = allCandidates.concat(qs.filter(q => !alreadySelectedIds.has(q.id)));
-    }
+  // Track category usage for round-robin distribution
+  const catCounts = {};
+  activeInterests.forEach(cat => { catCounts[cat] = 0; });
+  previousAnswers.forEach(ans => {
+    if (ans.category && catCounts[ans.category] !== undefined) catCounts[ans.category]++;
   });
+  const sortedCats = [...activeInterests].sort((a, b) => (catCounts[a] || 0) - (catCounts[b] || 0));
 
-  // If still empty, fallback across all selected interests without stream constraint
-  if (allCandidates.length === 0) {
-    activeInterests.forEach(cat => {
-      allCandidates = allCandidates.concat((questionBank[cat] || []).filter(q => !alreadySelectedIds.has(q.id)));
-    });
+  let allCandidates = [];
+  for (const cat of sortedCats) {
+    const qs = questionBank[cat] || [];
+    let filtered = qs.filter(q => !alreadySelectedIds.has(q.id) && q.stream && q.stream.includes(stream));
+    if (filtered.length === 0) filtered = qs.filter(q => !alreadySelectedIds.has(q.id));
+    allCandidates = allCandidates.concat(filtered);
   }
 
-  // Absolute fallback across all categories if nothing is found
   if (allCandidates.length === 0) {
-    const allCats = Object.keys(questionBank);
-    for (let c of allCats) {
+    for (const c of Object.keys(questionBank)) {
       allCandidates = allCandidates.concat((questionBank[c] || []).filter(q => !alreadySelectedIds.has(q.id)));
     }
   }
 
-  // Difficulty progression: Easy -> Medium -> Hard
-  const behavioral = allCandidates.filter(q => q.question.includes('[Behavioral]'));
-  const personality = allCandidates.filter(q => q.question.includes('[Personality]'));
-  const normal = allCandidates.filter(q => !q.question.includes('[Behavioral]') && !q.question.includes('[Personality]'));
+  // Difficulty progression
+  const isNormal = q => q.question && !q.question.includes('[Behavioral]') && !q.question.includes('[Personality]');
+  const isPersonality = q => q.question && q.question.includes('[Personality]');
+  const isBehavioral = q => q.question && q.question.includes('[Behavioral]');
 
-  let candidates = [];
+  let candidates;
   if (totalAnswered < 4) {
-    // Easy: basic normal questions
-    candidates = normal.length > 0 ? normal : allCandidates;
+    candidates = allCandidates.filter(isNormal);
   } else if (totalAnswered < 7) {
-    // Medium: personality questions
-    candidates = personality.length > 0 ? personality : normal;
-    if (candidates.length === 0) candidates = allCandidates;
+    candidates = allCandidates.filter(isPersonality);
+    if (candidates.length === 0) candidates = allCandidates.filter(isNormal);
   } else {
-    // Hard: behavioral and situational questions
-    candidates = behavioral.length > 0 ? behavioral : allCandidates;
+    candidates = allCandidates.filter(isBehavioral);
   }
+  if (!candidates || candidates.length === 0) candidates = allCandidates;
 
-  if (candidates.length === 0) {
-    for (let c of Object.keys(questionBank)) {
-      if (questionBank[c] && questionBank[c].length > 0) {
-        return questionBank[c][0];
-      }
-    }
+  if (candidates.length === 0) return null;
+
+  // Prioritize least-used category
+  const leastCat = sortedCats[0];
+  const priority = candidates.filter(q => q.category === leastCat);
+  const pool = priority.length > 0 ? priority : candidates;
+
+  // Fisher-Yates shuffle
+  const arr = [...pool];
+  for (let i = arr.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [arr[i], arr[j]] = [arr[j], arr[i]];
   }
-
-  // Randomize intelligently
-  const shuffled = candidates.sort(() => 0.5 - Math.random());
-  return shuffled[0];
+  return arr[0];
 }
 
 export function selectQuestionsForStudent(stream, interests, count = 15) {

@@ -3244,18 +3244,9 @@ const legacyQuestionsMl = {
 
 
 // --- DYNAMIC MALAYALAM TRANSLATION INTEGRATION ---
-import { questionBank } from './questions';
-
-const dynamicMl = {};
-Object.keys(questionBank).forEach(cat => {
-  questionBank[cat].forEach(q => {
-    if (q.malayalamVersion) {
-      dynamicMl[q.id] = q.malayalamVersion;
-    }
-  });
-});
+import { dynamicMl } from './dynamicMl';
 
 export const questionsMl = {
-  ...legacyQuestionsMl,
-  ...dynamicMl
+  ...dynamicMl,
+  ...legacyQuestionsMl  // Legacy hand-crafted translations take priority
 };

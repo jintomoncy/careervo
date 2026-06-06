@@ -22,7 +22,7 @@ export const UserProvider = ({ children }) => {
     const fetchProfile = async () => {
       if (currentUser) {
         try {
-          const docRef = doc(db, 'students', currentUser.uid);
+          const docRef = doc(db, 'users', currentUser.uid);
           const docSnap = await getDoc(docRef);
           if (docSnap.exists() && isMounted) {
             const data = docSnap.data();
