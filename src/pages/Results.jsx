@@ -117,29 +117,33 @@ const Results = () => {
         setAiData(finalData);
         updateProfile({ aiResult: finalData });
 
-        // Save to Firestore
-        if (userProfile.uid) {
-          try {
-            const { db } = await import('../lib/firebase');
-            const { doc, setDoc, serverTimestamp } = await import('firebase/firestore');
-            
-            const firestoreData = {
-              userId: userProfile.uid,
-              personalityScores: finalData.traits || [],
-              recommendedCourses: finalData.careers ? finalData.careers.map(c => c.title) : [],
-              recommendedColleges: [
-                ...(finalData.keralaColleges || []),
-                ...(finalData.indiaColleges || [])
-              ].map(c => c.name),
-              aiCareerMatches: finalData.careers || [],
-              createdAt: serverTimestamp(),
-              updatedAt: serverTimestamp()
-            };
+        // Save full student data to Firestore
+        try {
+          const { db } = await import('../lib/firebase');
+          const { collection, addDoc, serverTimestamp } = await import('firebase/firestore');
+          
+          console.log("Saving full student profile to Firestore 'students' collection...");
+          const firestoreData = {
+            firstName: userProfile.name ? userProfile.name.split(' ')[0] : '',
+            lastName: userProfile.name ? userProfile.name.split(' ').slice(1).join(' ') : '',
+            phone: userProfile.phone || '',
+            city: userProfile.city || '',
+            stream: userProfile.stream || '',
+            interests: userProfile.interests || [],
+            answers: userProfile.conversationHistory || [],
+            personalityScores: finalData.traits || [],
+            recommendedCourses: finalData.careers ? finalData.careers.map(c => c.title) : [],
+            recommendedColleges: [
+              ...(finalData.keralaColleges || []),
+              ...(finalData.indiaColleges || [])
+            ].map(c => c.name),
+            createdAt: serverTimestamp()
+          };
 
-            await setDoc(doc(db, "recommendations", userProfile.uid), firestoreData, { merge: true });
-          } catch (err) {
-            console.error("Failed to save AI results to Firestore:", err);
-          }
+          const docRef = await addDoc(collection(db, "students"), firestoreData);
+          console.log("Successfully saved student data with ID:", docRef.id);
+        } catch (err) {
+          console.error("Failed to save student data to Firestore:", err);
         }
       } catch (error) {
         console.error("Failed to generate results", error);

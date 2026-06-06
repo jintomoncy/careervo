@@ -63,19 +63,6 @@ const QuestionFlow = () => {
   const finishQuestions = async (updatedHistory) => {
     updateProfile({ conversationHistory: updatedHistory });
     setPhase('analyzing');
-    if (userProfile.uid) {
-      try {
-        await setDoc(doc(db, "responses", userProfile.uid), {
-          interests: selectedInterests,
-          answers: updatedHistory,
-          userId: userProfile.uid,
-          createdAt: serverTimestamp(),
-          updatedAt: serverTimestamp()
-        }, { merge: true });
-      } catch (err) {
-        console.error("Firestore Error in responses:", err);
-      }
-    }
   };
 
   const handleAnswer = (selectedOptionText, originalOptionText) => {

@@ -178,24 +178,7 @@ const Onboarding = () => {
         state: formData.state
       });
       
-      if (userProfile.uid) {
-        try {
-          await setDoc(doc(db, "users", userProfile.uid), {
-            firstName: formData.firstName.trim(),
-            lastName: formData.lastName.trim(),
-            name: `${formData.firstName.trim()} ${formData.lastName.trim()}`,
-            email: formData.email,
-            phone: formData.phone,
-            city: formData.city,
-            state: formData.state,
-            language: formData.language,
-            createdAt: serverTimestamp(),
-            updatedAt: serverTimestamp()
-          }, { merge: true });
-        } catch (err) {
-          console.error("Firestore error:", err);
-        }
-      }
+
 
       setLang(formData.language);
       setStep(2);
@@ -210,18 +193,7 @@ const Onboarding = () => {
       console.log("Stream selected:", formData.stream);
       updateProfile({ stream: formData.stream });
       
-      if (userProfile.uid) {
-        try {
-          console.log("Saving stream to Firestore for user:", userProfile.uid);
-          await setDoc(doc(db, "users", userProfile.uid), {
-            plusTwoStream: formData.stream,
-            updatedAt: serverTimestamp()
-          }, { merge: true });
-          console.log("Firestore update successful.");
-        } catch (err) {
-          console.error("Firestore error saving stream:", err);
-        }
-      }
+
 
       console.log("Navigating to /analysis...");
       navigate('/analysis');
