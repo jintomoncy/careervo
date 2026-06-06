@@ -25,6 +25,7 @@ const CITIES_DATASET = [
 const Onboarding = () => {
   const { t, setLang, lang } = useLanguage();
   const { userProfile, updateProfile } = useUser();
+  const navigate = useNavigate();
   const [step, setStep] = useState(1);
   const getInitialName = () => {
     const parts = (userProfile.name || '').trim().split(/\s+/);
@@ -199,23 +200,30 @@ const Onboarding = () => {
       setLang(formData.language);
       setStep(2);
     } else {
+      console.log("Step 2 completed. Validating stream...");
       if (!formData.stream) {
+        console.warn("Validation failed: No stream selected.");
         setError(lang === 'ml' ? 'തുടരുന്നതിനായി ദയവായി ഒരു പഠന ശാഖ തിരഞ്ഞെടുക്കുക.' : "Please select a stream to continue.");
         return;
       }
+      
+      console.log("Stream selected:", formData.stream);
       updateProfile({ stream: formData.stream });
       
       if (userProfile.uid) {
         try {
+          console.log("Saving stream to Firestore for user:", userProfile.uid);
           await setDoc(doc(db, "users", userProfile.uid), {
             plusTwoStream: formData.stream,
             updatedAt: serverTimestamp()
           }, { merge: true });
+          console.log("Firestore update successful.");
         } catch (err) {
-          console.error("Firestore error:", err);
+          console.error("Firestore error saving stream:", err);
         }
       }
 
+      console.log("Navigating to /analysis...");
       navigate('/analysis');
     }
   };
