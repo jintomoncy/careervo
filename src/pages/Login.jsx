@@ -26,11 +26,31 @@ const Login = () => {
     try {
       const result = await loginWithGoogle();
       const user = result.user; // Extract user properly
+      console.log("Google Login successful:", user.email);
+
       updateProfile({
         email: user.email,
         name: user.displayName || '',
         uid: user.uid
       });
+      
+      // Save to Firestore 'students' collection
+      try {
+        const { db } = await import('../lib/firebase');
+        const { doc, setDoc, serverTimestamp } = await import('firebase/firestore');
+        
+        console.log("Saving user to Firestore collection 'students'...");
+        await setDoc(doc(db, "students", user.uid), {
+          uid: user.uid,
+          name: user.displayName || '',
+          email: user.email || '',
+          createdAt: serverTimestamp()
+        }, { merge: true });
+        console.log("Firestore save successful.");
+      } catch (err) {
+        console.error("Firestore Error saving student:", err);
+      }
+
       navigate('/onboarding');
     } catch (err) {
       console.error("Google Auth Error:", err);
